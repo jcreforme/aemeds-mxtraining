@@ -31,32 +31,46 @@
 .side-effects .side-effects-content {
   padding: 32px 24px;
   text-align: center;
-  color: var(--text-color);
+  color: #333;
 }
 
-.side-effects .side-effects-content h2,
-.side-effects .side-effects-content h3 {
-  color: #005587;
+/* study intro heading */
+.side-effects .side-effects-content h2 {
+  color: #046183;
+  font-size: 20px;
   font-weight: 700;
-  margin: 0.4em 0;
   line-height: 1.2;
+  margin: 0 0 12px;
 }
 
-.side-effects .side-effects-content h1 {
-  color: #c10e5b;
+/* "up to 40% saw" and "for a month or more" */
+.side-effects .side-effects-content h3 {
+  color: #046183;
+  font-size: 26px;
   font-weight: 700;
-  margin: 0.3em 0;
   line-height: 1.1;
+  margin: 0 0 8px;
 }
 
-.side-effects .side-effects-content strong {
-  color: #005587;
+/* "zero migraine days" headline */
+.side-effects .side-effects-content h1 {
+  color: #c02c57;
+  font-size: 44px;
   font-weight: 700;
+  line-height: 1;
+  margin: 0 0 16px;
 }
 
 .side-effects .side-effects-content p {
-  margin: 0.6em 0;
-  line-height: 1.5;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.25;
+  margin: 0 0 12px;
+}
+
+.side-effects .side-effects-content strong {
+  color: #333;
+  font-weight: 700;
 }
 
 @media (width >= 900px) {
