@@ -1,0 +1,77 @@
+.side-effects-container .side-effects-wrapper {
+  max-width: unset;
+  padding: 0;
+}
+
+.side-effects {
+  background: linear-gradient(135deg, #d6eef7 0%, #e8f4fa 60%, #f2f9fc 100%);
+}
+
+.side-effects > div {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.side-effects .side-effects-image {
+  padding: 0;
+}
+
+.side-effects .side-effects-image picture {
+  display: block;
+}
+
+.side-effects .side-effects-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.side-effects .side-effects-content {
+  padding: 32px 24px;
+  text-align: center;
+  color: var(--text-color);
+}
+
+.side-effects .side-effects-content h2,
+.side-effects .side-effects-content h3 {
+  color: #005587;
+  font-weight: 700;
+  margin: 0.4em 0;
+  line-height: 1.2;
+}
+
+.side-effects .side-effects-content h1 {
+  color: #c10e5b;
+  font-weight: 700;
+  margin: 0.3em 0;
+  line-height: 1.1;
+}
+
+.side-effects .side-effects-content strong {
+  color: #005587;
+  font-weight: 700;
+}
+
+.side-effects .side-effects-content p {
+  margin: 0.6em 0;
+  line-height: 1.5;
+}
+
+@media (width >= 900px) {
+  .side-effects > div {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .side-effects .side-effects-image {
+    flex: 1 1 50%;
+    align-self: stretch;
+  }
+
+  .side-effects .side-effects-content {
+    flex: 1 1 50%;
+    padding: 48px 56px;
+  }
+}
