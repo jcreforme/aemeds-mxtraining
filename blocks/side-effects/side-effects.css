@@ -44,6 +44,14 @@
   color: #333;
 }
 
+/* flatten authored blockquote so it reads like a normal paragraph */
+.side-effects .side-effects-content blockquote {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-style: normal;
+}
+
 /* study intro heading */
 .side-effects .side-effects-content h2 {
   color: #046183;
