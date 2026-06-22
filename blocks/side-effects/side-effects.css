@@ -95,6 +95,10 @@
   .side-effects > div {
     flex-direction: row;
     align-items: center;
+    justify-content: center;
+    gap: 56px;
+    max-width: 1140px;
+    margin: 0 auto;
   }
 
   .side-effects .side-effects-image {
@@ -102,7 +106,7 @@
   }
 
   .side-effects .side-effects-content {
-    flex: 1 1 auto;
-    padding: 48px 56px;
+    flex: 0 1 547px;
+    padding: 48px 0;
   }
 }
