@@ -24,6 +24,13 @@ export default function decorate(block) {
 
     if (caption) {
       caption.classList.add('side-effects-caption');
+      const picture = imageCell.querySelector('picture');
+      if (picture) {
+        const figure = document.createElement('div');
+        figure.className = 'side-effects-figure';
+        picture.before(figure);
+        figure.append(picture, caption);
+      }
     }
   }
 

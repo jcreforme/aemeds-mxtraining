@@ -39,10 +39,16 @@
   max-width: 100%;
 }
 
+/* shrink-wrapped figure so the caption anchors to the image, not the column */
+.side-effects .side-effects-figure {
+  position: relative;
+  display: inline-block;
+}
+
 /* "Actor portrayal" caption overlaid bottom-right of the image */
 .side-effects .side-effects-image .side-effects-caption {
   position: absolute;
-  right: 0;
+  right: 8px;
   bottom: 8px;
   margin: 0;
   padding: 0;
