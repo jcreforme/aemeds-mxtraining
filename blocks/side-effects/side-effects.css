@@ -24,7 +24,8 @@
 }
 
 .side-effects .side-effects-image {
-  padding: 0;
+  position: relative;
+  padding: 0 0 24px;
 }
 
 .side-effects .side-effects-image picture {
@@ -36,6 +37,19 @@
   width: auto;
   height: auto;
   max-width: 100%;
+}
+
+/* "Actor portrayal" caption overlaid bottom-right of the image */
+.side-effects .side-effects-image .side-effects-caption {
+  position: absolute;
+  right: 0;
+  bottom: 24px;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  font-size: 16px;
+  font-style: italic;
+  font-weight: 400;
 }
 
 .side-effects .side-effects-content {
