@@ -4,33 +4,33 @@ export default function decorate(block) {
   if (imageCell) {
     imageCell.classList.add('side-effects-image');
 
-    // caption authored as a standalone paragraph
-    let caption = [...imageCell.querySelectorAll('p')]
-      .find((p) => !p.querySelector('picture, img'));
+    const picture = imageCell.querySelector('picture');
 
-    // caption authored as text inside the image's own paragraph
-    if (!caption) {
-      const imgPara = imageCell.querySelector('p:has(picture), p:has(img)');
-      const text = imgPara && imgPara.textContent.trim();
-      if (imgPara && text) {
-        caption = document.createElement('p');
-        caption.textContent = text;
-        imgPara.after(caption);
-        [...imgPara.childNodes]
-          .filter((n) => n.nodeType === Node.TEXT_NODE)
-          .forEach((n) => n.remove());
-      }
-    }
+    // collect caption text from anywhere in the cell (standalone p or inline next to the image)
+    const captionText = [...imageCell.querySelectorAll('p')]
+      .map((p) => {
+        const clone = p.cloneNode(true);
+        clone.querySelectorAll('picture, img').forEach((el) => el.remove());
+        return clone.textContent.trim();
+      })
+      .find((t) => t) || '';
 
-    if (caption) {
-      caption.classList.add('side-effects-caption');
-      const picture = imageCell.querySelector('picture');
-      if (picture) {
-        const figure = document.createElement('div');
-        figure.className = 'side-effects-figure';
-        picture.before(figure);
-        figure.append(picture, caption);
+    if (picture) {
+      // build a clean figure containing only the picture and (optionally) the caption
+      const figure = document.createElement('div');
+      figure.className = 'side-effects-figure';
+      figure.append(picture);
+
+      if (captionText) {
+        const caption = document.createElement('span');
+        caption.className = 'side-effects-caption';
+        caption.textContent = captionText;
+        figure.append(caption);
       }
+
+      // replace the cell's contents with the figure (drops stray wrapping <p> tags)
+      imageCell.textContent = '';
+      imageCell.append(figure);
     }
   }
 
