@@ -25,7 +25,7 @@
 
 .side-effects .side-effects-image {
   position: relative;
-  padding: 0 0 24px;
+  padding: 0;
 }
 
 .side-effects .side-effects-image picture {
@@ -43,7 +43,7 @@
 .side-effects .side-effects-image .side-effects-caption {
   position: absolute;
   right: 0;
-  bottom: 24px;
+  bottom: 8px;
   margin: 0;
   padding: 0;
   color: #333;
@@ -108,7 +108,7 @@
 @media (width >= 900px) {
   .side-effects > div {
     flex-direction: row;
-    align-items: center;
+    align-items: stretch;
     justify-content: center;
     gap: 56px;
     max-width: 1140px;
@@ -117,6 +117,8 @@
 
   .side-effects .side-effects-image {
     flex: 0 0 auto;
+    display: flex;
+    align-items: flex-end;
   }
 
   .side-effects .side-effects-content {
