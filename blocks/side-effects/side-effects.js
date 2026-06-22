@@ -6,14 +6,12 @@ export default function decorate(block) {
 
     const picture = imageCell.querySelector('picture');
 
-    // collect caption text from anywhere in the cell (standalone p or inline next to the image)
-    const captionText = [...imageCell.querySelectorAll('p')]
-      .map((p) => {
-        const clone = p.cloneNode(true);
-        clone.querySelectorAll('picture, img').forEach((el) => el.remove());
-        return clone.textContent.trim();
-      })
-      .find((t) => t) || '';
+    // caption text may be a standalone <p>, inline within the image's <p>,
+    // or a loose text node beside the <picture>. Capture all of it by cloning
+    // the cell, stripping the image, and reading the remaining text.
+    const cellClone = imageCell.cloneNode(true);
+    cellClone.querySelectorAll('picture, img').forEach((el) => el.remove());
+    const captionText = cellClone.textContent.trim();
 
     if (picture) {
       // build a clean figure containing only the picture and (optionally) the caption
