@@ -81,7 +81,7 @@
   font-size: 20px;
   font-weight: 700;
   line-height: 1.2;
-  margin: 0 0 12px;
+  margin: 0 0 16px;
 }
 
 /* "up to 40% saw" and "for a month or more" */
@@ -90,7 +90,12 @@
   font-size: 26px;
   font-weight: 700;
   line-height: 1.1;
-  margin: 0 0 8px;
+  margin: 0 0 16px;
+}
+
+/* "up to 40% saw" sits tight above the headline */
+.side-effects .side-effects-content h3:has(+ h1) {
+  margin-bottom: 3px;
 }
 
 /* "zero migraine days" headline */
@@ -99,14 +104,18 @@
   font-size: 44px;
   font-weight: 700;
   line-height: 1;
-  margin: 0 0 16px;
+  margin: 0 0 8px;
 }
 
 .side-effects .side-effects-content p {
   font-size: 16px;
   font-weight: 400;
   line-height: 1.25;
-  margin: 0 0 12px;
+  margin: 0 0 16px;
+}
+
+.side-effects .side-effects-content > *:last-child {
+  margin-bottom: 0;
 }
 
 .side-effects .side-effects-content strong {
