@@ -9,7 +9,7 @@
 }
 
 @media (width >= 1200px) {
-  .side-effects-container {
+  .side-effects-container .side-effects-wrapper {
     padding-top: 26px;
   }
 
