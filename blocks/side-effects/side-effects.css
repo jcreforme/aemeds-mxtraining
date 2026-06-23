@@ -133,6 +133,10 @@
 
   .side-effects .side-effects-content {
     flex: 0 0 50%;
-    padding: 48px 15px;
+    max-width: 48%;
+    margin: 0 auto;
+    padding: 0;
+    padding-top: 18px;
+    padding-bottom: 48px;
   }
 }
