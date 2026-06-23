@@ -102,6 +102,10 @@
   margin: 0 0 12px;
 }
 
+.study-results .study-results-impact-text strong {
+  color: #333;
+}
+
 .study-results .study-results-impact-text h2 strong {
   color: #c02c57;
   font-weight: 700;
@@ -111,10 +115,6 @@
   font-size: 16px;
   line-height: 1.35;
   margin: 0 0 12px;
-}
-
-.study-results .study-results-impact-text strong {
-  color: #333;
 }
 
 @media (width >= 900px) {
