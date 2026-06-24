@@ -107,9 +107,9 @@
   margin-bottom: 3px;
 }
 
-/* trailing parenthetical, e.g. "(any 28 days in a row)" renders lighter */
+/* trailing parenthetical, e.g. "(any 28 days in a row)" renders normal weight */
 .side-effects .side-effects-content .side-effects-light {
-  font-weight: 300;
+  font-weight: 400;
 }
 
 /* "zero migraine days" headline */
