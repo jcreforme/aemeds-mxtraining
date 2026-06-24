@@ -105,6 +105,11 @@
   margin-bottom: 3px;
 }
 
+/* trailing parenthetical, e.g. "(any 28 days in a row)" renders lighter */
+.side-effects .side-effects-content .side-effects-light {
+  font-weight: 300;
+}
+
 /* "zero migraine days" headline */
 .side-effects .side-effects-content h1 {
   color: #c02c57;

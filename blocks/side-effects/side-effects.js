@@ -34,5 +34,18 @@ export default function decorate(block) {
 
   if (contentCell) {
     contentCell.classList.add('side-effects-content');
+
+    // de-emphasize a trailing parenthetical in a heading, e.g.
+    // "for a month or more (any 28 days in a row)" -> "(any 28 days...)" lighter
+    contentCell.querySelectorAll('h1, h2, h3').forEach((heading) => {
+      const match = heading.textContent.match(/^(.*?)(\s*\([^)]*\))\s*$/);
+      if (match && heading.children.length === 0) {
+        heading.textContent = match[1].trim();
+        const light = document.createElement('span');
+        light.className = 'side-effects-light';
+        light.textContent = ` ${match[2].trim()}`;
+        heading.append(light);
+      }
+    });
   }
 }
