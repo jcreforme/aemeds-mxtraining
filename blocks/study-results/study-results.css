@@ -83,7 +83,7 @@
 
 .study-results .study-results-safety h2 {
   color: #046183;
-  font-size: 38px;
+  font-size: 45px;
   font-weight: 700;
   line-height: 38px;
   margin: 0 auto;
@@ -157,7 +157,6 @@
   .study-results .study-results-impact {
     flex-direction: row;
     align-items: center;
-    gap: 15px;
     max-width: 87%;
   }
 
