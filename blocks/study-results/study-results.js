@@ -20,6 +20,19 @@ export default function decorate(block) {
       const [imageCell, textCell] = cells;
       imageCell.classList.add('study-results-impact-image');
       textCell.classList.add('study-results-impact-text');
+      return;
+    }
+
+    if (cells.length === 1) {
+      const cell = cells[0];
+      const heading = cell.querySelector('h1, h2, h3, h4');
+
+      if (heading && cell.textContent.trim()) {
+        row.classList.add('study-results-title');
+        return;
+      }
+
+      row.remove();
     }
   });
 }
