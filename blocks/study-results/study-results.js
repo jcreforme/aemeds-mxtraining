@@ -51,15 +51,15 @@ export default function decorate(block) {
   if (table) {
     const rows = [];
 
+    // A heading authored alongside the table belongs above the box, not inside
+    // it — lift it out so it renders as the section title like the original.
     const titleHeading = [...block.querySelectorAll('h1, h2, h3')]
       .find((heading) => !heading.closest('table'));
     if (titleHeading) {
-      const titleRow = document.createElement('div');
-      const titleCell = document.createElement('div');
-      titleCell.append(titleHeading);
-      titleRow.append(titleCell);
-      titleRow.classList.add('study-results-title');
-      rows.push(titleRow);
+      const titleWrapper = document.createElement('div');
+      titleWrapper.classList.add('study-results-title');
+      titleWrapper.append(titleHeading);
+      block.before(titleWrapper);
     }
 
     [...table.querySelectorAll('tr')].forEach((tr) => {

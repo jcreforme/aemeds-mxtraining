@@ -13,9 +13,9 @@
   font-family: proxima-nova, arial, sans-serif;
 }
 
-/* section title — default content above the block, or lifted into it */
-.study-results-container .default-content-wrapper h2,
-.study-results .study-results-title h2 {
+/* section title — sits above the box (default content, or lifted out of block) */
+.study-results-title h2,
+.study-results-container .default-content-wrapper h2 {
   color: #046183;
   font-family: proxima-nova, arial, sans-serif;
   font-size: 32px;
