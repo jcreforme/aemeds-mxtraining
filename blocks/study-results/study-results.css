@@ -13,8 +13,9 @@
   font-family: proxima-nova, arial, sans-serif;
 }
 
-/* section title (default content above the block) */
-.study-results-container .default-content-wrapper h2 {
+/* section title — default content above the block, or lifted into it */
+.study-results-container .default-content-wrapper h2,
+.study-results .study-results-title h2 {
   color: #046183;
   font-family: proxima-nova, arial, sans-serif;
   font-size: 32px;
@@ -37,14 +38,6 @@
   text-align: center;
 }
 
-.study-results .study-results-stat h4 {
-  color: #046183;
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 27px;
-  margin: 0 0 4px;
-}
-
 .study-results .study-results-stat p {
   color: #333;
   font-size: 16px;
@@ -54,6 +47,20 @@
 }
 
 .study-results .study-results-stat strong {
+  font-weight: 700;
+}
+
+/* label: authored as <h4>, or as a leading bold paragraph */
+.study-results .study-results-stat-label {
+  color: #046183;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 27px;
+  margin: 0 0 4px;
+}
+
+.study-results .study-results-stat-label strong {
+  color: #046183;
   font-weight: 700;
 }
 

@@ -6,7 +6,11 @@ function classify(block) {
 
     if (cells.length === 3) {
       row.classList.add('study-results-stats');
-      cells.forEach((cell) => cell.classList.add('study-results-stat'));
+      cells.forEach((cell) => {
+        cell.classList.add('study-results-stat');
+        const label = cell.querySelector('h4') || cell.firstElementChild;
+        if (label) label.classList.add('study-results-stat-label');
+      });
       return;
     }
 
