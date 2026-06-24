@@ -100,7 +100,7 @@
   font-weight: 700;
   line-height: 1.3;
   margin: 0 0 16px;
-  max-width: 390px;
+  max-width: 350px;
 }
 
 .study-results .study-results-impact-text blockquote {
@@ -123,7 +123,7 @@
   font-weight: 400;
   line-height: 1.35;
   margin: 0 0 16px;
-  max-width: 360px;
+  max-width: 310px;
 }
 
 .study-results .study-results-impact-text > p:last-of-type {
@@ -186,7 +186,7 @@
 
   .study-results .study-results-impact-text h2 {
     font-size: 32px;
-    max-width: 520px;
+    max-width: 380px;
   }
 
   .study-results .study-results-impact-text blockquote p {
@@ -195,7 +195,7 @@
 
   .study-results .study-results-impact-text > p:first-of-type {
     font-size: 20px;
-    max-width: 460px;
+    max-width: 320px;
   }
 
   .study-results .study-results-impact-text > p:last-of-type {
