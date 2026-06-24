@@ -67,7 +67,7 @@
 
 /* safety banner: centered shield icon + heading */
 .study-results .study-results-safety {
-  margin: 32px auto 0;
+  margin: 0 auto;
   text-align: center;
 }
 
@@ -79,7 +79,6 @@
   display: inline-block;
   width: 116px;
   height: auto;
-  margin: 0 auto 24px;
 }
 
 .study-results .study-results-safety h2 {
