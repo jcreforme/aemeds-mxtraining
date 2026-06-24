@@ -167,10 +167,15 @@
 
   .side-effects .side-effects-content h2 {
     max-width: 450px;
+    font-size: 26px;
   }
 
   .side-effects .side-effects-content > p:first-of-type {
     font-size: 14px;
     max-width: 73%;
+  }
+
+  .side-effects .side-effects-content > h2 {
+    font-size: 20px;
   }
 }
