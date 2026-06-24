@@ -107,8 +107,11 @@
   margin-bottom: 3px;
 }
 
-/* trailing parenthetical, e.g. "(any 28 days in a row)" renders normal weight */
+/* trailing parenthetical, e.g. "(any 28 days in a row)" renders normal weight.
+   Use the body font because the heading font (roboto-condensed) only ships a
+   700 weight, so font-weight:400 alone would still render bold. */
 .side-effects .side-effects-content .side-effects-light {
+  font-family: var(--body-font-family);
   font-weight: 400;
 }
 
