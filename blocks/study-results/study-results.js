@@ -1,5 +1,7 @@
-export default function decorate(block) {
+function classify(block) {
   [...block.children].forEach((row) => {
+    if (row.classList.contains('study-results-title')) return;
+
     const cells = [...row.children];
 
     if (cells.length === 3) {
@@ -35,4 +37,42 @@ export default function decorate(block) {
       row.remove();
     }
   });
+}
+
+export default function decorate(block) {
+  const table = block.querySelector('table');
+
+  // When authored as a nested table whose name cell isn't first, EDS leaves
+  // the raw <table> in place. Rebuild the expected row/cell div structure.
+  if (table) {
+    const rows = [];
+
+    const titleHeading = [...block.querySelectorAll('h1, h2, h3')]
+      .find((heading) => !heading.closest('table'));
+    if (titleHeading) {
+      const titleRow = document.createElement('div');
+      const titleCell = document.createElement('div');
+      titleCell.append(titleHeading);
+      titleRow.append(titleCell);
+      titleRow.classList.add('study-results-title');
+      rows.push(titleRow);
+    }
+
+    [...table.querySelectorAll('tr')].forEach((tr) => {
+      if (tr.textContent.trim().toLowerCase() === 'study-results') return;
+
+      const rowDiv = document.createElement('div');
+      [...tr.children].forEach((td) => {
+        const cellDiv = document.createElement('div');
+        cellDiv.innerHTML = td.innerHTML;
+        rowDiv.append(cellDiv);
+      });
+      rows.push(rowDiv);
+    });
+
+    block.textContent = '';
+    rows.forEach((row) => block.append(row));
+  }
+
+  classify(block);
 }
