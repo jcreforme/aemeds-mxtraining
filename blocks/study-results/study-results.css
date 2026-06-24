@@ -51,7 +51,7 @@
 }
 
 /* label: authored as <h4>, or as a leading bold paragraph */
-.study-results .study-results-stat-label {
+.study-results .study-results-stat .study-results-stat-label {
   color: #046183;
   font-size: 16px;
   font-weight: 700;
@@ -59,7 +59,7 @@
   margin: 0 0 4px;
 }
 
-.study-results .study-results-stat-label strong {
+.study-results .study-results-stat .study-results-stat-label strong {
   color: #046183;
   font-weight: 700;
 }
@@ -127,6 +127,7 @@
   margin: 0 0 16px;
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 .study-results .study-results-impact-text h2 strong {
   color: #c02c57;
   font-weight: 700;
