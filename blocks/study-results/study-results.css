@@ -11,19 +11,16 @@
   font-family: proxima-nova, arial, sans-serif;
 }
 
-/* section title inside the block */
-.study-results .study-results-title {
-  max-width: 720px;
-  margin: 0 auto 24px;
-}
-
-.study-results .study-results-title h2 {
+/* section title (default content above the block) */
+.study-results-container .default-content-wrapper h2 {
   color: #046183;
+  font-family: proxima-nova, arial, sans-serif;
   font-size: 32px;
   font-weight: 800;
   line-height: 1.1;
   text-align: center;
-  margin: 0;
+  max-width: 1140px;
+  margin: 0 auto 24px;
 }
 
 /* 3-column stats row */
