@@ -98,7 +98,9 @@
 .side-effects .side-effects-content h2:first-of-type ~ h2 {
   font-size: 26px;
   line-height: 1.1;
-  margin: 0 0 24px;
+  max-width: 255px;
+  text-align: center;
+  margin: 0 auto 20px;
 }
 
 .side-effects .side-effects-content h3 em {
@@ -188,5 +190,11 @@
 
   .side-effects .side-effects-content h1 {
     font-size: 48px;
+  }
+
+  .side-effects .side-effects-content h3,
+  .side-effects .side-effects-content h2:first-of-type ~ h2 {
+    max-width: none;
+    margin: 0 0 24px;
   }
 }
