@@ -4,7 +4,10 @@
 }
 
 .study-results {
+  background-color: #fff;
   background-image: linear-gradient(#e8f3f5 20%, #fff 100%);
+  background-repeat: no-repeat;
+  background-size: 100% 520px;
   border-radius: 23px 23px 0 0;
   max-width: 1140px;
   margin: 0 auto;
@@ -147,6 +150,7 @@
 @media (width >= 900px) {
   .study-results {
     padding: 48px 15px 32px;
+    background-size: 100% 100%;
   }
 
   .study-results-title h2,
