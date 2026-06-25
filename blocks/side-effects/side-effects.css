@@ -20,18 +20,21 @@
 
 .side-effects > div {
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
+  flex-direction: column-reverse;
+  align-items: center;
 }
 
 .side-effects .side-effects-image {
   position: relative;
   padding: 0;
+  display: flex;
+  justify-content: center;
 }
 
 .side-effects .side-effects-image picture {
   display: block;
   max-width: 335px;
+  margin: 0 auto;
 }
 
 .side-effects .side-effects-image img {
