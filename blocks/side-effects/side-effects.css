@@ -50,10 +50,10 @@
   display: inline-block;
 }
 
-/* "Actor portrayal" caption overlaid bottom-right of the image */
+/* "Actor portrayal" caption sits to the right of the woman, below image */
 .side-effects .side-effects-image .side-effects-caption {
   position: absolute;
-  right: 8px;
+  right: -70px;
   bottom: 20px;
   margin: 0;
   padding: 0;
@@ -182,10 +182,6 @@
     max-width: 50%;
     margin: 0 auto;
     padding: 18px 15px 48px;
-  }
-
-  .side-effects .side-effects-image .side-effects-caption {
-    right: -70px;
   }
 
   .side-effects .side-effects-content h1 {
