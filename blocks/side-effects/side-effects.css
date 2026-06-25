@@ -41,7 +41,7 @@
   display: block;
   width: auto;
   height: auto;
-  max-width: 100%;
+  max-width: 205px;
 }
 
 /* shrink-wrapped figure so the caption anchors to the image, not the column */
@@ -169,6 +169,10 @@
     display: flex;
     align-items: flex-end;
     justify-content: center;
+  }
+
+  .side-effects .side-effects-image img {
+    max-width: 100%;
   }
 
   .side-effects .side-effects-content {
