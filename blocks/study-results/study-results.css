@@ -116,6 +116,7 @@
 
 .study-results .study-results-impact-text {
   flex: 1;
+  text-align: center;
 }
 
 .study-results .study-results-impact-text h2 {
