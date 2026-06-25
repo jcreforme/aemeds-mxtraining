@@ -89,6 +89,7 @@
   font-size: 38px;
   font-weight: 700;
   line-height: 38px;
+  max-width: 300px;
   margin: 0 auto;
 }
 
@@ -160,6 +161,7 @@
 
   .study-results .study-results-safety h2 {
     font-size: 45px;
+    max-width: none;
   }
 
   .study-results .study-results-stats {
