@@ -11,7 +11,7 @@
 @media (width >= 1200px) {
   .side-effects {
     padding-top: 26px;
-    background-image: url("./background-clinicalstudies.webp");
+    background-image: url("/icons/background-clinicalstudies.webp");
     background-position: 50% 50%;
     background-size: cover;
     background-repeat: no-repeat;
