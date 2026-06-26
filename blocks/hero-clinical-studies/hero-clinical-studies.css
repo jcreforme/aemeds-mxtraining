@@ -3,19 +3,20 @@
   padding: 0;
 }
 
-/* mobile-first: stacked — text on top (centered), image full-width below */
+/* mobile-first: text overlaid on the top (light) area of the background image.
+   bg and content share one grid cell so they stack. */
 .hero-clinical-studies {
   position: relative;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-areas: "stack";
   background-image: linear-gradient(120deg, #cdeef7 0%, #e8f6fb 60%, #f3fafd 100%);
   font-family: proxima-nova, arial, sans-serif;
 }
 
-/* mobile-first: the background picture sits below the centered text */
 .hero-clinical-studies .hero-clinical-studies-bg {
-  order: 1;
+  grid-area: stack;
+  z-index: 0;
   display: block;
   width: 100%;
 }
@@ -27,7 +28,9 @@
 }
 
 .hero-clinical-studies .hero-clinical-studies-content {
-  order: 0;
+  grid-area: stack;
+  z-index: 1;
+  align-self: start;
   padding: 24px 15px 8px;
   text-align: center;
 }
@@ -66,31 +69,22 @@
   font-style: italic;
 }
 
-/* tablet+ : text overlaid on a full-bleed background image */
+/* tablet+ : full-bleed background image, text overlaid and centered */
 @media (width >= 768px) {
   .hero-clinical-studies {
-    display: block;
     background-image: none;
   }
 
-  .hero-clinical-studies .hero-clinical-studies-bg {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-  }
-
   .hero-clinical-studies .hero-clinical-studies-bg img {
-    width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: 70% center;
   }
 
   .hero-clinical-studies .hero-clinical-studies-content {
-    position: relative;
-    z-index: 1;
+    place-self: center;
+    width: 100%;
     max-width: 1140px;
-    margin: 0 auto;
     min-height: 220px;
     padding: 32px 15px;
     text-align: left;
