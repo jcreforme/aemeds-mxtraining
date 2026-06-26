@@ -1,5 +1,21 @@
 export default function decorate(block) {
-  const [imageCell, contentCell] = [...block.firstElementChild.children];
+  const rows = [...block.children];
+
+  // an optional first row holding a single image cell supplies the desktop
+  // background. Read its image, expose it as a custom property, and drop the row
+  // so it doesn't render as content.
+  let contentRow = rows[0];
+  if (rows.length > 1 && rows[0].children.length === 1) {
+    const bgRow = rows[0];
+    const bgImg = bgRow.querySelector('img');
+    if (bgImg) {
+      block.style.setProperty('--side-effects-bg', `url("${bgImg.src}")`);
+    }
+    bgRow.remove();
+    [contentRow] = [...block.children];
+  }
+
+  const [imageCell, contentCell] = [...contentRow.children];
 
   if (imageCell) {
     imageCell.classList.add('side-effects-image');

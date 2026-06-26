@@ -11,7 +11,7 @@
 @media (width >= 1200px) {
   .side-effects {
     padding-top: 26px;
-    background-image: url("/icons/background-clinicalstudies.webp");
+    background-image: var(--side-effects-bg, linear-gradient(135deg, #d6eef7 0%, #e8f4fa 60%, #f2f9fc 100%));
     background-position: 50% 50%;
     background-size: cover;
     background-repeat: no-repeat;
