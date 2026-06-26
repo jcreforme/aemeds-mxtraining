@@ -1,0 +1,86 @@
+.hero-clinical-studies-container .hero-clinical-studies-wrapper {
+  max-width: unset;
+  padding: 0;
+}
+
+.hero-clinical-studies {
+  position: relative;
+  overflow: hidden;
+  font-family: proxima-nova, arial, sans-serif;
+}
+
+/* background image layer */
+.hero-clinical-studies .hero-clinical-studies-image {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-clinical-studies .hero-clinical-studies-image picture,
+.hero-clinical-studies .hero-clinical-studies-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 100% 50%;
+}
+
+/* text overlay */
+.hero-clinical-studies .hero-clinical-studies-content {
+  position: relative;
+  z-index: 1;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 32px 15px;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-clinical-studies .hero-clinical-studies-content h3 {
+  color: #333;
+  font-family: proxima-nova, arial, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0 0 4px;
+}
+
+.hero-clinical-studies .hero-clinical-studies-content h1 {
+  color: #046183;
+  font-family: proxima-nova, arial, sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 0;
+  max-width: 360px;
+}
+
+/* "Actor portrayal" caption bottom-right over the image */
+.hero-clinical-studies .hero-clinical-studies-caption {
+  position: absolute;
+  right: 16px;
+  bottom: 12px;
+  z-index: 2;
+  margin: 0;
+  color: #fff;
+  font-size: 12px;
+}
+
+.hero-clinical-studies .hero-clinical-studies-caption em {
+  font-style: italic;
+}
+
+@media (width >= 900px) {
+  .hero-clinical-studies .hero-clinical-studies-content {
+    min-height: 240px;
+    padding: 40px 15px;
+  }
+
+  .hero-clinical-studies .hero-clinical-studies-content h1 {
+    font-size: 32px;
+    line-height: 40px;
+    max-width: none;
+  }
+}
