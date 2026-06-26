@@ -1,11 +1,11 @@
-.hero-clinical-studies-container .hero-clinical-studies-wrapper {
+.hero-two-columns-container .hero-two-columns-wrapper {
   max-width: unset;
   padding: 0;
 }
 
 /* mobile-first: text overlaid on the top (light) area of the background image.
    bg and content share one grid cell so they stack. */
-.hero-clinical-studies {
+.hero-two-columns {
   position: relative;
   overflow: hidden;
   display: grid;
@@ -14,20 +14,20 @@
   font-family: proxima-nova, arial, sans-serif;
 }
 
-.hero-clinical-studies .hero-clinical-studies-bg {
+.hero-two-columns .hero-two-columns-bg {
   grid-area: stack;
   z-index: 0;
   display: block;
   width: 100%;
 }
 
-.hero-clinical-studies .hero-clinical-studies-bg img {
+.hero-two-columns .hero-two-columns-bg img {
   display: block;
   width: 100%;
   height: auto;
 }
 
-.hero-clinical-studies .hero-clinical-studies-content {
+.hero-two-columns .hero-two-columns-content {
   grid-area: stack;
   z-index: 1;
   align-self: start;
@@ -35,7 +35,7 @@
   text-align: center;
 }
 
-.hero-clinical-studies .hero-clinical-studies-content h3 {
+.hero-two-columns .hero-two-columns-content h3 {
   color: #333;
   font-family: proxima-nova, arial, sans-serif;
   font-size: 18px;
@@ -44,7 +44,7 @@
   margin: 0 0 4px;
 }
 
-.hero-clinical-studies .hero-clinical-studies-content h1 {
+.hero-two-columns .hero-two-columns-content h1 {
   color: #046183;
   font-family: proxima-nova, arial, sans-serif;
   font-size: 27px;
@@ -55,7 +55,7 @@
 }
 
 /* "Actor portrayal" caption bottom-right over the image */
-.hero-clinical-studies .hero-clinical-studies-caption {
+.hero-two-columns .hero-two-columns-caption {
   position: absolute;
   right: 7%;
   bottom: 12px;
@@ -65,27 +65,27 @@
   font-size: 12px;
 }
 
-.hero-clinical-studies .hero-clinical-studies-caption em {
+.hero-two-columns .hero-two-columns-caption em {
   font-style: italic;
 }
 
 /* tablet+ : full-bleed background image, text overlaid and centered */
 @media (width >= 768px) {
-  .hero-clinical-studies .hero-clinical-studies-caption {
+  .hero-two-columns .hero-two-columns-caption {
     right: 2%;
   }
   
-  .hero-clinical-studies {
+  .hero-two-columns {
     background-image: none;
   }
 
-  .hero-clinical-studies .hero-clinical-studies-bg img {
+  .hero-two-columns .hero-two-columns-bg img {
     height: 100%;
     object-fit: cover;
     object-position: 70% center;
   }
 
-  .hero-clinical-studies .hero-clinical-studies-content {
+  .hero-two-columns .hero-two-columns-content {
     place-self: center;
     width: 100%;
     max-width: 1140px;
@@ -96,13 +96,13 @@
     justify-content: center;
   }
 
-  .hero-clinical-studies .hero-clinical-studies-content h3 {
+  .hero-two-columns .hero-two-columns-content h3 {
     font-size: 18px;
     line-height: 1.4;
     margin: 0 0 4px 30px;
   }
 
-  .hero-clinical-studies .hero-clinical-studies-content h1 {
+  .hero-two-columns .hero-two-columns-content h1 {
     font-size: 32px;
     line-height: 36px;
     margin-left: 30px;
@@ -111,18 +111,18 @@
 }
 
 @media (width >= 1200px) {
-  .hero-clinical-studies .hero-clinical-studies-caption {
+  .hero-two-columns .hero-two-columns-caption {
     right: 2%;
   }
 
  
-  .hero-clinical-studies .hero-clinical-studies-content h3 {
+  .hero-two-columns .hero-two-columns-content h3 {
     font-size: 24px;
     line-height: 32px;
     margin: 0 0 8px 30px;
   }
 
-  .hero-clinical-studies .hero-clinical-studies-content h1 {
+  .hero-two-columns .hero-two-columns-content h1 {
     font-size: 46px;
     line-height: 60px;
     max-width: 540px;
@@ -130,7 +130,7 @@
 }
 
 @media (width >= 1900px) {
-  .hero-clinical-studies .hero-clinical-studies-caption {
+  .hero-two-columns .hero-two-columns-caption {
     right: 20%;
   }
 }

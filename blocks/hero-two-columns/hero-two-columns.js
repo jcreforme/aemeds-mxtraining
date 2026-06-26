@@ -65,7 +65,7 @@ export default function decorate(block) {
 
   // text overlay
   const content = document.createElement('div');
-  content.className = 'hero-clinical-studies-content';
+  content.className = 'hero-two-columns-content';
   contentRow.querySelectorAll('h1, h2, h3, h4').forEach((h) => content.append(h));
 
   // "Actor portrayal" caption: the innermost <p> with an <em> and no image
@@ -78,14 +78,14 @@ export default function decorate(block) {
   // the first child (no wrapper div) and position it behind the content via CSS.
   if (bgPictures.length) {
     const picture = buildResponsivePicture(bgPictures);
-    picture.classList.add('hero-clinical-studies-bg');
+    picture.classList.add('hero-two-columns-bg');
     block.append(picture);
   }
 
   block.append(content);
 
   if (caption) {
-    caption.classList.add('hero-clinical-studies-caption');
+    caption.classList.add('hero-two-columns-caption');
     block.append(caption);
   }
 }
