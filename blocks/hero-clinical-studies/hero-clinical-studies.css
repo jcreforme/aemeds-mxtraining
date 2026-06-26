@@ -73,11 +73,6 @@
 }
 
 @media (width >= 900px) {
-  .hero-clinical-studies .hero-clinical-studies-content {
-    min-height: 240px;
-    padding: 40px 15px;
-  }
-
   .hero-clinical-studies .hero-clinical-studies-content h1 {
     font-size: 32px;
     line-height: 40px;
