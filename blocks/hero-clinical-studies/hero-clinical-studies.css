@@ -16,22 +16,17 @@
 .hero-clinical-studies .hero-clinical-studies-image {
   order: 1;
   width: 100%;
-  aspect-ratio: 5 / 2;
-  overflow: hidden;
 }
 
 .hero-clinical-studies .hero-clinical-studies-image picture {
   display: block;
   width: 100%;
-  height: 100%;
 }
 
 .hero-clinical-studies .hero-clinical-studies-image img {
   display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 78% center;
+  height: auto;
 }
 
 .hero-clinical-studies .hero-clinical-studies-content {
@@ -74,17 +69,6 @@
   font-style: italic;
 }
 
-/* tablet : stacked layout with wider aspect ratio */
-@media (width >= 600px) and (width < 768px) {
-  .hero-clinical-studies .hero-clinical-studies-image {
-    aspect-ratio: 2 / 1;
-  }
-  
-  .hero-clinical-studies .hero-clinical-studies-image img {
-    object-position: 62% center;
-  }
-}
-
 /* tablet+ : text overlaid on a full-bleed background image */
 @media (width >= 768px) {
   .hero-clinical-studies {
@@ -96,7 +80,6 @@
     position: absolute;
     inset: 0;
     z-index: 0;
-    aspect-ratio: unset;
   }
 
   .hero-clinical-studies .hero-clinical-studies-image picture,
@@ -104,7 +87,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 58% 50%;
+    object-position: 70% center;
   }
 
   .hero-clinical-studies .hero-clinical-studies-content {
@@ -131,14 +114,6 @@
     line-height: 36px;
     margin: 0;
     max-width: 420px;
-  }
-}
-
-/* desktop: larger heading */
-@media (width > 1024px) {
-  .hero-clinical-studies .hero-clinical-studies-image picture,
-  .hero-clinical-studies .hero-clinical-studies-image img {
-    object-position: 43% 50%;
   }
 }
 
