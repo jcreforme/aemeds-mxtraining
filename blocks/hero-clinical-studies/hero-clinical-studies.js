@@ -74,11 +74,12 @@ export default function decorate(block) {
 
   block.textContent = '';
 
+  // the responsive <picture> is the block's background: append it directly as
+  // the first child (no wrapper div) and position it behind the content via CSS.
   if (bgPictures.length) {
-    const imageWrap = document.createElement('div');
-    imageWrap.className = 'hero-clinical-studies-image';
-    imageWrap.append(buildResponsivePicture(bgPictures));
-    block.append(imageWrap);
+    const picture = buildResponsivePicture(bgPictures);
+    picture.classList.add('hero-clinical-studies-bg');
+    block.append(picture);
   }
 
   block.append(content);
