@@ -1,25 +1,88 @@
+// explicit media condition per background-image row, largest first.
+// every authored image gets its own <source media>; the last one also
+// provides the <img> fallback.
+const BG_MEDIA = ['(min-width: 1600px)', '(min-width: 1200px)', '(min-width: 375px)'];
+
+// pick the best available source URL from an authored <picture>
+function bestSrcset(picture) {
+  const source = picture.querySelector('source[type="image/webp"][media]')
+    || picture.querySelector('source[type="image/webp"]')
+    || picture.querySelector('source');
+  if (source && source.getAttribute('srcset')) return source.getAttribute('srcset');
+  const img = picture.querySelector('img');
+  return img ? img.getAttribute('src') : '';
+}
+
+// combine the authored background pictures into one responsive <picture>
+function buildResponsivePicture(pictures) {
+  const out = document.createElement('picture');
+
+  pictures.forEach((pic, i) => {
+    const source = document.createElement('source');
+    if (BG_MEDIA[i]) source.media = BG_MEDIA[i];
+    source.srcset = bestSrcset(pic);
+    out.append(source);
+  });
+
+  const base = pictures[pictures.length - 1];
+  const baseImg = base.querySelector('img');
+  const img = document.createElement('img');
+  img.src = bestSrcset(base);
+  img.alt = baseImg ? baseImg.getAttribute('alt') || '' : '';
+  img.loading = 'eager';
+  out.append(img);
+
+  return out;
+}
+
 export default function decorate(block) {
-  const cell = block.querySelector(':scope > div > div') || block.firstElementChild;
-  if (!cell) return;
+  const rows = [...block.children];
 
-  const picture = cell.querySelector('picture');
-  const caption = [...cell.querySelectorAll('p')].find((p) => p.querySelector('em'));
+  // leading image-only rows supply the responsive background; the row that
+  // holds the headings is the text overlay.
+  const bgPictures = [];
+  let contentRow = null;
+  rows.forEach((row) => {
+    const cell = row.firstElementChild;
+    if (!cell) return;
+    const hasHeading = cell.querySelector('h1, h2, h3, h4');
+    const picture = cell.querySelector('picture');
+    if (picture && !hasHeading) {
+      bgPictures.push(picture);
+    } else if (hasHeading) {
+      contentRow = row;
+    }
+  });
+  if (!contentRow) contentRow = rows[rows.length - 1];
 
-  // image layer
-  if (picture) {
-    const imageWrap = document.createElement('div');
-    imageWrap.className = 'hero-clinical-studies-image';
-    imageWrap.append(picture);
-    block.prepend(imageWrap);
+  // backward compat: legacy authoring placed the single background image in the
+  // same cell as the headings. If no dedicated image rows were found, fall back
+  // to a picture inside the content row.
+  if (!bgPictures.length) {
+    const legacy = contentRow.querySelector('picture');
+    if (legacy) bgPictures.push(legacy);
   }
 
-  // text overlay: collect headings into a content container
+  // text overlay
   const content = document.createElement('div');
   content.className = 'hero-clinical-studies-content';
-  cell.querySelectorAll('h1, h2, h3, h4').forEach((h) => content.append(h));
-  cell.replaceWith(content);
+  contentRow.querySelectorAll('h1, h2, h3, h4').forEach((h) => content.append(h));
 
-  // caption stays as a separate overlay element
+  // "Actor portrayal" caption: the innermost <p> with an <em> and no image
+  const caption = [...contentRow.querySelectorAll('p')]
+    .find((p) => p.querySelector('em') && !p.querySelector('picture, img'));
+
+  block.textContent = '';
+
+  if (bgPictures.length) {
+    const imageWrap = document.createElement('div');
+    imageWrap.className = 'hero-clinical-studies-image';
+    imageWrap.append(buildResponsivePicture(bgPictures));
+    block.append(imageWrap);
+  }
+
+  block.append(content);
+
   if (caption) {
     caption.classList.add('hero-clinical-studies-caption');
     block.append(caption);
