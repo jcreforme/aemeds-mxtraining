@@ -69,8 +69,8 @@
   font-style: italic;
 }
 
-/* desktop: text overlaid on a full-bleed background image */
-@media (width >= 900px) {
+/* tablet+ : text overlaid on a full-bleed background image */
+@media (width >= 768px) {
   .hero-clinical-studies {
     display: block;
     background-image: none;
@@ -95,12 +95,32 @@
     z-index: 1;
     max-width: 1140px;
     margin: 0 auto;
-    min-height: 240px;
+    min-height: 220px;
     padding: 32px 15px;
     text-align: left;
     display: flex;
     flex-direction: column;
     justify-content: center;
+  }
+
+  .hero-clinical-studies .hero-clinical-studies-content h3 {
+    font-size: 18px;
+    line-height: 1.4;
+    margin: 0 0 4px;
+  }
+
+  .hero-clinical-studies .hero-clinical-studies-content h1 {
+    font-size: 32px;
+    line-height: 36px;
+    margin: 0;
+    max-width: 420px;
+  }
+}
+
+/* desktop: larger heading */
+@media (width >= 1200px) {
+  .hero-clinical-studies .hero-clinical-studies-content {
+    min-height: 240px;
   }
 
   .hero-clinical-studies .hero-clinical-studies-content h3 {
@@ -112,7 +132,6 @@
   .hero-clinical-studies .hero-clinical-studies-content h1 {
     font-size: 56px;
     line-height: 60px;
-    margin: 0;
     max-width: 540px;
   }
 }
