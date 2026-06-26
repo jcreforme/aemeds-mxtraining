@@ -23,10 +23,15 @@
   width: 100%;
 }
 
+/* the source image is a wide (8:1) crop; on mobile crop it to a taller
+   frame and shift focus right so the woman and son stay visible */
 .hero-clinical-studies .hero-clinical-studies-image img {
   display: block;
   width: 100%;
   height: auto;
+  aspect-ratio: 1.1 / 1;
+  object-fit: cover;
+  object-position: 78% 50%;
 }
 
 .hero-clinical-studies .hero-clinical-studies-content {
