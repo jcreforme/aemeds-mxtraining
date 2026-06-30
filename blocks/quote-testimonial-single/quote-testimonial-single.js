@@ -1,11 +1,14 @@
 export default function decorate(block) {
   let imageCell;
-  let textCell;
+  const textNodes = [];
 
   [...block.children].forEach((row) => {
     [...row.children].forEach((cell) => {
-      if (cell.querySelector('picture, img')) imageCell = cell;
-      else textCell = cell;
+      if (!imageCell && cell.querySelector('picture, img')) {
+        imageCell = cell;
+      } else {
+        textNodes.push(...cell.children);
+      }
     });
   });
 
@@ -14,20 +17,17 @@ export default function decorate(block) {
   const text = document.createElement('div');
   text.className = 'quote-testimonial-single-text';
 
-  if (textCell) {
-    const nodes = [...textCell.children];
-    nodes.forEach((node, i) => {
-      const tag = node.tagName.toLowerCase();
-      if (tag === 'blockquote' || tag === 'h1' || tag === 'h2' || tag === 'h3') {
-        node.classList.add('quote-testimonial-single-quote');
-      } else if (i === nodes.length - 1) {
-        node.classList.add('quote-testimonial-single-disclaimer');
-      } else if (node.querySelector('strong') || tag === 'h4') {
-        node.classList.add('quote-testimonial-single-author');
-      }
-      text.append(node);
-    });
-  }
+  textNodes.forEach((node, i) => {
+    const tag = node.tagName.toLowerCase();
+    if (tag === 'blockquote' || tag === 'h1' || tag === 'h2' || tag === 'h3') {
+      node.classList.add('quote-testimonial-single-quote');
+    } else if (i === textNodes.length - 1) {
+      node.classList.add('quote-testimonial-single-disclaimer');
+    } else if (node.querySelector('strong') || tag === 'h4') {
+      node.classList.add('quote-testimonial-single-author');
+    }
+    text.append(node);
+  });
   block.append(text);
 
   if (imageCell) {

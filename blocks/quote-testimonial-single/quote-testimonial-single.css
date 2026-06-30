@@ -77,6 +77,11 @@
   object-fit: cover;
 }
 
+/* no-image variant: text spans the full panel */
+.quote-testimonial-single.quote-testimonial-single-no-image .quote-testimonial-single-text {
+  max-width: 760px;
+}
+
 @media (width >= 900px) {
   .quote-testimonial-single {
     flex-direction: row;
@@ -87,6 +92,10 @@
     flex: 1 1 60%;
     padding: 56px 48px;
     align-self: center;
+  }
+
+  .quote-testimonial-single.quote-testimonial-single-no-image .quote-testimonial-single-text {
+    flex: 1 1 100%;
   }
 
   .quote-testimonial-single .quote-testimonial-single-quote {
