@@ -111,19 +111,6 @@
   font-weight: 700;
 }
 
-/* third paragraph after h2 ("*VYEPTI 100 mg...") - gray text */
-.banner-3-cols-study-results .banner-3-cols-study-results-row-2 h2 + p + p + p {
-  color: #333;
-  font-size: 14px;
-  font-weight: 400;
-}
-
-/* strong elements in third paragraph should be gray too */
-.banner-3-cols-study-results .banner-3-cols-study-results-row-2 h2 + p + p + p strong {
-  color: #333;
-  font-weight: 700;
-}
-
 /* paragraph text before the stat (gray text) - using :not to exclude paragraphs after h2 */
 .banner-3-cols-study-results .banner-3-cols-study-results-row-2 p:not(h2 ~ p) {
   color: #333;
@@ -136,6 +123,19 @@
 
 /* strong in paragraph before stat stays gray */
 .banner-3-cols-study-results .banner-3-cols-study-results-row-2 p:not(h2 ~ p) strong {
+  color: #333;
+  font-weight: 700;
+}
+
+/* third paragraph after h2 ("*VYEPTI 100 mg...") - gray text */
+.banner-3-cols-study-results .banner-3-cols-study-results-row-2 h2 + p + p + p {
+  color: #333;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+/* strong elements in third paragraph should be gray too */
+.banner-3-cols-study-results .banner-3-cols-study-results-row-2 h2 + p + p + p strong {
   color: #333;
   font-weight: 700;
 }
