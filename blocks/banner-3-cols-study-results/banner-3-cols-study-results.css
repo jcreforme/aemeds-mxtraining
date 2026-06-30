@@ -1,7 +1,19 @@
+.banner-3-cols-study-results-container .banner-3-cols-study-results-wrapper {
+  max-width: unset;
+  padding: 0;
+}
+
 .banner-3-cols-study-results {
-  background-color: #e8f4f4;
-  border-radius: 24px;
-  padding: 32px 24px;
+  background-color: #fff;
+  background-image: linear-gradient(#e8f3f5 20%, #fff 100%);
+  background-repeat: no-repeat;
+  background-size: 100% 520px;
+  border-radius: 23px 23px 0 0;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 32px 15px;
+  color: #333;
+  font-family: proxima-nova, arial, sans-serif;
 }
 
 .banner-3-cols-study-results .banner-3-cols-study-results-row {
@@ -18,33 +30,43 @@
 .banner-3-cols-study-results .banner-3-cols-study-results-col {
   flex: 1;
   text-align: center;
-}
-
-.banner-3-cols-study-results .banner-3-cols-study-results-label {
-  color: #00857d;
-  font-weight: 700;
-  margin: 0 0 8px;
+  padding: 0 30px;
 }
 
 .banner-3-cols-study-results .banner-3-cols-study-results-col p {
+  color: #333;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
   margin: 0 0 8px;
 }
 
 .banner-3-cols-study-results .banner-3-cols-study-results-col strong {
-  color: #00857d;
+  color: #046183;
+  font-weight: 700;
+}
+
+.banner-3-cols-study-results .banner-3-cols-study-results-label {
+  color: #046183;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 27px;
+  margin: 0 0 4px;
 }
 
 /* stats column title (e.g. "People with chronic migraine") */
 .banner-3-cols-study-results .banner-3-cols-study-results-row-2 h3 {
-  color: #00857d;
-  font-size: 1.5rem;
+  color: #046183;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
   margin: 0 0 4px;
 }
 
 /* large pink stat callout, e.g. "8 fewer" — authored as an h2 */
 .banner-3-cols-study-results .banner-3-cols-study-results-row-2 h2 {
-  color: #c4007a;
-  font-size: 3rem;
+  color: #c02c57;
+  font-size: 48px;
   font-style: italic;
   font-weight: 700;
   line-height: 1.05;
@@ -54,20 +76,21 @@
 /* footnote / definition text (authored as emphasis) stays small + italic */
 .banner-3-cols-study-results .banner-3-cols-study-results-row-2 em {
   color: #333;
-  font-size: 0.875rem;
+  font-size: 14px;
   font-style: italic;
   font-weight: 400;
 }
 
 @media (width >= 900px) {
   .banner-3-cols-study-results {
-    padding: 48px 64px;
+    padding: 48px 15px 32px;
+    background-size: 100% 100%;
   }
 
   .banner-3-cols-study-results .banner-3-cols-study-results-row {
     flex-direction: row;
     align-items: flex-start;
-    gap: 48px;
+    gap: 10px;
   }
 
   .banner-3-cols-study-results .banner-3-cols-study-results-row-2 {
@@ -75,6 +98,6 @@
   }
 
   .banner-3-cols-study-results .banner-3-cols-study-results-row-2 h2 {
-    font-size: 3.5rem;
+    font-size: 56px;
   }
 }
