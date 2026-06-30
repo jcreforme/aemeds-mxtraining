@@ -68,22 +68,6 @@
   max-width: 300px;
 }
 
-/* paragraph text before the stat (gray text) - using :not to exclude paragraphs after h2 */
-.banner-3-cols-study-results .banner-3-cols-study-results-row-2 p:not(h2 ~ p) {
-  color: #333;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.5;
-  margin: 0 auto 16px;
-  max-width: 300px;
-}
-
-/* strong in paragraph before stat stays gray */
-.banner-3-cols-study-results .banner-3-cols-study-results-row-2 p:not(h2 ~ p) strong {
-  color: #333;
-  font-weight: 700;
-}
-
 /* large pink stat callout, e.g. "8 fewer" — authored as an h2 */
 .banner-3-cols-study-results .banner-3-cols-study-results-row-2 h2 {
   color: #c02c57;
@@ -140,6 +124,22 @@
   font-weight: 700;
 }
 
+/* paragraph text before the stat (gray text) - using :not to exclude paragraphs after h2 */
+.banner-3-cols-study-results .banner-3-cols-study-results-row-2 p:not(h2 ~ p) {
+  color: #333;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin: 0 auto 16px;
+  max-width: 300px;
+}
+
+/* strong in paragraph before stat stays gray */
+.banner-3-cols-study-results .banner-3-cols-study-results-row-2 p:not(h2 ~ p) strong {
+  color: #333;
+  font-weight: 700;
+}
+
 /* footnote / definition text (authored as emphasis) stays small + italic */
 .banner-3-cols-study-results .banner-3-cols-study-results-row-2 em {
   color: #333;
@@ -178,16 +178,16 @@
     max-width: 420px;
   }
 
-  .banner-3-cols-study-results .banner-3-cols-study-results-row-2 h2 + p + p {
-    font-size: 18px;
-  }
-
   .banner-3-cols-study-results .banner-3-cols-study-results-row-2 h2 ~ p {
     max-width: 340px;
   }
+
+  .banner-3-cols-study-results .banner-3-cols-study-results-row-2 h2 + p + p {
+    font-size: 18px;
+  }
 }
 
-@media (min-width: 992px) {
+@media (width >= 992px) {
   .banner-3-cols-study-results .banner-3-cols-study-results-col p {
     max-width: 69%;
     margin: 0 auto;
