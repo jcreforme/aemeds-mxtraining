@@ -1,9 +1,9 @@
-.banner-3-cols-study-results-container .banner-3-cols-study-results-wrapper {
+.banner-3-cols-container .banner-3-cols-wrapper {
   max-width: unset;
   padding: 0;
 }
 
-.banner-3-cols-study-results {
+.banner-3-cols {
   background-color: #fff;
   background-image: linear-gradient(#e8f3f5 20%, #fff 100%);
   background-repeat: no-repeat;
@@ -16,24 +16,24 @@
   font-family: var(--body-font-family);
 }
 
-.banner-3-cols-study-results .banner-3-cols-study-results-row {
+.banner-3-cols .banner-3-cols-row {
   display: flex;
   flex-direction: column;
   gap: 32px;
   margin-bottom: 32px;
 }
 
-.banner-3-cols-study-results .banner-3-cols-study-results-row:last-child {
+.banner-3-cols .banner-3-cols-row:last-child {
   margin-bottom: 0;
 }
 
-.banner-3-cols-study-results .banner-3-cols-study-results-col {
+.banner-3-cols .banner-3-cols-col {
   flex: 1;
   text-align: center;
   padding: 0 30px;
 }
 
-.banner-3-cols-study-results .banner-3-cols-study-results-col p {
+.banner-3-cols .banner-3-cols-col p {
   color: #333;
   font-size: 14px;
   font-weight: 400;
@@ -41,12 +41,12 @@
   margin: 8px 0;
 }
 
-.banner-3-cols-study-results .banner-3-cols-study-results-col strong {
+.banner-3-cols .banner-3-cols-col strong {
   color: #333;
   font-weight: 700;
 }
 
-.banner-3-cols-study-results .banner-3-cols-study-results-label {
+.banner-3-cols .banner-3-cols-label {
   color: #046183;
   font-size: 16px;
   font-weight: 700;
@@ -54,12 +54,12 @@
   margin: 0 0 4px;
 }
 
-.banner-3-cols-study-results .banner-3-cols-study-results-label strong {
+.banner-3-cols .banner-3-cols-label strong {
   color: #046183;
 }
 
 /* stats column title (e.g. "People with chronic migraine") */
-.banner-3-cols-study-results .banner-3-cols-study-results-row-2 h3 {
+.banner-3-cols .banner-3-cols-row-2 h3 {
   color: #046183;
   font-size: 20px;
   font-weight: 700;
@@ -69,7 +69,7 @@
 }
 
 /* large pink stat callout, e.g. "8 fewer" — authored as an h2 */
-.banner-3-cols-study-results .banner-3-cols-study-results-row-2 h2 {
+.banner-3-cols .banner-3-cols-row-2 h2 {
   color: #c02c57;
   font-size: 48px;
   font-style: italic;
@@ -79,7 +79,7 @@
 }
 
 /* first paragraph after h2 ("migraine days a month") stays blue */
-.banner-3-cols-study-results .banner-3-cols-study-results-row-2 h2 + p {
+.banner-3-cols .banner-3-cols-row-2 h2 + p {
   color: #046183 !important;
   font-size: 38px;
   font-weight: 700;
@@ -89,14 +89,14 @@
 }
 
 /* strong in first paragraph after h2 also blue */
-.banner-3-cols-study-results .banner-3-cols-study-results-row-2 h2 + p strong {
+.banner-3-cols .banner-3-cols-row-2 h2 + p strong {
   color: #046183 !important;
   font-weight: 700;
   font-size: 32px;
 }
 
 /* second paragraph after h2 ("over 3 months...") - blue */
-.banner-3-cols-study-results .banner-3-cols-study-results-row-2 h2 + p + p {
+.banner-3-cols .banner-3-cols-row-2 h2 + p + p {
   color: #046183 !important;
   font-size: 16px;
   font-weight: 700;
@@ -106,13 +106,13 @@
 }
 
 /* strong in second paragraph after h2 also blue */
-.banner-3-cols-study-results .banner-3-cols-study-results-row-2 h2 + p + p strong {
+.banner-3-cols .banner-3-cols-row-2 h2 + p + p strong {
   color: #046183 !important;
   font-weight: 700;
 }
 
 /* paragraph text before the stat (gray text) - using :not to exclude paragraphs after h2 */
-.banner-3-cols-study-results .banner-3-cols-study-results-row-2 p:not(h2 ~ p) {
+.banner-3-cols .banner-3-cols-row-2 p:not(h2 ~ p) {
   color: #333;
   font-size: 14px;
   font-weight: 400;
@@ -122,26 +122,26 @@
 }
 
 /* strong in paragraph before stat stays gray */
-.banner-3-cols-study-results .banner-3-cols-study-results-row-2 p:not(h2 ~ p) strong {
+.banner-3-cols .banner-3-cols-row-2 p:not(h2 ~ p) strong {
   color: #333;
   font-weight: 700;
 }
 
 /* third paragraph after h2 ("*VYEPTI 100 mg...") - gray text */
-.banner-3-cols-study-results .banner-3-cols-study-results-row-2 h2 + p + p + p {
+.banner-3-cols .banner-3-cols-row-2 h2 + p + p + p {
   color: #333;
   font-size: 14px;
   font-weight: 400;
 }
 
 /* strong elements in third paragraph should be gray too */
-.banner-3-cols-study-results .banner-3-cols-study-results-row-2 h2 + p + p + p strong {
+.banner-3-cols .banner-3-cols-row-2 h2 + p + p + p strong {
   color: #333;
   font-weight: 700;
 }
 
 /* footnote / definition text (authored as emphasis) stays small + italic */
-.banner-3-cols-study-results .banner-3-cols-study-results-row-2 em {
+.banner-3-cols .banner-3-cols-row-2 em {
   color: #333;
   font-size: 14px;
   font-style: italic;
@@ -149,46 +149,46 @@
 }
 
 @media (width >= 768px) {
-  .banner-3-cols-study-results {
+  .banner-3-cols {
     padding: 48px 15px 32px;
     background-size: 100% 100%;
   }
 
-  .banner-3-cols-study-results .banner-3-cols-study-results-row {
+  .banner-3-cols .banner-3-cols-row {
     flex-direction: row;
     align-items: flex-start;
     gap: 10px;
   }
 
-  .banner-3-cols-study-results .banner-3-cols-study-results-row-2 {
+  .banner-3-cols .banner-3-cols-row-2 {
     margin-top: 24px;
   }
 
-  .banner-3-cols-study-results .banner-3-cols-study-results-row-2 h3 {
+  .banner-3-cols .banner-3-cols-row-2 h3 {
     font-size: 22px;
     max-width: 320px;
   }
 
-  .banner-3-cols-study-results .banner-3-cols-study-results-row-2 h2 {
+  .banner-3-cols .banner-3-cols-row-2 h2 {
     font-size: 56px;
   }
 
-  .banner-3-cols-study-results .banner-3-cols-study-results-row-2 h2 + p {
+  .banner-3-cols .banner-3-cols-row-2 h2 + p {
     font-size: 44px;
     max-width: 420px;
   }
 
-  .banner-3-cols-study-results .banner-3-cols-study-results-row-2 h2 ~ p {
+  .banner-3-cols .banner-3-cols-row-2 h2 ~ p {
     max-width: 340px;
   }
 
-  .banner-3-cols-study-results .banner-3-cols-study-results-row-2 h2 + p + p {
+  .banner-3-cols .banner-3-cols-row-2 h2 + p + p {
     font-size: 18px;
   }
 }
 
 @media (width >= 992px) {
-  .banner-3-cols-study-results .banner-3-cols-study-results-col p {
+  .banner-3-cols .banner-3-cols-col p {
     max-width: 69%;
     margin: 0 auto;
   }
