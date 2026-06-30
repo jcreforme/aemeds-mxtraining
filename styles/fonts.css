@@ -1,4 +1,42 @@
 /* stylelint-disable max-line-length */
+
+/*
+ * proxima-nova, self-hosted as woff2 (400 regular, 600 semibold, 700 bold,
+ * 800 extrabold). Loaded post-LCP via loadFonts() with a size-adjusted
+ * fallback (proxima-nova-fallback in styles.css) to minimize CLS.
+ */
+@font-face {
+  font-family: proxima-nova;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/proxima-nova-regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: proxima-nova;
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../fonts/proxima-nova-semibold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: proxima-nova;
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/proxima-nova-bold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: proxima-nova;
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('../fonts/proxima-nova-extrabold.woff2') format('woff2');
+}
+
 @font-face {
   font-family: roboto-condensed;
   font-style: normal;
