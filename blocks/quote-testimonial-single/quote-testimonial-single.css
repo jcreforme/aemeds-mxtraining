@@ -8,7 +8,7 @@
   overflow: hidden;
   background-color: #046183;
   color: #fff;
-  font-family: proxima-nova, arial, sans-serif;
+  font-family: var(--body-font-family);
 }
 
 .quote-testimonial-single .quote-testimonial-single-text {

@@ -13,7 +13,7 @@
   margin: 0 auto;
   padding: 32px 15px;
   color: #333;
-  font-family: proxima-nova, arial, sans-serif;
+  font-family: var(--body-font-family);
 }
 
 .banner-3-cols-study-results .banner-3-cols-study-results-row {

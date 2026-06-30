@@ -13,14 +13,14 @@
   margin: 0 auto;
   padding: 32px 15px;
   color: #333;
-  font-family: proxima-nova, arial, sans-serif;
+  font-family: var(--body-font-family);
 }
 
 /* section title — sits above the box (default content, or lifted out of block) */
 .study-results-title h2,
 .study-results-container .default-content-wrapper h2 {
   color: #046183;
-  font-family: proxima-nova, arial, sans-serif;
+  font-family: var(--heading-font-family);
   font-size: 19px;
   font-weight: 800;
   line-height: 1.1;
