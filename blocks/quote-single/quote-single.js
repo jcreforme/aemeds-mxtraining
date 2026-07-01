@@ -35,37 +35,40 @@ function buildResponsivePicture(entries, alt) {
   return picture;
 }
 
-export default function decorate(block) {
-  let textCell;
-  const imageEntries = [];
-
-  [...block.children].forEach((row) => {
-    const cells = [...row.children];
-    const imageCell = cells.find((cell) => cell.querySelector('picture, img'));
-
-    if (imageCell) {
-      const labelCell = cells.find((cell) => cell !== imageCell);
-      const label = labelCell ? labelCell.textContent.trim() : '';
-      const src = imageCell.querySelector('img').getAttribute('src');
-      imageEntries.push({ media: mediaForLabel(label), src });
-    } else if (!textCell) {
-      textCell = cells.find((cell) => cell.querySelector('blockquote, h1, h2, h3, h4'));
-    }
+// Collects responsive image entries. Authors may supply each image as its own
+// table row (label cell + image cell) OR — because DA paste can flatten a block
+// into a single cell — as a sequence of label / image paragraphs. Both are
+// handled by pairing every image with the text element that precedes it.
+function collectImageEntries(block) {
+  return [...block.querySelectorAll('img')].map((img) => {
+    const container = img.closest('p') || img.parentElement;
+    const labelEl = container?.previousElementSibling;
+    const label = labelEl && !labelEl.querySelector('img')
+      ? labelEl.textContent.trim() : '';
+    return { media: mediaForLabel(label), src: img.getAttribute('src') };
   });
+}
+
+export default function decorate(block) {
+  const imageEntries = collectImageEntries(block);
+
+  // Quote/author/disclaimer can sit in their own cell or be flattened alongside
+  // the image paragraphs; query them directly and ignore image-related nodes.
+  const quote = block.querySelector('blockquote, h1, h2, h3');
+  const paragraphs = [...block.querySelectorAll('p')]
+    .filter((p) => !p.querySelector('img')
+      && !p.closest('blockquote')
+      && !p.querySelector('blockquote')
+      && mediaForLabel(p.textContent.trim()) === null
+      && p.textContent.trim() !== '');
+  const author = paragraphs.find((p) => p.querySelector('strong'));
+  const disclaimer = paragraphs[paragraphs.length - 1] !== author
+    ? paragraphs[paragraphs.length - 1] : null;
 
   block.textContent = '';
 
   const text = document.createElement('div');
   text.className = 'quote-single-text';
-
-  // Content authored via paste can wrap everything in a single <p>; collect the
-  // semantic elements directly so styling is applied regardless of nesting.
-  const quote = textCell?.querySelector('blockquote, h1, h2, h3');
-  const paragraphs = [...(textCell?.querySelectorAll('p') || [])]
-    .filter((p) => !p.closest('blockquote') && !p.querySelector('blockquote'));
-  const author = paragraphs.find((p) => p.querySelector('strong'));
-  const disclaimer = paragraphs[paragraphs.length - 1] !== author
-    ? paragraphs[paragraphs.length - 1] : null;
 
   if (quote) {
     quote.classList.add('quote-single-quote');
@@ -84,7 +87,7 @@ export default function decorate(block) {
   if (imageEntries.length) {
     const image = document.createElement('div');
     image.className = 'quote-single-image';
-    const alt = text.querySelector('.quote-single-author')?.textContent.trim() || '';
+    const alt = author?.textContent.trim() || '';
     image.append(buildResponsivePicture(imageEntries, alt));
     block.append(image);
   } else {
