@@ -13,6 +13,7 @@
 
 .quote-single .quote-single-text {
   padding: 40px 32px;
+  text-align: center;
 }
 
 /* decorative quote mark */
@@ -23,7 +24,7 @@
   justify-content: center;
   width: 60px;
   height: 60px;
-  margin-bottom: 16px;
+  margin: 0 auto 16px;
   border-radius: 50%;
   background-color: #e8635a;
   color: #fff;
@@ -34,7 +35,7 @@
 }
 
 .quote-single .quote-single-quote {
-  margin: 0;
+  margin: 0 auto;
   font-size: 20px;
   font-weight: 800;
   line-height: 1.2;
@@ -54,7 +55,8 @@
   content: "";
   position: absolute;
   top: 0;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 50px;
   height: 4px;
   background-color: #e8635a;
@@ -92,6 +94,22 @@
     flex: 1 1 60%;
     padding: 28px 48px;
     align-self: center;
+    text-align: left;
+  }
+
+  .quote-single .quote-single-text::before {
+    margin: 0 0 16px;
+  }
+
+  .quote-single .quote-single-quote {
+    margin: 0;
+    font-size: 28px;
+    width: 100%;
+  }
+
+  .quote-single .quote-single-author::before {
+    left: 0;
+    transform: none;
   }
 
   .quote-single.quote-single-no-image .quote-single-text {
@@ -119,3 +137,4 @@
     object-position: center bottom;
   }
 }
+
