@@ -15,16 +15,16 @@ export default function decorate(block) {
   block.textContent = '';
 
   const text = document.createElement('div');
-  text.className = 'quote-testimonial-single-text';
+  text.className = 'quote-single-text';
 
   textNodes.forEach((node, i) => {
     const tag = node.tagName.toLowerCase();
     if (tag === 'blockquote' || tag === 'h1' || tag === 'h2' || tag === 'h3') {
-      node.classList.add('quote-testimonial-single-quote');
+      node.classList.add('quote-single-quote');
     } else if (i === textNodes.length - 1) {
-      node.classList.add('quote-testimonial-single-disclaimer');
+      node.classList.add('quote-single-disclaimer');
     } else if (node.querySelector('strong') || tag === 'h4') {
-      node.classList.add('quote-testimonial-single-author');
+      node.classList.add('quote-single-author');
     }
     text.append(node);
   });
@@ -32,10 +32,10 @@ export default function decorate(block) {
 
   if (imageCell) {
     const image = document.createElement('div');
-    image.className = 'quote-testimonial-single-image';
+    image.className = 'quote-single-image';
     image.append(...imageCell.children);
     block.append(image);
   } else {
-    block.classList.add('quote-testimonial-single-no-image');
+    block.classList.add('quote-single-no-image');
   }
 }
