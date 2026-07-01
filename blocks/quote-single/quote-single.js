@@ -1,13 +1,17 @@
-// Maps an author's breakpoint label to a media query. "mobile" (or anything
-// unrecognized) becomes the <img> fallback. Breakpoints align with the project
-// standard: 1200px / 900px / 600px.
+// Maps an author's breakpoint label to a media query. "mobile" becomes the
+// <img> fallback (null media). Breakpoints align with the project standard:
+// desktop ≥900px, tablet ≥600px, mobile below.
 function mediaForLabel(label) {
   const l = label.toLowerCase();
-  if (l.includes('mobile')) return null;
   if (l.includes('tablet')) return '(min-width: 600px)';
-  if (l.includes('small')) return '(min-width: 900px)';
-  if (l.includes('desktop')) return '(min-width: 1200px)';
+  if (l.includes('desktop')) return '(min-width: 900px)';
   return null;
+}
+
+// True when a text node is one of the breakpoint labels (including "mobile"),
+// so it can be excluded from the quote text.
+function isBreakpointLabel(text) {
+  return /^(desktop|tablet|mobile|small\s*desktop)$/i.test(text.trim());
 }
 
 // Builds an art-directed <picture> from author-supplied images. Each entry is a
@@ -59,7 +63,7 @@ export default function decorate(block) {
     .filter((p) => !p.querySelector('img')
       && !p.closest('blockquote')
       && !p.querySelector('blockquote')
-      && mediaForLabel(p.textContent.trim()) === null
+      && !isBreakpointLabel(p.textContent)
       && p.textContent.trim() !== '');
   const author = paragraphs.find((p) => p.querySelector('strong'));
   const disclaimer = paragraphs[paragraphs.length - 1] !== author
