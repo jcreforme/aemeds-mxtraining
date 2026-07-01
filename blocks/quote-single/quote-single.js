@@ -1,9 +1,11 @@
+// Sources ordered largest → smallest; the <img> tag carries the mobile fallback.
+// Breakpoints align with the project standard: 1200px / 900px / 600px.
 const RESPONSIVE_SOURCES = [
   { media: '(min-width: 1200px)', src: 'https://www.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/2024-dot-03/second-set/1x/desktop/quote-stephanie-clinical-472-desktop.png' },
-  { media: '(min-width: 992px)', src: 'https://www.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/2024-dot-03/second-set/1x/smallerdesktop/quote-stephanie-clincal-371-smalldesktop.png' },
-  { media: '(min-width: 768px)', src: 'https://www.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/2024-dot-03/second-set/1x/tablet/quote-stephanie-clinical-422-tablet.png' },
-  { media: '(min-width: 320px)', src: 'https://www.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/2024-dot-03/second-set/1x/mobile/quote-stephanie-clincal-340-mobile.png' },
+  { media: '(min-width: 900px)', src: 'https://www.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/2024-dot-03/second-set/1x/smallerdesktop/quote-stephanie-clincal-371-smalldesktop.png' },
+  { media: '(min-width: 600px)', src: 'https://www.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/2024-dot-03/second-set/1x/tablet/quote-stephanie-clinical-422-tablet.png' },
 ];
+const MOBILE_SRC = 'https://www.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/2024-dot-03/second-set/1x/mobile/quote-stephanie-clincal-340-mobile.png';
 
 function buildResponsivePicture(alt) {
   const picture = document.createElement('picture');
@@ -15,7 +17,7 @@ function buildResponsivePicture(alt) {
   });
 
   const img = document.createElement('img');
-  img.src = RESPONSIVE_SOURCES[0].src;
+  img.src = MOBILE_SRC;
   img.alt = alt;
   img.loading = 'lazy';
   picture.append(img);
