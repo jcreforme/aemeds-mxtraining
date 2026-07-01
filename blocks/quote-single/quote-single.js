@@ -15,7 +15,7 @@ function buildResponsivePicture(alt) {
   });
 
   const img = document.createElement('img');
-  img.src = RESPONSIVE_SOURCES[RESPONSIVE_SOURCES.length - 1].src;
+  img.src = RESPONSIVE_SOURCES[0].src;
   img.alt = alt;
   img.loading = 'lazy';
   picture.append(img);
