@@ -25,15 +25,14 @@ function buildResponsivePicture(alt) {
 
 export default function decorate(block) {
   let imageCell;
-  const textNodes = [];
+  let textCell;
 
   [...block.children].forEach((row) => {
     [...row.children].forEach((cell) => {
-      const isTextCell = cell.querySelector('blockquote, h1, h2, h3, h4');
-      if (!imageCell && !isTextCell) {
+      if (cell.querySelector('blockquote, h1, h2, h3, h4')) {
+        textCell = textCell || cell;
+      } else if (!imageCell) {
         imageCell = cell;
-      } else {
-        textNodes.push(...cell.children);
       }
     });
   });
@@ -43,17 +42,27 @@ export default function decorate(block) {
   const text = document.createElement('div');
   text.className = 'quote-single-text';
 
-  textNodes.forEach((node, i) => {
-    const tag = node.tagName.toLowerCase();
-    if (tag === 'blockquote' || tag === 'h1' || tag === 'h2' || tag === 'h3') {
-      node.classList.add('quote-single-quote');
-    } else if (i === textNodes.length - 1) {
-      node.classList.add('quote-single-disclaimer');
-    } else if (node.querySelector('strong') || tag === 'h4') {
-      node.classList.add('quote-single-author');
-    }
-    text.append(node);
-  });
+  // Content authored via paste can wrap everything in a single <p>; collect the
+  // semantic elements directly so styling is applied regardless of nesting.
+  const quote = textCell?.querySelector('blockquote, h1, h2, h3');
+  const paragraphs = [...(textCell?.querySelectorAll('p') || [])]
+    .filter((p) => !p.closest('blockquote') && !p.querySelector('blockquote'));
+  const author = paragraphs.find((p) => p.querySelector('strong'));
+  const disclaimer = paragraphs[paragraphs.length - 1] !== author
+    ? paragraphs[paragraphs.length - 1] : null;
+
+  if (quote) {
+    quote.classList.add('quote-single-quote');
+    text.append(quote);
+  }
+  if (author) {
+    author.classList.add('quote-single-author');
+    text.append(author);
+  }
+  if (disclaimer) {
+    disclaimer.classList.add('quote-single-disclaimer');
+    text.append(disclaimer);
+  }
   block.append(text);
 
   if (imageCell) {
