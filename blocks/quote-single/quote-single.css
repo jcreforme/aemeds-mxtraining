@@ -21,29 +21,29 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 64px;
-  height: 64px;
-  margin-bottom: 24px;
+  width: 60px;
+  height: 60px;
+  margin-bottom: 16px;
   border-radius: 50%;
   background-color: #e8635a;
   color: #fff;
   font-family: georgia, serif;
-  font-size: 56px;
+  font-size: 52px;
   line-height: 1;
-  padding-top: 24px;
+  padding-top: 22px;
 }
 
 .quote-single .quote-single-quote {
   margin: 0;
   font-size: 24px;
-  font-weight: 700;
-  line-height: 1.35;
+  font-weight: 800;
+  line-height: 1.2;
 }
 
 .quote-single .quote-single-author {
   position: relative;
-  margin: 32px 0 4px;
-  padding-top: 24px;
+  margin: 24px 0 4px;
+  padding-top: 20px;
   font-size: 16px;
   font-weight: 700;
 }
@@ -54,16 +54,16 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 56px;
-  height: 3px;
+  width: 50px;
+  height: 4px;
   background-color: #e8635a;
 }
 
 .quote-single .quote-single-disclaimer {
   margin: 0;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 400;
-  line-height: 1.4;
+  line-height: 1.29;
 }
 
 .quote-single .quote-single-image {
@@ -90,16 +90,12 @@
 
   .quote-single .quote-single-text {
     flex: 1 1 60%;
-    padding: 56px 48px;
+    padding: 28px 48px;
     align-self: center;
   }
 
   .quote-single.quote-single-no-image .quote-single-text {
     flex: 1 1 100%;
-  }
-
-  .quote-single .quote-single-quote {
-    font-size: 30px;
   }
 
   /* diagonal pink/coral background behind the patient photo */
