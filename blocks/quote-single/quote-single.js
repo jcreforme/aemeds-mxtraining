@@ -1,23 +1,33 @@
-// Sources ordered largest → smallest; the <img> tag carries the mobile fallback.
-// Breakpoints align with the project standard: 1200px / 900px / 600px.
-const RESPONSIVE_SOURCES = [
-  { media: '(min-width: 1200px)', src: 'https://www.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/2024-dot-03/second-set/1x/desktop/quote-stephanie-clinical-472-desktop.png' },
-  { media: '(min-width: 900px)', src: 'https://www.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/2024-dot-03/second-set/1x/smallerdesktop/quote-stephanie-clincal-371-smalldesktop.png' },
-  { media: '(min-width: 600px)', src: 'https://www.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/2024-dot-03/second-set/1x/tablet/quote-stephanie-clinical-422-tablet.png' },
-];
-const MOBILE_SRC = 'https://www.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/2024-dot-03/second-set/1x/mobile/quote-stephanie-clincal-340-mobile.png';
+// Maps an author's breakpoint label to a media query. "mobile" (or anything
+// unrecognized) becomes the <img> fallback. Breakpoints align with the project
+// standard: 1200px / 900px / 600px.
+function mediaForLabel(label) {
+  const l = label.toLowerCase();
+  if (l.includes('mobile')) return null;
+  if (l.includes('tablet')) return '(min-width: 600px)';
+  if (l.includes('small')) return '(min-width: 900px)';
+  if (l.includes('desktop')) return '(min-width: 1200px)';
+  return null;
+}
 
-function buildResponsivePicture(alt) {
+// Builds an art-directed <picture> from author-supplied images. Each entry is a
+// { media, src } pair; the entry without a media query is used as the fallback.
+function buildResponsivePicture(entries, alt) {
   const picture = document.createElement('picture');
-  RESPONSIVE_SOURCES.forEach(({ media, src }) => {
+
+  const sources = entries.filter((e) => e.media);
+  sources.sort((a, b) => parseInt(b.media.match(/\d+/)[0], 10)
+    - parseInt(a.media.match(/\d+/)[0], 10));
+  sources.forEach(({ media, src }) => {
     const source = document.createElement('source');
     source.media = media;
     source.srcset = src;
     picture.append(source);
   });
 
+  const fallback = entries.find((e) => !e.media) || entries[entries.length - 1];
   const img = document.createElement('img');
-  img.src = MOBILE_SRC;
+  img.src = fallback.src;
   img.alt = alt;
   img.loading = 'lazy';
   picture.append(img);
@@ -26,17 +36,21 @@ function buildResponsivePicture(alt) {
 }
 
 export default function decorate(block) {
-  let imageCell;
   let textCell;
+  const imageEntries = [];
 
   [...block.children].forEach((row) => {
-    [...row.children].forEach((cell) => {
-      if (cell.querySelector('blockquote, h1, h2, h3, h4')) {
-        textCell = textCell || cell;
-      } else if (!imageCell) {
-        imageCell = cell;
-      }
-    });
+    const cells = [...row.children];
+    const imageCell = cells.find((cell) => cell.querySelector('picture, img'));
+
+    if (imageCell) {
+      const labelCell = cells.find((cell) => cell !== imageCell);
+      const label = labelCell ? labelCell.textContent.trim() : '';
+      const src = imageCell.querySelector('img').getAttribute('src');
+      imageEntries.push({ media: mediaForLabel(label), src });
+    } else if (!textCell) {
+      textCell = cells.find((cell) => cell.querySelector('blockquote, h1, h2, h3, h4'));
+    }
   });
 
   block.textContent = '';
@@ -67,16 +81,11 @@ export default function decorate(block) {
   }
   block.append(text);
 
-  if (imageCell) {
+  if (imageEntries.length) {
     const image = document.createElement('div');
     image.className = 'quote-single-image';
-
-    if (imageCell.querySelector('picture, img')) {
-      image.append(...imageCell.children);
-    } else {
-      const alt = text.querySelector('.quote-single-author')?.textContent.trim() || '';
-      image.append(buildResponsivePicture(alt));
-    }
+    const alt = text.querySelector('.quote-single-author')?.textContent.trim() || '';
+    image.append(buildResponsivePicture(imageEntries, alt));
     block.append(image);
   } else {
     block.classList.add('quote-single-no-image');
