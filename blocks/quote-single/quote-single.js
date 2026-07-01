@@ -39,18 +39,30 @@ function buildResponsivePicture(entries, alt) {
   return picture;
 }
 
-// Collects responsive image entries. Authors may supply each image as its own
-// table row (label cell + image cell) OR — because DA paste can flatten a block
-// into a single cell — as a sequence of label / image paragraphs. Both are
-// handled by pairing every image with the text element that precedes it.
+// Finds the breakpoint label paired with an image. Authors may supply each
+// image as its own table row (label cell + image cell) OR — because DA paste
+// can flatten a block into a single cell — as a sequence of label / image
+// paragraphs. In both cases the label is the text sibling that precedes the
+// image's container (paragraph, picture, or grid cell).
+function labelForImage(block, img) {
+  let node = img.closest('p, picture') || img;
+  // climb to the element whose previous sibling is the label
+  while (node && node.parentElement !== block) {
+    const prev = node.previousElementSibling;
+    if (prev && !prev.querySelector('img, picture') && prev.textContent.trim()) {
+      return prev.textContent.trim();
+    }
+    node = node.parentElement;
+  }
+  return '';
+}
+
+// Collects responsive image entries, pairing each image with its label.
 function collectImageEntries(block) {
-  return [...block.querySelectorAll('img')].map((img) => {
-    const container = img.closest('p') || img.parentElement;
-    const labelEl = container?.previousElementSibling;
-    const label = labelEl && !labelEl.querySelector('img')
-      ? labelEl.textContent.trim() : '';
-    return { media: mediaForLabel(label), src: img.getAttribute('src') };
-  });
+  return [...block.querySelectorAll('img')].map((img) => ({
+    media: mediaForLabel(labelForImage(block, img)),
+    src: img.getAttribute('src'),
+  }));
 }
 
 export default function decorate(block) {
