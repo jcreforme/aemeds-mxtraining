@@ -124,3 +124,19 @@
     padding-right: 0;
   }
 }
+
+/* Full-width default content around a dot-list block (heading + intro + footer).
+   Scoped via :has() so only sections containing a dot-list block are affected. */
+.section:has(.columns-content.dot-list) .default-content-wrapper h2 {
+  margin: 0 0 0.5em;
+  color: #046183;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 29px;
+}
+
+.section:has(.columns-content.dot-list) .default-content-wrapper a:any-link {
+  color: #046183;
+  font-weight: 700;
+  text-decoration: underline;
+}
