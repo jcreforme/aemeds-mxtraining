@@ -1,6 +1,38 @@
 .banner-3-cols-container .banner-3-cols-wrapper {
-  max-width: unset;
-  padding: 0;
+  max-width: 1200px;
+  padding: 0 24px;
+}
+
+.banner-3-cols-container .default-content-wrapper {
+
+  padding: 0 0 16px 0;
+  max-width: 1140px;
+  margin: 0 auto;
+  color: #046183;
+  text-align: center;
+  width: 90%;
+}
+
+.banner-3-cols-container .default-content-wrapper strong{
+  font-size: 32px;
+  line-height: 33px;
+  
+}
+
+@media (width < 450px) {
+  .banner-3-cols-container .default-content-wrapper h2 {
+    line-height: 1px;
+  }
+  .banner-3-cols-container .default-content-wrapper strong {
+    font-size: 23px;
+    line-height: 33px;
+  }
+}
+
+@media (width >= 900px) {
+  .banner-3-cols-container .banner-3-cols-wrapper {
+    padding: 0 32px;
+  }
 }
 
 .banner-3-cols {
@@ -35,7 +67,7 @@
 
 .banner-3-cols .banner-3-cols-col p {
   color: #333;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 400;
   line-height: 1.6;
   margin: 8px 0;
@@ -56,6 +88,7 @@
 
 .banner-3-cols .banner-3-cols-label strong {
   color: #046183;
+  font-size: 18px;
 }
 
 /* stats column title (e.g. "People with chronic migraine") */
@@ -66,6 +99,7 @@
   line-height: 1.3;
   margin: 0 auto 8px;
   max-width: 300px;
+  margin-bottom: 10px;
 }
 
 /* large pink stat callout, e.g. "8 fewer" — authored as an h2 */
@@ -92,7 +126,7 @@
 .banner-3-cols .banner-3-cols-row-2 h2 + p strong {
   color: #046183 !important;
   font-weight: 700;
-  font-size: 32px;
+  font-size: 38px;
 }
 
 /* second paragraph after h2 ("over 3 months...") - blue */
@@ -114,7 +148,7 @@
 /* paragraph text before the stat (gray text) - using :not to exclude paragraphs after h2 */
 .banner-3-cols .banner-3-cols-row-2 p:not(h2 ~ p) {
   color: #333;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 400;
   line-height: 1.5;
   margin: 0 auto 16px;
@@ -150,7 +184,7 @@
 
 @media (width >= 768px) {
   .banner-3-cols {
-    padding: 48px 15px 32px;
+    padding: 32px 0px 32px;
     background-size: 100% 100%;
   }
 
@@ -176,10 +210,7 @@
   .banner-3-cols .banner-3-cols-row-2 h2 + p {
     font-size: 44px;
     max-width: 420px;
-  }
-
-  .banner-3-cols .banner-3-cols-row-2 h2 ~ p {
-    max-width: 340px;
+    line-height: 33px;
   }
 
   .banner-3-cols .banner-3-cols-row-2 h2 + p + p {
@@ -189,7 +220,7 @@
 
 @media (width >= 992px) {
   .banner-3-cols .banner-3-cols-col p {
-    max-width: 69%;
+    max-width: 75%;
     margin: 0 auto;
   }
 }
@@ -227,5 +258,6 @@ main h2#side-effects-in-clinical-studies + p a:hover {
   main h2#side-effects-in-clinical-studies {
     font-size: 20px;
     margin: auto 15px;
+    margin-bottom: 16px;
   }
 }

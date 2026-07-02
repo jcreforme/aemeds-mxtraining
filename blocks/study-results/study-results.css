@@ -1,6 +1,6 @@
 .study-results-container .study-results-wrapper {
-  max-width: unset;
-  padding: 0;
+  max-width: 1200px;
+  padding: 0 24px;
 }
 
 .study-results {
@@ -14,6 +14,12 @@
   padding: 32px 15px;
   color: #333;
   font-family: var(--body-font-family);
+}
+
+@media (width >= 900px) {
+  .study-results-container .study-results-wrapper {
+    padding: 0 32px;
+  }
 }
 
 /* section title — sits above the box (default content, or lifted out of block) */
@@ -121,10 +127,11 @@
 .study-results .study-results-impact-text {
   flex: 1;
   text-align: center;
+  max-width: 668px;;
 }
 
 .study-results .study-results-impact-text h2 {
-  font-size: 26px;
+  font-size: 27px;
   font-weight: 400;
   line-height: 32px;
   color: #046183;
@@ -150,17 +157,17 @@
 
 @media (width >= 900px) {
   .study-results {
-    padding: 48px 15px 32px;
+    padding: 48px 0px 32px;
     background-size: 100% 100%;
   }
 
   .study-results-title h2,
   .study-results-container .default-content-wrapper h2 {
-    font-size: 28px;
+    font-size: 32px;
   }
 
   .study-results .study-results-safety h2 {
-    font-size: 45px;
+    font-size: 38px;
     max-width: none;
   }
 
