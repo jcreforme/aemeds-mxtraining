@@ -1,0 +1,340 @@
+/*
+ * ISI (Important Safety Information) block
+ *
+ * Replicates the two-section Vyepti.com AEM pattern:
+ *   .isi-tray   — fixed bottom sticky tray (mirrors #isiFixedBottom)
+ *   .isi-panel  — inline panel in document flow (mirrors #SafetyPanelInfo)
+ *
+ * All selectors are scoped to .isi / .isi-tray — no global style leaks.
+ * Responsive: mobile-first; 900 px breakpoint for desktop layout.
+ */
+
+/* ── Design tokens ─────────────────────────────────────────────────────── */
+
+:root {
+  --isi-color-heading: #41748d;
+  --isi-color-text: #484848;
+  --isi-color-border: #d1d1d1;
+  --isi-color-bg: var(--background-color, #fff);
+  --isi-color-tray-accent: #41748d;
+  --isi-font-size-body: 14px;
+  --isi-font-size-heading: 15px;
+
+  /* Set by JS to equal the collapsed tray header height.          */
+
+  /* Consumed as body padding-bottom so content is never hidden.   */
+  --isi-tray-offset: 0px;
+}
+
+/* ── Body offset — reserved from first paint (no CLS) ─────────────────── */
+
+body {
+  padding-bottom: var(--isi-tray-offset);
+}
+
+/* ── Shared typography ─────────────────────────────────────────────────── */
+
+.isi-panel,
+.isi-tray {
+  color: var(--isi-color-text);
+  font-family: var(--body-font-family, sans-serif);
+  font-size: var(--isi-font-size-body);
+  line-height: 1.5;
+}
+
+.isi-panel h5,
+.isi-tray h5 {
+  margin: 0 0 6px;
+  color: var(--isi-color-heading);
+  font-size: var(--isi-font-size-heading);
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.isi-panel p,
+.isi-tray p {
+  margin: 0 0 12px;
+}
+
+.isi-panel ul,
+.isi-tray ul {
+  margin: 0 0 12px;
+  padding-left: 20px;
+}
+
+.isi-panel li,
+.isi-tray li {
+  margin-bottom: 8px;
+}
+
+.isi-panel a,
+.isi-tray a {
+  color: var(--isi-color-heading);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.isi-panel a:hover,
+.isi-tray a:hover {
+  opacity: 0.8;
+  text-decoration: none;
+}
+
+/* ── +/− toggle button ─────────────────────────────────────────────────── */
+
+.isi-toggle {
+  position: relative;
+  flex-shrink: 0;
+  align-self: flex-start;
+  width: 26px;
+  height: 26px;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 1.5px solid var(--isi-color-heading);
+  border-radius: 50%;
+  color: var(--isi-color-heading);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.isi-toggle:hover,
+.isi-toggle:focus-visible {
+  background-color: var(--isi-color-heading);
+  color: #fff;
+  outline: 2px solid var(--isi-color-heading);
+  outline-offset: 2px;
+}
+
+/* Horizontal bar — always visible (the "−" stroke) */
+.isi-toggle::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 11px;
+  height: 2px;
+  background: currentcolor;
+  transform: translate(-50%, -50%);
+}
+
+/* Vertical bar — visible when collapsed ("+") */
+.isi-toggle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: 11px;
+  background: currentcolor;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.isi-toggle[aria-expanded="true"]::after {
+  opacity: 0;
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   STICKY TRAY  (#isiFixedBottom equivalent)
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.isi-tray {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 100;
+  background: var(--isi-color-bg);
+  border-top: 3px solid var(--isi-color-tray-accent);
+  box-shadow: 0 -2px 16px rgb(0 0 0 / 12%);
+  transform: translateY(0);
+  transition: transform 0.3s ease;
+  will-change: transform;
+}
+
+/* Slide off-screen when the inline panel is in view */
+.isi-tray.isi-tray-docked {
+  transform: translateY(110%);
+  pointer-events: none;
+}
+
+/* ── Tray header — acts as expand/collapse trigger ────────────────────── */
+
+.isi-tray-header {
+  display: grid;
+
+  /* Mobile: single content column + toggle button */
+  grid-template-columns: 1fr auto;
+  grid-template-areas: 'isi toggle';
+  gap: 0 12px;
+  align-items: start;
+  padding: 12px 16px;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* ── Left column — ISI summary (all breakpoints) ─────────────────────── */
+
+.isi-tray-col-isi {
+  grid-area: isi;
+}
+
+/* Mobile-only subtitle "AND APPROVED USE" — rendered inside the ISI h5 */
+.isi-tray-subtitle {
+  display: block;
+  color: var(--isi-color-heading);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ── Right column — Approved Use (desktop only) ──────────────────────── */
+
+.isi-tray-col-au {
+  grid-area: au;
+  display: none; /* hidden on mobile */
+}
+
+/* ── Toggle button ────────────────────────────────────────────────────── */
+
+.isi-tray-header > .isi-toggle {
+  grid-area: toggle;
+  margin-top: 2px;
+}
+
+/* ── Expandable body ──────────────────────────────────────────────────── */
+
+.isi-tray-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+
+.isi-tray-body-inner {
+  padding: 0 16px 16px;
+}
+
+.isi-tray.isi-tray-expanded .isi-tray-body {
+  max-height: 55vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   INLINE PANEL  (#SafetyPanelInfo equivalent)
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.isi-panel {
+  position: relative;
+  box-sizing: border-box;
+  padding: 24px 16px 32px;
+  border-top: 1px solid var(--isi-color-border);
+  background: var(--isi-color-bg);
+}
+
+/* ── ISI content sections (AU + ISI) ─────────────────────────────────── */
+
+.isi-section + .isi-section {
+  margin-top: 20px;
+}
+
+/* ── ISI detail body — always visible in the inline panel ───────────── */
+
+.isi-section-detail {
+  margin-top: 16px;
+}
+
+/* ── Back-to-top sticky button ───────────────────────────────────────── */
+
+.isi-back-top {
+  position: sticky;
+  top: 16px;
+  float: right;
+  width: 40px;
+  height: 40px;
+  margin: 0 0 8px 8px;
+  z-index: 10;
+}
+
+.isi-back-top-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--isi-color-heading);
+  border-radius: 50%;
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
+  transition: opacity 0.2s ease;
+}
+
+.isi-back-top-link:hover {
+  opacity: 0.85;
+  text-decoration: none;
+}
+
+/* Upward arrow via CSS */
+.isi-back-top-link::before {
+  content: '';
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid #fff;
+  border-right: 2px solid #fff;
+  transform: rotate(-45deg) translate(2px, 2px);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESKTOP  (≥ 900 px)
+   ══════════════════════════════════════════════════════════════════════════ */
+
+@media (width >= 900px) {
+  /* ── Tray header: two equal columns + toggle ─────────────────────────── */
+
+  .isi-tray-header {
+    grid-template-columns: 1fr 1fr auto;
+    grid-template-areas: 'isi au toggle';
+    gap: 0 24px;
+    padding: 14px max(32px, calc((100% - 1200px) / 2));
+  }
+
+  /* Show Approved Use column on desktop */
+  .isi-tray-col-au {
+    display: block;
+  }
+
+  /* Hide the mobile "AND APPROVED USE" subtitle — AU has its own column */
+  .isi-tray-subtitle {
+    display: none;
+  }
+
+  .isi-tray-body-inner {
+    padding: 4px max(32px, calc((100% - 1200px) / 2)) 24px;
+  }
+
+  .isi-tray.isi-tray-expanded .isi-tray-body {
+    max-height: 45vh;
+  }
+
+  /* ── Inline panel: constrained max-width with comfortable padding ─── */
+
+  .isi-panel {
+    padding: 32px max(32px, calc((100% - 1200px) / 2)) 48px;
+  }
+}
+
+/* ── Reduced motion ────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .isi-tray,
+  .isi-tray-body,
+  .isi-toggle::after,
+  .isi-back-top-link {
+    transition: none;
+  }
+}

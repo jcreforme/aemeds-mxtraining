@@ -1,0 +1,60 @@
+/* let the strip background bleed across the full viewport width */
+main .section > .alert-strip-wrapper {
+  max-width: none;
+  padding: 0;
+}
+
+/* remove default section gap to sit flush below the hero */
+.alert-strip-container {
+  margin-top: 0;
+}
+
+.alert-strip {
+  background-color: var(--light-color);
+}
+
+.alert-strip > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  box-sizing: border-box;
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px 24px;
+}
+
+.alert-strip .alert-strip-icon {
+  flex: 0 0 auto;
+  line-height: 0;
+}
+
+.alert-strip .alert-strip-icon .icon {
+  width: 40px;
+  height: 40px;
+}
+
+.alert-strip .alert-strip-text {
+  font-size: var(--body-font-size-s);
+}
+
+.alert-strip .alert-strip-text p {
+  margin: 0;
+}
+
+.alert-strip .alert-strip-text a:any-link {
+  color: var(--link-color);
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+.alert-strip .alert-strip-text a:hover {
+  color: var(--link-hover-color);
+}
+
+@media (width >= 900px) {
+  .alert-strip .alert-strip-icon .icon {
+    width: 48px;
+    height: 48px;
+  }
+}

@@ -1,0 +1,112 @@
+.accordion {
+    --accordion-border-color: #c3dce7;
+    --accordion-header-bg: #d6ecf5;
+    --accordion-header-bg-hover: #cce6f1;
+    --accordion-header-text: #005f86;
+    --accordion-body-bg: #fff;
+    --accordion-icon-color: #005f86;
+}
+
+.accordion .accordion-item {
+    border: 1px solid var(--accordion-border-color);
+    margin-bottom: 10px;
+}
+
+.accordion .accordion-trigger {
+    appearance: none;
+    width: 100%;
+    border: 0;
+    border-radius: 0;
+    margin: 0;
+    background: var(--accordion-header-bg);
+    color: var(--accordion-header-text);
+    padding: 14px 52px 14px 16px;
+    text-align: left;
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+    position: relative;
+    cursor: pointer;
+    transition:
+        background-color 160ms ease,
+        color 160ms ease;
+}
+
+.accordion .accordion-trigger:hover,
+.accordion .accordion-trigger:focus-visible {
+    background: var(--accordion-header-bg-hover);
+}
+
+.accordion .accordion-trigger:focus-visible {
+    outline: 2px solid var(--accordion-icon-color);
+    outline-offset: -2px;
+}
+
+.accordion .accordion-trigger::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    width: 12px;
+    height: 12px;
+    border-right: 2px solid var(--accordion-icon-color);
+    border-bottom: 2px solid var(--accordion-icon-color);
+    transform: translateY(-65%) rotate(45deg);
+    transition: transform 180ms ease;
+}
+
+.accordion .accordion-trigger[aria-expanded="true"]::after {
+    transform: translateY(-35%) rotate(-135deg);
+}
+
+.accordion .accordion-panel {
+    background: var(--accordion-body-bg);
+    transform-origin: top center;
+    will-change: height, opacity, transform;
+}
+
+.accordion .accordion-panel-content {
+    padding: 20px 16px 24px;
+    display: grid;
+    gap: 20px;
+}
+
+.accordion .accordion-panel-cell > :first-child {
+    margin-top: 0;
+}
+
+.accordion .accordion-panel-cell > :last-child {
+    margin-bottom: 0;
+}
+
+.accordion .accordion-panel-cell .block {
+    margin-top: 0;
+}
+
+@media (width >= 600px) {
+    .accordion .accordion-trigger {
+        padding-left: 18px;
+        padding-right: 56px;
+        font-size: 2rem;
+    }
+
+    .accordion .accordion-panel-content {
+        padding: 24px 18px 30px;
+    }
+}
+
+@media (width >= 900px) {
+    .accordion .accordion-panel-content.accordion-panel-content-multi {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: start;
+        gap: 28px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .accordion .accordion-trigger,
+    .accordion .accordion-trigger::after,
+    .accordion .accordion-panel {
+        transition: none !important;
+    }
+}

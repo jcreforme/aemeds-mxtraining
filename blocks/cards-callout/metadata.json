@@ -1,0 +1,37 @@
+{
+  "variantName": "cards-callout",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-06-19T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.vyepti.com/",
+    "originPage": "VYEPTI homepage",
+    "blockPosition": "bottom"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "callout",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "image + eyebrow + headline + description + CTA",
+    "buttonCount": 1,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "2-up promotional / call-out cards",
+      "shadowed cards with eyebrow + headline + paragraph + button"
+    ],
+    "notSuitableFor": [
+      "dense multi-column feature grids with small icons",
+      "carousels or rotating content"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-06-19T00:00:00.000Z"
+  }
+}

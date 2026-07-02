@@ -1,0 +1,26 @@
+{
+  "variantName": "cards-masonry",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-06-22T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.vyepti.com/real-patient-stories",
+    "originPage": "VYEPTI Real Patient Stories",
+    "blockPosition": "main"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "balanced",
+    "purpose": "masonry-grid",
+    "imagePattern": "portrait-photo"
+  },
+  "contentPattern": {
+    "structure": "image + heading + quote/description",
+    "buttonCount": 0,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": ["responsive masonry grids with photos and text", "patient/testimonial story galleries", "social proof card collections", "team or profile card layouts"],
+    "notSuitableFor": ["cards requiring a CTA button per item", "cards with more than one image per row", "horizontal side-by-side card layouts"]
+  }
+}

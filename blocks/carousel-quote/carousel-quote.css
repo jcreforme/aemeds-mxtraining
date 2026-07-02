@@ -1,0 +1,258 @@
+.carousel-quote {
+  --cq-bg: #eaf4f8;
+  --cq-text: #005b84;
+  --cq-accent: #d62b70;
+  --cq-arrow-bg: rgb(255 255 255 / 88%);
+}
+
+.carousel-quote .carousel-quote-slides-container {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.carousel-quote .carousel-quote-slides,
+.carousel-quote .carousel-quote-slide-indicators {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.carousel-quote .carousel-quote-slides {
+  display: flex;
+  overflow: auto hidden;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  border-radius: 8px;
+}
+
+.carousel-quote .carousel-quote-slides::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-quote .carousel-quote-slide {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.08fr 0.92fr;
+  align-items: stretch;
+  flex: 0 0 100%;
+  width: 100%;
+  min-height: 420px;
+  background: var(--cq-bg);
+  border-radius: 8px;
+  overflow: hidden;
+  scroll-snap-align: start;
+}
+
+.carousel-quote .carousel-quote-slide .carousel-quote-slide-content {
+  order: 1;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  margin: 0;
+  padding: 48px 44px 44px 84px;
+  color: var(--cq-text);
+}
+
+.carousel-quote .carousel-quote-slide .carousel-quote-slide-image {
+  order: 2;
+  position: relative;
+  min-height: 420px;
+  overflow: hidden;
+}
+
+.carousel-quote .carousel-quote-slide .carousel-quote-slide-image picture {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.carousel-quote .carousel-quote-slide .carousel-quote-slide-image picture > img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center right;
+}
+
+.carousel-quote .carousel-quote-slide .carousel-quote-slide-content h1,
+.carousel-quote .carousel-quote-slide .carousel-quote-slide-content h2,
+.carousel-quote .carousel-quote-slide .carousel-quote-slide-content h3,
+.carousel-quote .carousel-quote-slide .carousel-quote-slide-content h4,
+.carousel-quote .carousel-quote-slide .carousel-quote-slide-content h5,
+.carousel-quote .carousel-quote-slide .carousel-quote-slide-content h6 {
+  max-width: 430px;
+  margin: 0 0 16px;
+  color: var(--cq-text);
+  font-size: clamp(1.9rem, 2.6vw, 2.9rem);
+  line-height: 1.15;
+}
+
+.carousel-quote .carousel-quote-slide .carousel-quote-slide-content .red-short-line {
+  width: 60px;
+  height: 3px;
+  border: none;
+  background-color: var(--cq-accent);
+  margin: 0 0 16px;
+}
+
+.carousel-quote .carousel-quote-slide .carousel-quote-slide-content p {
+  max-width: 550px;
+  margin: 0 0 12px;
+  color: #222;
+}
+
+.carousel-quote .carousel-quote-slide .carousel-quote-slide-content strong {
+  color: #222;
+}
+
+.carousel-quote .carousel-quote-slide .carousel-quote-slide-content a {
+  color: var(--cq-text);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.carousel-quote .carousel-quote-slide .carousel-quote-slide-content a:hover,
+.carousel-quote .carousel-quote-slide .carousel-quote-slide-content a:focus-visible {
+  text-decoration: underline;
+}
+
+.carousel-quote .carousel-quote-slide .carousel-quote-slide-content .quotation {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 130px;
+  height: 55px;
+  margin: 0 0 20px -22px;
+}
+
+.carousel-quote .carousel-quote-slide .carousel-quote-slide-content .quotation img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform: scale(3.0);
+  transform-origin: center;
+}
+
+.carousel-quote .carousel-quote-slide .carousel-quote-slide-content a .icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.carousel-quote .carousel-quote-slide .carousel-quote-slide-content a .icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.carousel-quote .carousel-quote-navigation-buttons {
+  position: absolute;
+  inset: 50% 14px auto;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.carousel-quote .carousel-quote-navigation-buttons button {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid rgb(0 0 0 / 14%);
+  border-radius: 50%;
+  background-color: var(--cq-arrow-bg);
+  transition: background-color 0.2s ease;
+  pointer-events: auto;
+}
+
+.carousel-quote .carousel-quote-navigation-buttons button:hover,
+.carousel-quote .carousel-quote-navigation-buttons button:focus-visible {
+  background-color: #fff;
+}
+
+.carousel-quote .carousel-quote-navigation-buttons button::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: calc(50% + 1px);
+  display: block;
+  width: 9px;
+  height: 9px;
+  border: 2px solid #ef5a87;
+  border-bottom: 0;
+  border-left: 0;
+  transform: translate(-50%, -50%) rotate(-135deg);
+}
+
+.carousel-quote .carousel-quote-navigation-buttons button.slide-next::after {
+  left: calc(50% - 1px);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.carousel-quote .carousel-quote-slide-indicators {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 0 0;
+  background: transparent;
+  line-height: 0;
+}
+
+.carousel-quote .carousel-quote-slide-indicators .carousel-quote-slide-indicator button {
+  width: 10px;
+  height: 10px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--cq-accent);
+  border-radius: 50%;
+  background-color: #fff;
+  transition: background-color 0.2s;
+}
+
+.carousel-quote .carousel-quote-slide-indicators .carousel-quote-slide-indicator button:hover,
+.carousel-quote .carousel-quote-slide-indicators .carousel-quote-slide-indicator button:focus-visible,
+.carousel-quote .carousel-quote-slide-indicators .carousel-quote-slide-indicator button:disabled {
+  background-color: var(--cq-accent);
+}
+
+@media (width <= 767px) {
+  .carousel-quote .carousel-quote-slide {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  
+
+  .carousel-quote .carousel-quote-slide .carousel-quote-slide-image {
+    order: 1;
+    min-height: 280px;
+  }
+
+  .carousel-quote .carousel-quote-slide .carousel-quote-slide-content {
+    order: 2;
+    padding: 28px 24px 32px;
+  }
+
+  .carousel-quote .carousel-quote-navigation-buttons {
+    inset: 40% 10px auto;
+  }
+}

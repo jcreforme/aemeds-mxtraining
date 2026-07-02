@@ -1,0 +1,39 @@
+.cards-masonry > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  columns: 1;
+  column-gap: 24px;
+}
+
+@media (width >= 600px) {
+  .cards-masonry > ul {
+    columns: 2;
+  }
+}
+
+@media (width >= 900px) {
+  .cards-masonry > ul {
+    columns: 3;
+  }
+}
+
+.cards-masonry > ul > li {
+  break-inside: avoid;
+  border: 1px solid #dadada;
+  background-color: var(--background-color);
+  margin-bottom: 24px;
+}
+
+.cards-masonry .cards-masonry-card-body {
+  padding: 16px;
+}
+
+.cards-masonry .cards-masonry-card-image {
+  line-height: 0;
+}
+
+.cards-masonry > ul > li img {
+  width: 100%;
+  display: block;
+}
