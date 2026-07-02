@@ -4,8 +4,7 @@
 }
 
 .banner-3-cols-container .default-content-wrapper {
-
-  padding: 0 0 16px 0;
+  padding: 0 0 16px;
   max-width: 1140px;
   margin: 0 auto;
   color: #046183;
@@ -23,6 +22,7 @@
   .banner-3-cols-container .default-content-wrapper h2 {
     line-height: 1px;
   }
+
   .banner-3-cols-container .default-content-wrapper strong {
     font-size: 23px;
     line-height: 33px;
@@ -184,7 +184,7 @@
 
 @media (width >= 768px) {
   .banner-3-cols {
-    padding: 32px 0px 32px;
+    padding: 32px 0;
     background-size: 100% 100%;
   }
 

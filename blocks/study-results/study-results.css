@@ -157,7 +157,7 @@
 
 @media (width >= 900px) {
   .study-results {
-    padding: 48px 0px 32px;
+    padding: 48px 0 32px;
     background-size: 100% 100%;
   }
 
