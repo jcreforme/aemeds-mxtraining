@@ -1,0 +1,81 @@
+.cta-gradient-2-cols {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+.cta-gradient-2-cols .cta-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px 8px 0 0;
+  background-color: #fff;
+  box-shadow: 0 2px 8px 0 rgb(46 50 51 / 20%);
+  padding: 40px 32px;
+  overflow: hidden;
+  text-align: center;
+}
+
+/* teal -> coral -> magenta accent bar pinned to the card bottom */
+.cta-gradient-2-cols .cta-card::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 8px;
+  background-image: linear-gradient(to right, #046183 0%, #7ec9c9 25%, #f2705a 60%, #c02c57 100%);
+}
+
+/* eyebrow */
+.cta-gradient-2-cols .cta-card h4 {
+  margin: 0;
+  color: #046183;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+/* heading */
+.cta-gradient-2-cols .cta-card h2,
+.cta-gradient-2-cols .cta-card h3 {
+  margin: 8px 0 0;
+  color: #c02c57;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.cta-gradient-2-cols .cta-card p {
+  margin: 16px 0 0;
+  color: #333;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+/* CTA button */
+.cta-gradient-2-cols .cta-card p.button-wrapper {
+  margin: 32px 0 0;
+}
+
+.cta-gradient-2-cols .cta-card a.button:any-link {
+  border: 0;
+  border-radius: 30px;
+  background-color: #046183;
+  padding: 16px 32px;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.cta-gradient-2-cols .cta-card a.button:hover,
+.cta-gradient-2-cols .cta-card a.button:focus-visible {
+  background-color: #035270;
+}
+
+@media (width >= 900px) {
+  .cta-gradient-2-cols {
+    grid-template-columns: 1fr 1fr;
+  }
+}
