@@ -90,3 +90,37 @@
     padding-right: 56px;
   }
 }
+
+/* ==========================================================================
+   Variant: dot-list (e.g. real-life-impact)
+   Bulleted columns with magenta markers and no divider.
+   Scoped to .dot-list so the base columns-content block is unaffected.
+   ========================================================================== */
+
+.columns-content.dot-list ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.columns-content.dot-list li {
+  margin-bottom: 0.5em;
+  color: #333;
+  font-size: 20px;
+  line-height: 22px;
+}
+
+.columns-content.dot-list li::marker {
+  color: #c02c57;
+}
+
+.columns-content.dot-list li strong {
+  font-weight: 700;
+}
+
+@media (width >= 900px) {
+  /* no divider between the bulleted columns */
+  .columns-content.dot-list .columns-content-left {
+    border-right: 0;
+    padding-right: 0;
+  }
+}
