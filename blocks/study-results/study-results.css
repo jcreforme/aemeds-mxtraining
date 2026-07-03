@@ -156,10 +156,19 @@
   margin-bottom: 0;
 }
 
-@media (width >= 900px) {
+@media (width >= 700px) {
   .study-results {
     padding: 48px 0 32px;
     background-size: 100% 100%;
+  }
+
+  .study-results .study-results-stat {
+    padding: 0;
+  }
+  
+  .study-results .study-results-stat p {
+     margin: 0 auto;
+    width: 90%;
   }
 
   .study-results-title h2,
