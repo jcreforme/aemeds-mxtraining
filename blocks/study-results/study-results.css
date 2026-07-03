@@ -5,7 +5,7 @@
 
 .study-results {
   background-color: #fff;
-  background-image: linear-gradient(#e8f3f5 20%, #fff 100%);
+  background-image: linear-gradient(#e8f3f5 20%, #fff 40%);
   background-repeat: no-repeat;
   background-size: 100% 520px;
   border-radius: 23px 23px 0 0;
@@ -14,6 +14,7 @@
   padding: 32px 15px;
   color: #333;
   font-family: var(--body-font-family);
+  border-bottom: 1px solid #e0e0e0;
 }
 
 @media (width >= 900px) {
@@ -186,4 +187,21 @@
   .study-results .study-results-impact-text {
     text-align: left;
   }
+}
+
+
+
+
+@media (width < 900px) {
+  .study-results {
+    background-image: linear-gradient(#e8f3f5 20%, #fff 100%);
+  }
+  
+}
+
+@media (width < 450px) {
+  .study-results {
+    background-image: linear-gradient(#e8f3f5 20%, #fff 100%);
+  }
+  
 }
