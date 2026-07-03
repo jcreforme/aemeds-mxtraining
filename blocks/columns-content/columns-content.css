@@ -132,6 +132,8 @@ main > .section.real-life-impact > div {
   padding-right: 0;
 }
 
+
+
 /* Full-width default content around a dot-list block (heading + intro + footer).
    Scoped to the real-life-impact section class (Section Metadata Style). */
 .section.real-life-impact .default-content-wrapper h2 {
@@ -146,4 +148,26 @@ main > .section.real-life-impact > div {
   color: #046183;
   font-weight: 700;
   text-decoration: underline;
+}
+
+@media (width >= 900px) {
+  .section.real-life-impact .default-content-wrapper h2 {
+    text-align: center;
+  }
+
+  .section.real-life-impact {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
+
+@media (width < 600px) {
+  .section.real-life-impact .default-content-wrapper h2 {
+    text-align: center;
+  }
+
+  .section.real-life-impact {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
 }
