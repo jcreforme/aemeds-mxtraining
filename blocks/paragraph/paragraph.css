@@ -41,10 +41,6 @@
   margin: 0 0 16px;
 }
 
-.paragraph-block p:last-child {
-  margin-bottom: 0;
-}
-
 /* This is for centering paragraph content */
 .paragraph-center {
   text-align: center;
@@ -59,15 +55,17 @@
     padding-bottom: 48px !important;
 }
 
+.paragraph-block p:last-child {
+  margin-bottom: 0;
+}
+
 .paragraph-center h2 {
     font-size: 32px;
     line-height: 38px;
     color: #046183;
 }
 
-
 @media (width >= 900px) {
-
   .paragraph-block h2 {
     font-size: 20px;
   }
