@@ -105,8 +105,9 @@
 .columns-content.dot-list li {
   margin-bottom: 0.5em;
   color: #333;
-  font-size: 20px;
-  line-height: 22px;
+  font-size: 24px;
+  line-height: 27px;
+  padding-right: 14px;
 }
 
 .columns-content.dot-list li::marker {
@@ -144,6 +145,10 @@ main > .section.real-life-impact > div {
   line-height: 29px;
 }
 
+.section.real-life-impact .default-content-wrapper p {
+  font-size: 16px;;
+}
+
 .section.real-life-impact .default-content-wrapper a:any-link {
   color: #046183;
   font-weight: 700;
@@ -152,7 +157,7 @@ main > .section.real-life-impact > div {
 
 @media (width >= 600px) {
   .section.real-life-impact .default-content-wrapper h2 {
-    text-align: center;
+    text-align: left;
   }
 
   .section.real-life-impact {

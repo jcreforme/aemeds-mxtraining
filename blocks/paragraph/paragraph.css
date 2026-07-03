@@ -1,7 +1,6 @@
-.paragraph-block {
-  max-width: 800px;
-  margin: 32px auto;
-  padding: 0 16px;
+.paragraph-block, .paragraph-center {
+  max-width: 1140px;
+  padding: 0 30px;
 }
 
 .paragraph-block h2,
@@ -21,8 +20,22 @@
   font-weight: 600;
 }
 
+.paragraph-block h4, .paragraph-block h5 {
+  color: #046183;
+}
+
+.paragraph-block h4 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.paragraph-block h5 {
+  color: #046183;
+  font-size: 16px;
+}
+
 .paragraph-block p {
-  font-size: 1rem;
+  font-size: 16px;
   line-height: 1.6;
   color: #333;
   margin: 0 0 16px;
@@ -32,12 +45,49 @@
   margin-bottom: 0;
 }
 
+/* This is for centering paragraph content */
+.paragraph-center {
+  text-align: center;
+}
+
+.paragraph-center p {
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 700;
+    text-align: center;
+    padding-top: 32px;
+    padding-bottom: 48px !important;
+}
+
+.paragraph-center h2 {
+    font-size: 32px;
+    line-height: 38px;
+    color: #046183;
+}
+
+
 @media (width >= 900px) {
+
   .paragraph-block h2 {
-    font-size: 2rem;
+    font-size: 20px;
   }
 
   .paragraph-block p {
-    font-size: 1.05rem;
+    font-size: 16px;
   }
+}
+
+
+@media (width < 900px) {
+  .paragraph-block, .paragraph-center {
+    padding: 0 10px;
+  }
+  
+}
+
+@media (width < 450px) {
+  .paragraph-block, .paragraph-center {
+    padding: 0;
+  }
+  
 }
