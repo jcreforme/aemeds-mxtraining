@@ -125,6 +125,13 @@
   }
 }
 
+/* Constrain the real-life-impact section wrappers to 1140px, edge-to-edge. */
+main > .section.real-life-impact > div {
+  max-width: 1140px;
+  padding-left: 0;
+  padding-right: 0;
+}
+
 /* Full-width default content around a dot-list block (heading + intro + footer).
    Scoped to the real-life-impact section class (Section Metadata Style). */
 .section.real-life-impact .default-content-wrapper h2 {

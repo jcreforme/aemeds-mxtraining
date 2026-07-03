@@ -312,12 +312,6 @@ main > .section > div {
   padding: 0 24px;
 }
 
-main > .section.real-life-impact > div {
-  max-width: 1140px;
-  padding-left: 0;
-  padding-right: 0;
-}
-
 main > .section:first-of-type {
   margin-top: 0;
 }
