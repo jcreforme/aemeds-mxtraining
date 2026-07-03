@@ -150,7 +150,7 @@ main > .section.real-life-impact > div {
   text-decoration: underline;
 }
 
-@media (width >= 900px) {
+@media (width >= 600px) {
   .section.real-life-impact .default-content-wrapper h2 {
     text-align: center;
   }
@@ -161,7 +161,7 @@ main > .section.real-life-impact > div {
   }
 }
 
-@media (width < 600px) {
+@media (width < 450px) {
   .section.real-life-impact .default-content-wrapper h2 {
     text-align: center;
   }
