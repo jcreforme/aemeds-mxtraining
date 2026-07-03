@@ -314,6 +314,8 @@ main > .section > div {
 
 main > .section.real-life-impact > div {
   max-width: 1140px;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 main > .section:first-of-type {
