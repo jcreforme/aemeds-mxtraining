@@ -69,6 +69,13 @@
   font-style: italic;
 }
 
+/* large phones / small tablets: bump the title while keeping the mobile layout */
+@media (width >= 600px) {
+  .hero-two-columns .hero-two-columns-content h1 {
+    font-size: 32px;
+  }
+}
+
 /* tablet+ : full-bleed background image, text overlaid and centered */
 @media (width >= 768px) {
   .hero-two-columns .hero-two-columns-caption {
