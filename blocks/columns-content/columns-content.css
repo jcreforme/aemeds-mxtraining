@@ -126,6 +126,40 @@
   }
 }
 
+/* ==========================================================================
+   Variant: icon-right
+   Right column leads with an icon graphic beside its heading/text.
+   ========================================================================== */
+
+.columns-content.icon-right .columns-content-right.has-icon {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.columns-content.icon-right .columns-content-icon {
+  flex-shrink: 0;
+  width: 96px;
+}
+
+.columns-content.icon-right .columns-content-icon img,
+.columns-content.icon-right .columns-content-icon svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.columns-content.icon-right .columns-content-icon-text > *:last-child {
+  margin-bottom: 0;
+}
+
+@media (width >= 900px) {
+  .columns-content.icon-right .columns-content-icon {
+    width: 120px;
+  }
+}
+
 /* Constrain the real-life-impact section wrappers to 1140px, edge-to-edge. */
 main > .section.real-life-impact > div {
   max-width: 1140px;

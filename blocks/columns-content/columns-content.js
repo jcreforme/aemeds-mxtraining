@@ -35,6 +35,33 @@ function normalizeAuthoredIcon(iconElement) {
   iconImage.src = iconImage.src.replace(/\/icons\/icon-([a-z0-9-]+)\.svg$/i, '/icons/$1.svg');
 }
 
+// Splits a column into a leading icon graphic + the remaining text so they can
+// sit side by side. The icon is the first image/picture the author placed in
+// the column; everything else becomes the text side.
+function buildIconColumn(column) {
+  const picture = column.querySelector('picture, img');
+  if (!picture) return;
+
+  const iconWrapper = document.createElement('div');
+  iconWrapper.className = 'columns-content-icon';
+  iconWrapper.setAttribute('aria-hidden', 'true');
+  iconWrapper.append(picture.closest('picture') || picture);
+
+  const text = document.createElement('div');
+  text.className = 'columns-content-icon-text';
+  [...column.children].forEach((child) => {
+    if (!child.querySelector('picture, img') && child.textContent.trim() === '') {
+      child.remove();
+      return;
+    }
+    text.append(child);
+  });
+
+  column.textContent = '';
+  column.append(iconWrapper, text);
+  column.classList.add('has-icon');
+}
+
 function buildCallout(column) {
   const directChildren = [...column.children];
   const startIndex = getCalloutStartIndex(directChildren);
@@ -85,6 +112,9 @@ export default function decorate(block) {
   const shouldDecorateLeft = calloutConfig === 'left' || calloutConfig === 'both';
   const shouldDecorateRight = calloutConfig === 'right' || calloutConfig === 'both';
 
+  // icon-right variant: the right column leads with an icon graphic beside its text.
+  const iconRight = block.classList.contains('icon-right');
+
   [...block.children].forEach((row) => {
     const cols = [...row.children];
     if (cols.length !== 2) return;
@@ -92,6 +122,11 @@ export default function decorate(block) {
     row.classList.add('columns-content-row');
     cols[0].classList.add('columns-content-left');
     cols[1].classList.add('columns-content-right');
+
+    if (iconRight) {
+      buildIconColumn(cols[1]);
+      return;
+    }
 
     if (shouldDecorateLeft) buildCallout(cols[0]);
     if (shouldDecorateRight) buildCallout(cols[1]);
