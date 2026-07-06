@@ -65,6 +65,10 @@
     color: #046183;
 }
 
+.paragraph-block a {
+    color: #046183;
+}
+
 @media (width >= 900px) {
   .paragraph-block h2 {
     font-size: 20px;
