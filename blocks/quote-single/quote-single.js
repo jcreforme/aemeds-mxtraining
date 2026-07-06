@@ -1,9 +1,8 @@
-// Maps an author's breakpoint label to a media query. "mobile" becomes the
-// <img> fallback (null media). Breakpoints align with the project standard:
-// desktop ≥900px, tablet ≥600px, mobile below.
+// Maps an author's breakpoint label to a media query. Only two images are
+// supported: desktop (≥900px) gets its own <source>; everything below —
+// including tablet — falls back to the mobile <img>.
 function mediaForLabel(label) {
   const l = label.toLowerCase();
-  if (l.includes('tablet')) return '(min-width: 600px)';
   if (l.includes('desktop')) return '(min-width: 900px)';
   return null;
 }

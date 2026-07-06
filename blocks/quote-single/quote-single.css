@@ -84,7 +84,7 @@
   max-width: 760px;
 }
 
-@media (width >= 600px) {
+@media (width >= 900px) {
   .quote-single {
     flex-direction: row;
     align-items: stretch;
