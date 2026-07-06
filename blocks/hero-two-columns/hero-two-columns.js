@@ -1,7 +1,7 @@
 // explicit media condition per background-image row, largest first.
 // every authored image gets its own <source media>; the last one also
 // provides the <img> fallback.
-const BG_MEDIA = ['(min-width: 1600px)', '(min-width: 768px)', '(min-width: 375px)'];
+const BG_MEDIA = ['(min-width: 1200px)', '(min-width: 768px)', '(min-width: 375px)'];
 
 // pick the best available source URL from an authored <picture>
 function bestSrcset(picture) {
