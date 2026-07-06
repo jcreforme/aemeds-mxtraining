@@ -131,6 +131,11 @@
    Right column leads with an icon graphic beside its heading/text.
    ========================================================================== */
 
+.columns-content.icon-right {
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
 .columns-content.icon-right .columns-content-right.has-icon {
   display: grid;
   grid-template-columns: auto 1fr;
