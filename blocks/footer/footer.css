@@ -1,20 +1,191 @@
 footer {
-  background-color: var(--light-color);
+  background-color: var(--background-color);
   font-size: var(--body-font-size-xs);
-}
-
-footer .footer > div {
-  margin: auto;
-  max-width: 1200px;
-  padding: 40px 24px 24px;
 }
 
 footer .footer p {
   margin: 0;
 }
 
+footer .footer ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+footer .footer > div > div > div {
+  box-sizing: border-box;
+  max-width: 1140px;
+  margin: auto;
+  padding: 16px;
+}
+
+/* legal links strip (teal) */
+footer .footer .footer-legal {
+  background-color: var(--link-color);
+}
+
+footer .footer .footer-legal ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 32px;
+  padding: 18px 0 20px;
+}
+
+footer .footer .footer-legal a:any-link {
+  color: var(--background-color);
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 600;
+  letter-spacing: -0.1px;
+}
+
+footer .footer .footer-legal a:hover {
+  color: var(--light-color);
+  text-decoration: none;
+}
+
+/* assistance call-to-action and legal copy */
+footer .footer .footer-info {
+  color: var(--dark-color);
+}
+
+footer .footer .footer-info > div {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 24px;
+  padding-bottom: 16px;
+}
+
+footer .footer .footer-info p {
+  font-size: 14px;
+  line-height: 1.5;
+  padding-bottom: 8px;
+}
+
+footer .footer .footer-info a:any-link:not(.button) {
+  color: var(--link-color);
+  text-decoration: underline;
+}
+
+/* the "For assistance, call" + button group */
+footer .footer .footer-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+footer .footer .footer-cta p {
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 21px;
+  color: var(--text-color);
+}
+
+footer .footer .footer-cta .button-wrapper {
+  margin: 0;
+}
+
+/* magenta call button with phone icon (matches original exactly) */
+footer .footer a.footer-call {
+  position: relative;
+  border-radius: 30px;
+  padding: 20px 21px 20px 45px;
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  color: var(--background-color);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+footer .footer a.footer-call:hover,
+footer .footer a.footer-call:focus-visible {
+  background-color: var(--accent-hover-color);
+  border-color: var(--accent-hover-color);
+  color: var(--background-color);
+  text-decoration: none;
+}
+
+footer .footer a.footer-call::before {
+  content: "";
+  position: absolute;
+  left: 19px;
+  top: 50%;
+  width: 16px;
+  height: 19px;
+  transform: translateY(-50%);
+  background: url('../../icons/call.svg') no-repeat center / contain;
+}
+
+/* social links and lundbeck logo */
+footer .footer .footer-brand > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px 24px;
+  padding-top: 8px;
+  padding-bottom: 32px;
+}
+
+footer .footer .footer-brand ul {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+footer .footer .footer-brand ul .icon {
+  width: 32px;
+  height: 32px;
+}
+
+footer .footer .footer-brand a:hover .icon {
+  opacity: 0.7;
+}
+
+footer .footer .footer-brand .icon-lundbeck {
+  width: 160px;
+  height: auto;
+}
+
 @media (width >= 900px) {
-  footer .footer > div {
-    padding: 40px 32px 24px;
+  footer .footer > div > div > div {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  footer .footer .footer-legal ul {
+    gap: 8px 40px;
+  }
+
+  footer .footer .footer-legal a:any-link {
+    font-size: 16px;
+    letter-spacing: 0;
+  }
+
+  /* copy on the left, call-to-action on the right */
+  footer .footer .footer-info > div {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    column-gap: 40px;
+    align-items: start;
+    padding-top: 40px;
+    padding-bottom: 28px;
+  }
+
+  footer .footer .footer-info > div > p {
+    grid-column: 1;
+    max-width: 640px;
+  }
+
+  footer .footer .footer-cta {
+    grid-column: 2;
+    grid-row: 1;
+    align-items: flex-end;
+    text-align: right;
   }
 }

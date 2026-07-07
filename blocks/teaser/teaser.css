@@ -1,0 +1,245 @@
+/*
+ * Teaser block
+ *
+ * Variants:
+ *   .teaser.image-right  — two-column split (content left / image right on
+ *                          desktop; image stacked first on mobile)
+ *   .teaser.image-left   — two-column split (image left / content right on
+ *                          desktop; image stacked first on mobile)
+ *   .teaser.image-center — stacked, centered (image above content)
+ *
+ * Legacy classes (teaser-image-right-align-first, teaser-image-center-align)
+ * are mapped to the current variants by teaser.js.
+ *
+ * Design tokens consumed:
+ *   --accent-color:        #bf2c58  (rose — eyebrow label, CTA)
+ *   --accent-hover-color:  #9a2346  (rose hover)
+ *   --link-color:          #046183  (teal — headings)
+ *   --text-color:          #333     (body copy)
+ *   --heading-font-size-l / -xl     (heading scale)
+ */
+
+/* ── Shared base ─────────────────────────────────────────────────────── */
+
+.teaser {
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.teaser .teaser-image picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.teaser .teaser-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── Typography ──────────────────────────────────────────────────────── */
+
+/* Eyebrow label — first bold/italic-only paragraph.
+   Scoped to .teaser-content to beat the body-copy rule below (0-3-0 > 0-2-1). */
+.teaser .teaser-content .teaser-eyebrow {
+  margin: 0 0 12px;
+  color: var(--accent-color, #bf2c58);
+  font-size: var(--body-font-size-xs, 14px);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+/* Colour and tracking alone carry the label style */
+.teaser .teaser-content .teaser-eyebrow strong,
+.teaser .teaser-content .teaser-eyebrow em {
+  font-weight: inherit;
+  font-style: normal;
+}
+
+/* Heading — teal, tight leading, generous bottom margin like the live site */
+.teaser .teaser-content .teaser-heading {
+  margin: 0 0 20px;
+  color: var(--link-color, #046183);
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-font-size-l, 26px);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.teaser .teaser-content p {
+  margin: 0 0 16px;
+  color: var(--text-color, #333);
+  font-size: var(--body-font-size-m, 16px);
+  line-height: 1.6;
+}
+
+.teaser .teaser-content ul {
+  margin: 0 0 16px;
+  padding-left: 22px;
+  color: var(--text-color, #333);
+  line-height: 1.6;
+}
+
+.teaser .teaser-content li {
+  margin-bottom: 8px;
+}
+
+.teaser .teaser-content > :last-child {
+  margin-bottom: 0;
+}
+
+/* ── CTA — rose pill, explicit padding/radius/hover for design fidelity ── */
+
+.teaser .teaser-content .button-container {
+  margin-top: 24px;
+}
+
+.teaser .teaser-content a.button.primary {
+  padding: 12px 36px;
+  border: 2px solid var(--accent-color, #bf2c58);
+  border-radius: 30px;
+  background-color: var(--accent-color, #bf2c58);
+  color: var(--background-color, #fff);
+  font-size: var(--body-font-size-s, 14px);
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.teaser .teaser-content a.button.primary:hover,
+.teaser .teaser-content a.button.primary:focus-visible {
+  border-color: var(--accent-hover-color, #9a2346);
+  background-color: var(--accent-hover-color, #9a2346);
+  color: var(--background-color, #fff);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   SPLIT VARIANTS: image-right / image-left
+   Mobile:  vertical stack — image first (DOM order), content below
+   Desktop: two balanced columns inside a 1140 px container
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.teaser.image-right,
+.teaser.image-left {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-sizing: border-box;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 32px 16px;
+}
+
+.teaser.image-right .teaser-image,
+.teaser.image-left .teaser-image {
+  align-self: center;
+  width: 100%;
+  max-width: 480px;
+}
+
+/* Author-cropped artwork keeps its own ratio; cover-crop only oversized photos */
+.teaser.image-right .teaser-image img,
+.teaser.image-left .teaser-image img {
+  height: auto;
+  border-radius: 6px;
+}
+
+@media (width >= 900px) {
+  .teaser.image-right,
+  .teaser.image-left {
+    flex-direction: row;
+    align-items: center;
+    gap: 64px;
+    padding: 48px 24px;
+  }
+
+  .teaser.image-right .teaser-image,
+  .teaser.image-left .teaser-image {
+    flex: 0 0 calc(50% - 32px);
+    max-width: calc(50% - 32px);
+  }
+
+  .teaser.image-right .teaser-content,
+  .teaser.image-left .teaser-content {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  /* image-right: content reads first, image sits right */
+  .teaser.image-right .teaser-image {
+    order: 2;
+  }
+
+  .teaser.image-right .teaser-content {
+    order: 1;
+  }
+
+  /* image-left keeps natural order: image left, content right */
+
+  .teaser.image-right .teaser-content .teaser-heading,
+  .teaser.image-left .teaser-content .teaser-heading {
+    font-size: var(--heading-font-size-xl, 30px);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   VARIANT: image-center
+   All sizes: stacked, centered — image above, content below
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.teaser.image-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 40px 16px;
+  text-align: center;
+}
+
+.teaser.image-center .teaser-image {
+  width: 100%;
+  max-width: 560px;
+  margin-bottom: 28px;
+}
+
+.teaser.image-center .teaser-image img {
+  height: auto;
+}
+
+/* Image-only teasers (no content cell) drop the reserved gap */
+.teaser.image-center .teaser-image:last-child {
+  margin-bottom: 0;
+}
+
+.teaser.image-center .teaser-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 720px;
+}
+
+.teaser.image-center .teaser-content .button-container {
+  display: flex;
+  justify-content: center;
+}
+
+@media (width >= 900px) {
+  .teaser.image-center {
+    padding: 56px 24px;
+  }
+
+  .teaser.image-center .teaser-image {
+    max-width: 720px;
+  }
+
+  .teaser.image-center .teaser-content .teaser-heading {
+    font-size: var(--heading-font-size-xl, 30px);
+  }
+}
