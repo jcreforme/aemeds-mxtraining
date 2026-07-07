@@ -23,7 +23,7 @@
   content: "";
   position: absolute;
   inset: auto 0 0;
-  height: 8px;
+  height: 10px;
   background-image: linear-gradient(to right, #046183 0%, #7ec9c9 25%, #f2705a 60%, #c02c57 100%);
 }
 
