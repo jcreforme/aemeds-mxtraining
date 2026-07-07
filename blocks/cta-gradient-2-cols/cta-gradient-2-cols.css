@@ -74,8 +74,8 @@
 
 .cta-gradient-2-cols .cta-card a.button:any-link::after {
   content: "";
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 10px;
   background-image: url("/media/icons/cta-button-arrow-20-global-white.svg");
   background-repeat: no-repeat;
   background-position: center;
