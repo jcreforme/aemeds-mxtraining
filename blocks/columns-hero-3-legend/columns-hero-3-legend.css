@@ -113,9 +113,13 @@ main > .section > .columns-hero-3-legend-wrapper {
     gap: 24px;
   }
 
-  /* disclaimer drops to its own full-width line below the columns */
+  /* disclaimer drops to its own full-width line below the columns; a large
+     right padding constrains the text to the text column's width (5/12) while
+     keeping flex-basis at 100% so it stays on its own line */
   .columns-hero-3-legend-3-cols > div > .columns-hero-3-legend-disclaimer {
+    box-sizing: border-box;
     flex: 0 0 100%;
+    padding-right: calc((100% - 48px) * 7 / 12 + 48px);
     margin-top: 0;
   }
 
