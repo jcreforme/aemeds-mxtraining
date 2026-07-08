@@ -69,6 +69,17 @@ main > .section > .columns-hero-3-legend-wrapper {
   height: auto;
 }
 
+/* text column bullet list (exclude the legend list) */
+.columns-hero-3-legend > div > div:not(.columns-hero-3-legend-legend-col) ul li {
+  font-size: 16px;
+}
+
+.columns-hero-3-legend > div > div:not(.columns-hero-3-legend-legend-col) ul li::marker {
+  content: "\2022";
+  color: #c02c57;
+  font-size: 30px;
+}
+
 @media (width >= 900px) {
   .columns-hero-3-legend-3-cols > div {
     align-items: center;
