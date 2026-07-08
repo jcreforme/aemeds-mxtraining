@@ -1,3 +1,16 @@
+main > .section > .columns-hero-3-legend-wrapper {
+  width: 1140px;
+  max-width: 1140px;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.columns-hero-3-legend {
+  background-color: #eff6f9;
+}
+
 .columns-hero-3-legend > div {
   display: flex;
   flex-direction: column;
