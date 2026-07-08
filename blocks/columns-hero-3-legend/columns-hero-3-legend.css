@@ -34,6 +34,11 @@ main > .section > .columns-hero-3-legend-wrapper {
   font-weight: normal;
 }
 
+/* disclaimer lifted to row level: on mobile it is the last stacked item */
+.columns-hero-3-legend .columns-hero-3-legend-disclaimer {
+  margin-top: 24px;
+}
+
 .columns-hero-3-legend > div {
   display: flex;
   flex-direction: column;
@@ -103,8 +108,14 @@ main > .section > .columns-hero-3-legend-wrapper {
 
   .columns-hero-3-legend-3-cols > div {
     align-items: center;
-    flex-direction: unset;
+    flex-flow: row wrap;
     gap: 24px;
+  }
+
+  /* disclaimer drops to its own full-width line below the columns */
+  .columns-hero-3-legend-3-cols > div > .columns-hero-3-legend-disclaimer {
+    flex: 0 0 100%;
+    margin-top: 0;
   }
 
   /* Asymmetric widths: wide text / wide graphic / narrow legend (~5 / 5 / 2) */
