@@ -34,12 +34,20 @@ export default function decorate(block) {
 
   [...block.children].forEach((row) => {
     [...row.children].forEach((col) => {
-      const pics = [...col.querySelectorAll('picture')];
+      const hasHeading = !!col.querySelector('h1, h2, h3, h4, h5, h6');
       const list = col.querySelector('ul, ol');
-      const hasHeadingOrCopy = col.querySelector('h1, h2, h3, h4, h5, h6, p:not(:empty)');
+      // the legend is the list whose items carry icons (pictures/images)
+      const listHasImages = !!(list && list.querySelector('picture, img'));
 
-      // image/graphic column: only pictures, no headings/copy/list
-      if (pics.length && !list && !col.querySelector('h1, h2, h3, h4, h5, h6')) {
+      // legend column: an icon list, no headings
+      if (listHasImages && !hasHeading) {
+        col.classList.add('columns-hero-3-legend-legend-col');
+        return;
+      }
+
+      // image/graphic column: pictures only, no headings, no list
+      const pics = [...col.querySelectorAll('picture')];
+      if (pics.length && !list && !hasHeading) {
         col.classList.add('columns-hero-3-legend-img-col');
 
         // two authored images -> responsive desktop/mobile swap
@@ -52,11 +60,6 @@ export default function decorate(block) {
             (wrapper || p).remove();
           });
         }
-      }
-
-      // legend column: only a list, no headings/copy
-      if (list && !hasHeadingOrCopy && col.children.length === 1) {
-        col.classList.add('columns-hero-3-legend-legend-col');
       }
     });
   });

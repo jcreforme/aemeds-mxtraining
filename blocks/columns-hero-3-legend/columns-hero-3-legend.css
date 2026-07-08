@@ -25,10 +25,20 @@
   margin: 8px 0;
 }
 
+/* DA wraps the icon and label in separate <p> tags inside each <li> */
+.columns-hero-3-legend .columns-hero-3-legend-legend-col li p {
+  margin: 0;
+}
+
+.columns-hero-3-legend .columns-hero-3-legend-legend-col li picture {
+  flex: 0 0 auto;
+  width: 24px;
+  line-height: 0;
+}
+
 .columns-hero-3-legend .columns-hero-3-legend-legend-col li img {
   width: 24px;
   height: auto;
-  flex: 0 0 auto;
 }
 
 @media (width >= 900px) {
