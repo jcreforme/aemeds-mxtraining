@@ -39,10 +39,6 @@ main > .section > .columns-hero-3-legend-wrapper {
   flex-direction: column;
 }
 
-.columns-hero-3-legend img {
-  width: 100%;
-}
-
 .columns-hero-3-legend > div > .columns-hero-3-legend-img-col img {
   display: block;
 }
@@ -50,7 +46,7 @@ main > .section > .columns-hero-3-legend-wrapper {
 /* Legend: mobile/tablet -> single centered horizontal row */
 .columns-hero-3-legend .columns-hero-3-legend-legend-col ul {
   list-style: none;
-  margin: 0;
+  margin-top: 25px;
   padding: 0;
   display: flex;
   flex-wrap: wrap;
@@ -101,7 +97,7 @@ main > .section > .columns-hero-3-legend-wrapper {
   /* desktop: wide centered content, left-aligned, 3 columns */
   .columns-hero-3-legend {
     max-width: 1140px;
-    padding: 48px 24px;
+    padding: 0;
     text-align: left;
   }
 
