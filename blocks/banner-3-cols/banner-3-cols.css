@@ -182,6 +182,50 @@
   font-weight: 400;
 }
 
+/* ----- "icons" variant: icon graphic on top, blue heading, body text ----- */
+.banner-3-cols.icons {
+  background-image: none;
+  background-color: #fff;
+}
+
+.banner-3-cols.icons .banner-3-cols-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.banner-3-cols.icons .banner-3-cols-icon {
+  margin: 0 0 20px;
+  line-height: 0;
+}
+
+.banner-3-cols.icons .banner-3-cols-icon img,
+.banner-3-cols.icons .banner-3-cols-icon picture {
+  display: block;
+  width: 100%;
+  max-width: 286px;
+  height: auto;
+}
+
+.banner-3-cols.icons .banner-3-cols-label,
+.banner-3-cols.icons h2,
+.banner-3-cols.icons h3 {
+  color: #046183;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0 0 12px;
+}
+
+.banner-3-cols.icons .banner-3-cols-col p {
+  color: #333;
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0;
+  max-width: 320px;
+}
+
 @media (width >= 768px) {
   .banner-3-cols {
     padding: 32px 0;
