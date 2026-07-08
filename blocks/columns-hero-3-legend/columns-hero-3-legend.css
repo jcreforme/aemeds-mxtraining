@@ -4,7 +4,7 @@ main > .section > .columns-hero-3-legend-wrapper {
   width: 100%;
   max-width: none;
   margin: 0;
-  padding: 48px 24px;
+  padding: 0;
   background-color: #eff6f9;
 }
 
@@ -28,6 +28,7 @@ main > .section > .columns-hero-3-legend-wrapper {
 
 .columns-hero-3-legend h6 {
   font-size: 14px;
+  font-weight: normal;
 }
 
 .columns-hero-3-legend > div {
