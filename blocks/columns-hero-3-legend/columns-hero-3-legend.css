@@ -81,6 +81,7 @@ main > .section > .columns-hero-3-legend-wrapper {
 
 .columns-hero-3-legend > div > div:not(.columns-hero-3-legend-legend-col) ul li {
   font-size: 16px;
+  padding-left: 15px;
 }
 
 .columns-hero-3-legend > div > div:not(.columns-hero-3-legend-legend-col) ul li::marker {
