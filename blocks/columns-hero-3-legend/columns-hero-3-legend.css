@@ -1,14 +1,18 @@
+/* full-bleed tinted background */
 main > .section > .columns-hero-3-legend-wrapper {
-  width: 1140px;
-  max-width: 1140px;
-  margin-left: 0;
-  margin-right: 0;
-  padding-left: 0;
-  padding-right: 0;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 48px 24px;
+  background-color: #eff6f9;
 }
 
+/* content centered at 1140px */
 .columns-hero-3-legend {
-  background-color: #eff6f9;
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
 }
 
 .columns-hero-3-legend > div {
