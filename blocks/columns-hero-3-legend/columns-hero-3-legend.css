@@ -46,6 +46,7 @@ main > .section > .columns-hero-3-legend-wrapper {
 
 .columns-hero-3-legend > div > .columns-hero-3-legend-img-col img {
   display: block;
+  margin: 0 auto;
 }
 
 /* Legend: mobile/tablet -> single centered horizontal row */
