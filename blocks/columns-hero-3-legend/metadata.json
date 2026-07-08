@@ -1,0 +1,38 @@
+{
+  "variantName": "columns-hero-3-legend",
+  "baseBlock": "columns",
+  "version": "1.0.0",
+  "created": "2026-07-08T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.vyepti.com/how-vyepti-works",
+    "originPage": "How VYEPTI works",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "wide",
+    "purpose": "explainer",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "text panel (heading + copy + list) + graphic image + legend list",
+    "buttonCount": 0,
+    "imageCount": 4
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "three-column explainer sections with text + graphic + icon legend",
+      "mechanism-of-action / how-it-works layouts",
+      "asymmetric side-by-side layouts with a narrow legend column"
+    ],
+    "notSuitableFor": [
+      "equal-width two-panel heroes (use columns-hero)",
+      "card grids of repeating items (use cards)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/how-vyepti-works"],
+    "reuseCount": 1,
+    "lastUsed": "2026-07-08T00:00:00.000Z"
+  }
+}

@@ -1,0 +1,53 @@
+.columns-hero-3-legend > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.columns-hero-3-legend img {
+  width: 100%;
+}
+
+.columns-hero-3-legend > div > .columns-hero-3-legend-img-col img {
+  display: block;
+}
+
+/* Legend column: three icon + label rows */
+.columns-hero-3-legend .columns-hero-3-legend-legend-col ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.columns-hero-3-legend .columns-hero-3-legend-legend-col li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+}
+
+.columns-hero-3-legend .columns-hero-3-legend-legend-col li img {
+  width: 24px;
+  height: auto;
+  flex: 0 0 auto;
+}
+
+@media (width >= 900px) {
+  .columns-hero-3-legend-3-cols > div {
+    align-items: center;
+    flex-direction: unset;
+    gap: 24px;
+  }
+
+  /* Asymmetric widths: wide text / wide graphic / narrow legend (~5 / 5 / 2) */
+  .columns-hero-3-legend-3-cols > div > div {
+    flex: 5;
+  }
+
+  .columns-hero-3-legend-3-cols > div > .columns-hero-3-legend-img-col {
+    flex: 5;
+  }
+
+  .columns-hero-3-legend-3-cols > div > .columns-hero-3-legend-legend-col {
+    flex: 2;
+  }
+}
