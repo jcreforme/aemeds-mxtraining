@@ -90,6 +90,7 @@ main > .section > .columns-hero-3-legend-wrapper {
 
 .columns-hero-3-legend > div > div:not(.columns-hero-3-legend-legend-col) ul li {
   font-size: 16px;
+  line-height: 22px;
   padding-left: 15px;
 }
 
@@ -109,18 +110,13 @@ main > .section > .columns-hero-3-legend-wrapper {
 
   .columns-hero-3-legend-3-cols > div {
     align-items: center;
-    flex-flow: row wrap;
+    flex-flow: row nowrap;
     gap: 24px;
   }
 
-  /* disclaimer drops to its own full-width line below the columns; a large
-     right padding constrains the text to the text column's width (5/12) while
-     keeping flex-basis at 100% so it stays on its own line */
-  .columns-hero-3-legend-3-cols > div > .columns-hero-3-legend-disclaimer {
-    box-sizing: border-box;
-    flex: 0 0 100%;
-    padding-right: calc((100% - 48px) * 7 / 12 + 48px);
-    margin-top: 0;
+  /* disclaimer stays inside the text column, spaced below the bullets */
+  .columns-hero-3-legend-3-cols .columns-hero-3-legend-disclaimer {
+    margin-top: 24px;
   }
 
   /* Asymmetric widths: wide text / wide graphic / narrow legend (~5 / 5 / 2) */

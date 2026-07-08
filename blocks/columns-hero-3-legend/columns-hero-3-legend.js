@@ -63,13 +63,23 @@ export default function decorate(block) {
     }
   });
 
-  // The disclaimer (h6) is authored inside the text column, so when columns
-  // stack on mobile it renders before the graphic/legend. Lift it to the row
-  // so it can be placed at the very bottom (mobile) / on its own full-width
-  // line below the columns (desktop).
+  // The disclaimer (h6) is authored inside the text column. On desktop it
+  // should stay there (at the bottom of the text column). On mobile the
+  // columns stack, so the disclaimer must move to the very end of the row to
+  // sit below the graphic and legend instead of directly under the bullets.
   const disclaimer = row.querySelector('h6');
   if (disclaimer) {
     disclaimer.classList.add('columns-hero-3-legend-disclaimer');
-    row.append(disclaimer);
+    const textCol = disclaimer.parentElement;
+    const desktop = window.matchMedia('(min-width: 900px)');
+    const placeDisclaimer = () => {
+      if (desktop.matches) {
+        textCol.append(disclaimer); // bottom of the text column
+      } else {
+        row.append(disclaimer); // bottom of the stacked row
+      }
+    };
+    placeDisclaimer();
+    desktop.addEventListener('change', placeDisclaimer);
   }
 }
