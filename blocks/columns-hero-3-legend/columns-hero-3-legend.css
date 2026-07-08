@@ -26,6 +26,10 @@ main > .section > .columns-hero-3-legend-wrapper {
   line-height: 22px;
 }
 
+.columns-hero-3-legend h6 {
+  font-size: 14px;
+}
+
 .columns-hero-3-legend > div {
   display: flex;
   flex-direction: column;
