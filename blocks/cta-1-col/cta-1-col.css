@@ -12,7 +12,7 @@
   border-radius: 8px;
   background-color: #fff;
   box-shadow: 0 2px 8px 0 rgb(46 50 51 / 20%);
-  padding: 42px 32px;
+  padding: 50px 32px 70px;
   overflow: hidden;
   text-align: center;
 }
@@ -102,7 +102,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 40px;
-    padding-left: 56px;
+    padding: 42px 32px 42px 140px;
     text-align: left;
   }
 
@@ -120,7 +120,7 @@
   .cta-1-col .cta-card-shape picture,
   .cta-1-col .cta-card-shape img {
     display: block;
-    width: 100%;
+    width: auto;
     height: auto;
   }
 
