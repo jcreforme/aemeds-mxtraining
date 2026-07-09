@@ -7,12 +7,23 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 24px;
   border-radius: 8px;
   background-color: #fff;
   box-shadow: 0 2px 8px 0 rgb(46 50 51 / 20%);
-  padding: 42px 32px 42px 56px;
+  padding: 42px 32px;
   overflow: hidden;
+  text-align: center;
+}
+
+/* teal -> coral -> magenta accent bar pinned to the card bottom — mobile/tablet */
+.cta-1-col .cta-card::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 10px;
+  background-image: linear-gradient(to right, #046183 0%, #7ec9c9 25%, #f2705a 60%, #c02c57 100%);
 }
 
 /* authored brand shape graphic pinned to the left edge — desktop only */
@@ -91,20 +102,26 @@
     align-items: center;
     justify-content: space-between;
     gap: 40px;
+    padding-left: 56px;
+    text-align: left;
+  }
+
+  /* shape graphic replaces the accent bar on desktop */
+  .cta-1-col .cta-card::after {
+    display: none;
   }
 
   .cta-1-col .cta-card-shape {
     display: block;
     position: absolute;
-    inset: 0 auto 0 0;
-    height: 100%;
+    inset: 0 auto auto 0;
   }
 
   .cta-1-col .cta-card-shape picture,
   .cta-1-col .cta-card-shape img {
     display: block;
-    height: 100%;
-    width: auto;
+    width: 100%;
+    height: auto;
   }
 
   .cta-1-col .cta-card-text {
