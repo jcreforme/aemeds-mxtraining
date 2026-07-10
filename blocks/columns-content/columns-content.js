@@ -141,6 +141,21 @@ function buildCallout(column) {
   column.append(callout);
 }
 
+// dark variant: turn any lone-link paragraph that page-level decoration left
+// unstyled into a secondary pill button (e.g. an author forgot to italicize a
+// CTA). Links that share their paragraph with other text (like a trailing ".")
+// are intentionally skipped so inline links stay inline.
+function buttonizeStandaloneLinks(block) {
+  block.querySelectorAll('p > a[href]').forEach((a) => {
+    if (a.classList.contains('button')) return;
+    const p = a.closest('p');
+    if (p.textContent.trim() !== a.textContent.trim()) return;
+    if (a.querySelector('img')) return;
+    p.classList.add('button-wrapper');
+    a.classList.add('button', 'secondary');
+  });
+}
+
 /**
  * Decorates 2-column layout with optional callout.
  * Configured via block variant: "Columns Content (callout-both)", "Columns Content (callout-left)"
@@ -155,6 +170,8 @@ export default function decorate(block) {
 
   // icon-right variant: the right column leads with an icon graphic beside its text.
   const iconRight = block.classList.contains('icon-right');
+
+  if (block.classList.contains('dark')) buttonizeStandaloneLinks(block);
 
   [...block.children].forEach((row) => {
     const cols = [...row.children];
