@@ -324,10 +324,12 @@ main > .section.real-life-impact > div {
   padding: 5px;
 }
 
-/* pill CTAs: primary (coral) + secondary (light) */
+/* pill CTAs: primary (coral) + secondary (light).
+   Mobile/tablet: stacked and centered; desktop restores a row. */
 .columns-content.dark .button-wrapper {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
   gap: 20px;
   margin: 25px 0 50px;
 }
@@ -421,6 +423,12 @@ main > .section.copay-dark .default-content-wrapper:last-of-type p {
   .columns-content.dark .columns-content-left {
     border-right: 1px solid rgb(255 255 255 / 40%);
     padding-right: 48px;
+  }
+
+  /* desktop: CTAs side by side, left-aligned */
+  .columns-content.dark .button-wrapper {
+    flex-flow: row wrap;
+    align-items: stretch;
   }
 
   main > .section.copay-dark .default-content-wrapper:first-of-type {
