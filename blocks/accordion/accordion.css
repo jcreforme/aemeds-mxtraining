@@ -130,6 +130,7 @@
 .section:has(.accordion.insurance) .default-content-wrapper h2 {
     font-size: 24px;
     color: #046183;
+    padding-bottom: 24px;
 }
 
 /* each row is a rounded, borderless card with a gap */
