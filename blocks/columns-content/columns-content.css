@@ -126,6 +126,13 @@
   }
 }
 
+/* Constrain the real-life-impact section wrappers to 1140px, edge-to-edge. */
+main > .section.real-life-impact > div {
+  max-width: 1140px;
+  padding-left: 0;
+  padding-right: 0;
+}
+
 /* ==========================================================================
    Variant: icon-right
    Right column leads with an icon graphic beside its heading/text.
@@ -134,6 +141,25 @@
 .columns-content.icon-right {
   max-width: 1140px;
   margin: 0 auto;
+}
+
+.columns-content.icon-right .columns-content-right.has-icon {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.columns-content.icon-right .columns-content-icon {
+  flex-shrink: 0;
+  width: 96px;
+}
+
+.columns-content.icon-right .columns-content-icon img,
+.columns-content.icon-right .columns-content-icon svg {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 /* Costs variant (icon-right, no dot-list).
@@ -168,25 +194,6 @@
   .columns-content.icon-right:not(.dot-list) {
     max-width: 540px;
   }
-}
-
-.columns-content.icon-right .columns-content-right.has-icon {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 24px;
-  align-items: start;
-}
-
-.columns-content.icon-right .columns-content-icon {
-  flex-shrink: 0;
-  width: 96px;
-}
-
-.columns-content.icon-right .columns-content-icon img,
-.columns-content.icon-right .columns-content-icon svg {
-  display: block;
-  width: 100%;
-  height: auto;
 }
 
 .columns-content.icon-right .columns-content-icon-text > *:last-child {
@@ -232,15 +239,6 @@
     margin: 0;
   }
 }
-
-/* Constrain the real-life-impact section wrappers to 1140px, edge-to-edge. */
-main > .section.real-life-impact > div {
-  max-width: 1140px;
-  padding-left: 0;
-  padding-right: 0;
-}
-
-
 
 /* Full-width default content around a dot-list block (heading + intro + footer).
    Scoped to the real-life-impact section class (Section Metadata Style). */
