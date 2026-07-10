@@ -12,26 +12,105 @@
  *   2. Inline panel (#SafetyPanelInfo equivalent) — in document flow above the
  *      footer. Single-column: Approved Use → ISI summary → full ISI detail.
  *
- * Authoring contract — single table cell, rich text:
- * ┌─────────────────────────────────────────────────────────┐
- * │ isi                                                     │
- * ├─────────────────────────────────────────────────────────┤
- * │ ##### APPROVED USE                                      │
- * │ VYEPTI is a prescription medicine…                      │
- * │ ##### IMPORTANT SAFETY INFORMATION                      │
- * │ **Do not receive VYEPTI** if you have…      ← summary  │
- * │ **VYEPTI may cause serious side effects…**  ← detail   │
- * │ - Allergic reactions…                        ← detail  │
- * │ …                                                       │
- * └─────────────────────────────────────────────────────────┘
+ * Content sourcing — the block always fetches its content from the shared
+ * `/fragments/isi` fragment (single source of truth, authored once, rendered
+ * on every page). An authored link/path inside the block overrides the
+ * default fragment path; content authored directly in the block table is
+ * kept only as a fallback if the fragment request fails.
+ *
+ * Loading safety — every promise in this module resolves. The fetch is
+ * bounded by a timeout and wrapped in try/catch, and decorate() releases its
+ * host section in a `finally` guard, so a slow or failing fragment can never
+ * leave later sections stuck in `data-section-status="initialized"|"loading"`
+ * with `display: none`.
+ *
+ * Expected fragment content — rich text split by H5 headings:
+ *   ##### APPROVED USE
+ *   VYEPTI is a prescription medicine…               ← summary
+ *   ##### IMPORTANT SAFETY INFORMATION
+ *   **Do not receive VYEPTI** if you have…           ← summary
+ *   **VYEPTI may cause serious side effects…**       ← detail
+ *   - Allergic reactions…                            ← detail
  *
  * Parsed result:
  *   sections[0] = Approved Use  { heading, summary: [p], detail: [] }
  *   sections[1] = ISI           { heading, summary: [p], detail: [p, ul, …] }
  */
 
+const ISI_FRAGMENT_PATH = '/fragments/isi';
+const FETCH_TIMEOUT_MS = 5000;
+
 const CLS_EXPANDED = 'isi-tray-expanded';
 const CLS_DOCKED = 'isi-tray-docked';
+
+/* ─── Fragment loading ───────────────────────────────────────────────────── */
+
+/**
+ * Resolve the fragment path for the ISI content.
+ * Priority: authored link in the block → authored plain-text path → default.
+ * @param {Element} block
+ * @returns {string}
+ */
+function resolveFragmentPath(block) {
+  const link = block.querySelector('a[href]');
+  if (link) {
+    try {
+      const url = new URL(link.getAttribute('href'), window.location.href);
+      if (url.origin === window.location.origin) return url.pathname;
+    } catch {
+      /* malformed href — fall through to default */
+    }
+  }
+  const text = block.textContent.trim();
+  if (text.startsWith('/') && !text.startsWith('//') && !/\s/.test(text)) return text;
+  return ISI_FRAGMENT_PATH;
+}
+
+/**
+ * Fetch and parse the ISI fragment. The request is bounded by a timeout so a
+ * stalled network can never hold the section pipeline hostage; any failure
+ * resolves to `null` rather than rejecting.
+ * @param {string} path fragment path (without `.plain.html`)
+ * @returns {Promise<Element|null>} parsed fragment root, or null on failure
+ */
+async function fetchFragment(path) {
+  try {
+    const resp = await fetch(`${path}.plain.html`, {
+      signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+    });
+    if (!resp.ok) throw new Error(`unexpected response ${resp.status}`);
+
+    const root = document.createElement('div');
+    root.innerHTML = await resp.text();
+
+    // rebase relative media references to the fragment's own path
+    const resetAttributeBase = (tag, attr) => {
+      root.querySelectorAll(`${tag}[${attr}^="./media_"]`).forEach((elem) => {
+        elem[attr] = new URL(elem.getAttribute(attr), new URL(path, window.location)).href;
+      });
+    };
+    resetAttributeBase('img', 'src');
+    resetAttributeBase('source', 'srcset');
+
+    return root;
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(`ISI fragment failed to load from ${path}`, error);
+    return null;
+  }
+}
+
+/**
+ * Locate the element whose direct children are the authored rich text
+ * (H5 headings, paragraphs, lists), regardless of wrapper nesting.
+ * @param {Element} root
+ * @returns {Element|null}
+ */
+function findContentRoot(root) {
+  if (!root) return null;
+  const heading = root.querySelector('h5');
+  return heading ? heading.parentElement : null;
+}
 
 /* ─── Content parsing ────────────────────────────────────────────────────── */
 
@@ -168,6 +247,7 @@ function buildTray(sections) {
   const setExpanded = (expanded) => {
     tray.classList.toggle(CLS_EXPANDED, expanded);
     syncToggle(toggle, expanded);
+    if (!expanded) body.scrollTop = 0;
   };
 
   // Clicking header (or the toggle button within it) toggles the tray
@@ -219,10 +299,7 @@ function buildInlinePanel(sections) {
   const isiSection = document.createElement('div');
   isiSection.className = 'isi-section';
   if (isi) {
-    isiSection.append(
-      isi.heading.cloneNode(true),
-      ...cloneNodes(isi.summary),
-    );
+    isiSection.append(isi.heading.cloneNode(true), ...cloneNodes(isi.summary));
   }
 
   // ISI detail body (always visible in the inline panel)
@@ -253,6 +330,8 @@ function wireDocking(tray, panel) {
 /**
  * Keep --isi-tray-offset on :root equal to the tray header height so the
  * page's body padding-bottom reserves space — declared in CSS (no CLS).
+ * ResizeObserver covers content changes; window resize and font loading are
+ * handled explicitly as fallbacks since both change the header height.
  */
 function syncTrayOffset(tray) {
   const header = tray.querySelector('.isi-tray-header');
@@ -262,34 +341,91 @@ function syncTrayOffset(tray) {
   };
   new ResizeObserver(update).observe(header);
   tray.addEventListener('transitionend', update);
+  window.addEventListener('resize', update, { passive: true });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(update);
   update();
+}
+
+/**
+ * Keep only one sticky ISI tray in the document.
+ * Re-decoration can happen in authoring or preview flows; this prevents
+ * duplicated `.isi-tray` nodes.
+ */
+function cleanupExistingTray() {
+  document.querySelectorAll('.isi-tray').forEach((existingTray) => existingTray.remove());
+  document.documentElement.style.removeProperty('--isi-tray-offset');
+}
+
+/**
+ * Remove the block (and its wrapper) when there is nothing to render,
+ * leaving the section pipeline untouched.
+ */
+function removeBlock(block) {
+  cleanupExistingTray();
+  const wrapper = block.closest('.isi-wrapper');
+  (wrapper || block).remove();
 }
 
 /* ─── Block entry point ──────────────────────────────────────────────────── */
 
 /**
- * @param {Element} block
+ * Loads and decorates the ISI block.
+ *
+ * This function is awaited by loadBlock()/loadSection() in aem.js, so it is
+ * guaranteed to RESOLVE in bounded time no matter what happens to the
+ * fragment request: the fetch is time-boxed, every failure path is caught,
+ * and the `finally` guard releases the host section. Later page sections can
+ * therefore never be stuck hidden behind a slow or missing ISI fragment.
+ *
+ * @param {Element} block The block element
  */
 export default async function decorate(block) {
-  const content = block.querySelector(':scope > div > div') || block.firstElementChild;
-  if (!content) return;
+  // Content authored directly in the block table (legacy pages) is kept as a
+  // fallback in case the shared fragment cannot be fetched.
+  const authoredContent = findContentRoot(block);
+  const fragmentPath = resolveFragmentPath(block);
 
-  // External PDFs → new tab
-  content.querySelectorAll('a[href$=".pdf"]').forEach((a) => {
-    a.target = '_blank';
-    a.rel = 'noopener noreferrer';
-  });
+  const fragment = await fetchFragment(fragmentPath);
+  const content = findContentRoot(fragment) || authoredContent;
 
-  const sections = parseSections(content);
+  try {
+    const sections = content ? parseSections(content) : [];
+    if (!sections.length) {
+      removeBlock(block);
+      return;
+    }
 
-  // 1. Inline panel (in document flow)
-  const panel = buildInlinePanel(sections);
-  block.replaceChildren(panel);
+    // External document links (PI/PPI PDFs) → new tab
+    content.querySelectorAll('a[href$=".pdf"]').forEach((a) => {
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+    });
 
-  // 2. Sticky tray (outside document flow — no CLS)
-  const { tray } = buildTray(sections);
-  document.body.append(tray);
+    // 1. Inline panel (in document flow)
+    const panel = buildInlinePanel(sections);
+    block.replaceChildren(panel);
 
-  wireDocking(tray, panel);
-  syncTrayOffset(tray);
+    // 2. Sticky tray (outside document flow — no CLS)
+    cleanupExistingTray();
+    const { tray } = buildTray(sections);
+    document.body.append(tray);
+
+    wireDocking(tray, panel);
+    syncTrayOffset(tray);
+
+    // Support deep links to the inline panel (e.g. footer "See full ISI")
+    if (window.location.hash === `#${panel.id}`) panel.scrollIntoView();
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('ISI decoration failed', error);
+    removeBlock(block);
+  } finally {
+    // Fail-open: whatever happened above, never leave the host section
+    // hidden — mirrors the safety net used by the fragment block.
+    const section = block.closest('.section');
+    if (section && section.dataset.sectionStatus !== 'loaded') {
+      section.dataset.sectionStatus = 'loaded';
+      section.style.display = null;
+    }
+  }
 }

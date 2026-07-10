@@ -12,6 +12,13 @@
     margin-bottom: 10px;
 }
 
+/* the trigger heading is purely structural; the button carries the styling */
+.accordion .accordion-header {
+    margin: 0;
+    font-size: unset;
+    line-height: unset;
+}
+
 .accordion .accordion-trigger {
     appearance: none;
     width: 100%;
@@ -100,6 +107,102 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
         align-items: start;
         gap: 28px;
+    }
+}
+
+/* ---------- FAQ variant (vyepti.com/vyepti-faq) ---------- */
+
+.accordion.faq {
+    --accordion-icon-color: var(--link-color);
+    --accordion-faq-card-bg: #eff6f9;
+    --accordion-faq-title-color: var(--dark-color);
+    --accordion-faq-divider-color: #a4a4a4;
+}
+
+/* each category is a rounded card with a soft shadow */
+.accordion.faq .accordion-item {
+    margin-bottom: 24px;
+    padding: 32px 16px;
+    border: 0;
+    border-radius: 10px;
+    background: var(--accordion-faq-card-bg);
+    box-shadow: 0 2px 8px rgb(46 50 51 / 20%);
+}
+
+.accordion.faq .accordion-item:last-child {
+    margin-bottom: 0;
+}
+
+.accordion.faq .accordion-trigger {
+    background: transparent;
+    color: var(--accordion-faq-title-color);
+    padding: 0 48px 0 0;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.accordion.faq .accordion-trigger:hover,
+.accordion.faq .accordion-trigger:focus-visible {
+    background: transparent;
+}
+
+.accordion.faq .accordion-trigger:focus-visible {
+    outline: 2px solid var(--link-color);
+    outline-offset: 4px;
+}
+
+.accordion.faq .accordion-trigger::after {
+    right: 8px;
+    width: 14px;
+    height: 14px;
+}
+
+.accordion.faq .accordion-trigger:hover::after {
+    border-color: var(--link-hover-color);
+}
+
+.accordion.faq .accordion-panel {
+    background: transparent;
+}
+
+.accordion.faq .accordion-panel-content {
+    padding: 24px 0 0;
+}
+
+/* questions inside the panel: bold dark headings with hairline separators */
+.accordion.faq .accordion-panel-cell h3,
+.accordion.faq .accordion-panel-cell h4 {
+    margin: 0 0 8px;
+    color: var(--accordion-faq-title-color);
+    font-size: 22px;
+    line-height: 1.25;
+}
+
+.accordion.faq .accordion-panel-cell h3:not(:first-child),
+.accordion.faq .accordion-panel-cell h4:not(:first-child) {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--accordion-faq-divider-color);
+}
+
+.accordion.faq .accordion-panel-cell a {
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+@media (width >= 900px) {
+    .accordion.faq .accordion-item {
+        padding: 40px;
+    }
+
+    .accordion.faq .accordion-trigger {
+        font-size: 28px;
+    }
+
+    .accordion.faq .accordion-panel-cell h3,
+    .accordion.faq .accordion-panel-cell h4 {
+        font-size: 24px;
     }
 }
 

@@ -1,3 +1,40 @@
+/*
+ * Hero block — default single-panel homepage hero + `split` variant.
+ *
+ * DEFAULT replicates the vyepti.com homepage banner (.teaser.homeBanner
+ * .unprescribed-home). Values extracted from the production clientlib:
+ *   h1         — 28px/32px → 56px/60px (≥768), weight 800, #fff,
+ *                width 64% on desktop
+ *   copy       — #fff, width ~60% on desktop
+ *   content    — absolutely centered over the image on desktop
+ *                (top:50%; left:50%; translate(-50%,-50%)); on mobile the
+ *                copy sits on a teal panel above the photo
+ *   CTA        — #c02c57 pill, radius 100px, padding 19px 22px 19px 26px,
+ *                18px/22px 700 #fff, white arrow, hover #9a2346,
+ *                min-width 250px + centered on mobile
+ *   disclaimer — "Actor portrayal" 12px → 16px italic #fff,
+ *                text-shadow 0 2px 4px #000, bottom right of the photo
+ *
+ * Mobile-first; 900px desktop breakpoint. All selectors scoped to .hero.
+ */
+
+/* ── Design tokens ─────────────────────────────────────────────────────── */
+
+:root {
+  --hero-accent: #c02c57;
+  --hero-accent-hover: var(--accent-hover-color, #9a2346);
+  --hero-teal: var(--link-color, #046183);
+  --hero-display-font: nunito, var(--heading-font-family, sans-serif);
+  --hero-text: #fff;
+  --hero-overlay-pad: 30px;
+  --hero-transition: 0.2s ease-in-out;
+
+  /* mobile copy panel — matches the teal baked into the hero artwork */
+  --hero-mobile-bg: linear-gradient(180deg, #2b9ac5 0%, #1579a9 55%, #0d557c 100%);
+}
+
+/* ── Section chrome ────────────────────────────────────────────────────── */
+
 .hero-container {
   padding: 0;
   margin: 40px 0 0;
@@ -8,67 +45,55 @@
   padding: 0;
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   DEFAULT VARIANT — single-panel homepage hero
+   ══════════════════════════════════════════════════════════════════════════ */
+
 .hero {
   position: relative;
   overflow: hidden;
-  color: #fff;
-  background: #0d557c;
-  min-height: 300px;
+  color: var(--hero-text);
+  background: var(--hero-mobile-bg);
 }
 
 .hero .hero-layout {
   position: relative;
-  min-height: clamp(420px, 45vw, 660px);
+
+  /* mobile: copy panel on teal above the photo (photo is DOM-first) */
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
+  flex-direction: column-reverse;
 }
 
+/* ── Media — the image defines the hero height ────────────────────────── */
+
+/* mobile: crop the wide artwork to a portrait-ish window under the copy */
 .hero .hero-media {
-  position: absolute;
-  inset: 0;
-}
-
-.hero .hero-media::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 18% 52%, rgb(71 181 225 / 34%) 0%, transparent 46%),
-    linear-gradient(90deg, rgb(15 121 166 / 88%) 0%, rgb(11 85 130 / 76%) 40%, rgb(8 52 95 / 14%) 72%, transparent 100%);
-  pointer-events: none;
-}
-
-.hero img {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
+  aspect-ratio: 4 / 5;
 }
 
 .hero .hero-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  object-position: 75% center;
+  object-position: 64% 22%;
 }
 
+/* ── Content ──────────────────────────────────────────────────────────── */
+
 .hero .hero-content {
-  position: relative;
   z-index: 1;
-  max-width: min(760px, 55vw);
-  padding:
-    clamp(56px, 9vw, 120px)
-    24px
-    clamp(88px, 11vw, 136px)
-    clamp(24px, 8vw, 132px);
+  box-sizing: border-box;
+  padding: 32px 16px 28px;
+  text-align: center;
 }
 
 .hero .hero-content h1 {
-  margin: 0 0 20px;
-  color: #fff;
-  font-size: clamp(2.4rem, 5vw, 4.4rem);
-  line-height: 0.98;
+  margin: 0 0 13px;
+  color: var(--hero-text);
+  font-size: 28px;
   font-weight: 800;
-  letter-spacing: -0.03em;
-  text-shadow: 0 3px 18px rgb(0 0 0 / 24%);
+  line-height: 32px;
 }
 
 .hero .hero-content h1 strong {
@@ -76,135 +101,76 @@
 }
 
 .hero .hero-content p {
-  margin: 0 0 18px;
-  color: #fff;
-  font-size: clamp(1.02rem, 1.35vw, 1.28rem);
-  line-height: 1.45;
-  font-weight: 500;
+  margin: 0;
+  color: var(--hero-text);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
 }
 
-.hero .hero-cta-container {
-  margin-top: 30px;
-  margin-bottom: 0;
+/* ── CTA — rose pill with arrow (.cmp-teaser__action-link) ────────────── */
+
+.hero .hero-content .hero-cta-container {
+  margin: 24px 0 0;
 }
 
-.hero .hero-cta {
+.hero a.hero-cta {
   display: inline-flex;
+  justify-content: center;
   align-items: center;
-  gap: 12px;
-  padding: 18px 32px;
-  border-radius: 999px;
-  background: #c91f61;
+  gap: 10px;
+  box-sizing: border-box;
+  min-width: 250px;
+  border: 1px solid var(--hero-accent);
+  border-radius: 100px;
+  padding: 19px 22px 19px 26px;
+  background: var(--hero-accent);
   color: #fff;
-  font-size: clamp(1rem, 1.4vw, 1.1rem);
+  font-size: 18px;
   font-weight: 700;
+  line-height: 22px;
   text-decoration: none;
-  box-shadow: 0 10px 24px rgb(0 0 0 / 22%);
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  transition: all var(--hero-transition);
 }
 
-.hero .hero-cta:hover,
-.hero .hero-cta:focus {
-  background: #b01a54;
-  transform: translateY(-1px);
+/* white long arrow (cta-button-arrow-20-global-white.svg equivalent) */
+.hero a.hero-cta::after {
+  content: "";
+  flex: 0 0 auto;
+  width: 20px;
+  height: 12px;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 12" fill="none"><path d="M13.5.6 18.9 6l-5.4 5.4M18.2 6H.8" stroke="white" stroke-width="2"/></svg>') no-repeat center / contain;
 }
 
-.hero .hero-cta .icon {
-  display: inline-flex;
-  align-items: center;
+.hero a.hero-cta:hover,
+.hero a.hero-cta:focus-visible {
+  border-color: var(--hero-accent-hover);
+  background: var(--hero-accent-hover);
+  color: #fff;
+  text-decoration: none;
 }
 
-.hero .hero-cta .icon img {
-  width: 28px;
-  height: 11px;
-  filter: brightness(0) invert(1);
-}
+/* ── "Actor portrayal" disclaimer — bottom right of the photo ─────────── */
 
 .hero .hero-disclaimer {
   position: absolute;
-  right: clamp(18px, 6vw, 72px);
-  bottom: clamp(18px, 4vw, 30px);
+  right: 17px;
+  bottom: 6px;
   z-index: 2;
   margin: 0;
   color: #fff;
-  font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+  font-size: 12px;
   font-style: italic;
-  font-weight: 700;
-  text-shadow: 0 2px 8px rgb(0 0 0 / 40%);
+  font-weight: 400;
+  line-height: 18px;
+  text-shadow: 0 2px 4px #000;
 }
 
 .hero .hero-disclaimer p {
   margin: 0;
 }
 
-@media (width <= 991px) {
-  .hero .hero-content {
-    max-width: min(520px, 52vw);
-    padding-left: 48px;
-    padding-right: 24px;
-  }
-
-  .hero .hero-media img {
-    object-position: 76% center;
-  }
-}
-
-@media (width <= 767px) {
-  .hero {
-    background:
-      linear-gradient(
-        180deg,
-        #2b9ac5 0%,
-        #1579a9 42%,
-        #0d557c 100%
-      );
-  }
-
-  .hero .hero-layout {
-    min-height: clamp(620px, 146vw, 760px);
-    align-items: flex-start;
-  }
-
-  .hero .hero-media {
-    inset: auto 0 0;
-    height: 54%;
-  }
-
-  .hero .hero-media img {
-    object-position: 64% 22%;
-  }
-
-  .hero .hero-media::after {
-    background:
-      linear-gradient(
-        180deg,
-        rgb(43 154 197 / 65%) 0%,
-        rgb(26 118 164 / 30%) 34%,
-        rgb(11 69 113 / 10%) 58%,
-        rgb(8 43 81 / 28%) 100%
-      );
-  }
-
-  .hero .hero-content {
-    max-width: none;
-    padding: 32px 20px 24px;
-  }
-
-  .hero .hero-content h1 {
-    font-size: clamp(2.2rem, 11vw, 3.2rem);
-    line-height: 1.02;
-  }
-
-  .hero .hero-cta {
-    padding: 15px 24px;
-  }
-
-  .hero .hero-disclaimer {
-    right: 14px;
-    bottom: 14px;
-    font-size: 0.88rem;
-  }
-}
+/* ── Optional focal-point helpers (authorable block classes) ──────────── */
 
 .hero.focus-left .hero-media img {
   object-position: 28% center;
@@ -218,35 +184,256 @@
   object-position: 78% center;
 }
 
-@media (width <= 767px) {
-  .hero.mobile-overlay .hero-media {
-    inset: 0;
+/* ── Default variant: desktop (≥ 900px) ───────────────────────────────── */
+
+@media (width >= 900px) {
+  .hero {
+    background: none; /* the artwork carries the teal on desktop */
+  }
+
+  .hero .hero-layout {
+    display: block;
+  }
+
+  /* image in flow, full width — its aspect defines the hero height */
+  .hero .hero-media {
+    aspect-ratio: auto;
+    line-height: 0;
+  }
+
+  .hero .hero-media img {
     height: auto;
+    object-position: center;
   }
 
-  .hero.mobile-overlay .hero-content {
-    padding-bottom: 88px;
+  /* content centered over the artwork; copy occupies the left side
+     (source: top:50%; left:50%; transform:translate(-50%,-50%)) */
+  .hero .hero-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 24px;
+    text-align: left;
   }
 
-  .hero.mobile-overlay .hero-media::after {
-    background:
-      linear-gradient(
-        180deg,
-        rgb(48 164 210 / 88%) 0%,
-        rgb(24 110 156 / 82%) 45%,
-        rgb(14 73 108 / 52%) 100%
-      );
+  .hero .hero-content h1 {
+    width: 64%;
+    margin-bottom: 24px;
+    font-size: 56px;
+    line-height: 60px;
   }
 
-  .hero.focus-left .hero-media img {
-    object-position: 40% 24%;
+  .hero .hero-content p {
+    width: 60%;
+    font-size: 18px;
+    line-height: 26px;
   }
 
-  .hero.focus-center .hero-media img {
-    object-position: 54% 24%;
+  /* the generic paragraph rule above must not stretch the disclaimer */
+  .hero .hero-content p.hero-disclaimer {
+    width: auto;
+    font-size: 16px;
+    line-height: 18px;
   }
 
-  .hero.focus-right .hero-media img {
-    object-position: 68% 24%;
+  .hero .hero-cta-container {
+    width: 60%;
+  }
+
+  .hero a.hero-cta {
+    min-width: 0;
+  }
+
+  .hero .hero-disclaimer {
+    right: 80px;
+    bottom: 24px;
+    font-size: 16px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SPLIT VARIANT  (.teaser.homeBanner split-image-section equivalent)
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* the split hero manages its own colors/height — neutralize base hero chrome */
+.hero.split {
+  min-height: 0;
+  color: inherit;
+  background: none;
+}
+
+.hero.split .hero-panels {
+  display: grid;
+  grid-template-columns: 1fr; /* mobile: panels stack */
+}
+
+/* the image defines the panel height; content overlays it */
+.hero.split .hero-panel {
+  position: relative;
+  line-height: 0;
+}
+
+.hero.split .hero-panel-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.hero.split .hero-panel-content {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  padding: var(--hero-overlay-pad);
+  font-family: var(--hero-display-font);
+  line-height: normal;
+  text-align: center;
+}
+
+.hero.split .hero-panel-content p {
+  margin: 0 0 8px;
+  font-weight: 700;
+}
+
+/* ── Panel 1 — white copy over the dark photo ─────────────────────────── */
+
+.hero.split .hero-panel-1 .hero-panel-content {
+  padding-top: 24px;
+  color: #fff;
+}
+
+.hero.split .hero-panel-1 .hero-panel-content p {
+  font-size: 18px;
+  line-height: 26px;
+}
+
+/* ── Panel 2 — teal copy, red accents, CTA ────────────────────────────── */
+
+.hero.split .hero-panel-2 .hero-panel-content {
+  padding: 20px 20px 10px;
+  color: var(--hero-teal);
+}
+
+.hero.split .hero-panel-2 .hero-panel-content p {
+  margin-bottom: 4px;
+  font-size: 20px;
+  line-height: 26px;
+}
+
+/* ── Display text (.split-large-text) ─────────────────────────────────── */
+
+.hero.split .hero-display {
+  margin: 0 0 16px;
+  color: inherit;
+  font-family: inherit;
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 36px;
+}
+
+/* bold words inside the display line → brand red (.split-color-chronic-red) */
+.hero.split .hero-display strong {
+  color: var(--hero-accent);
+  font-weight: inherit;
+}
+
+/* ── Sub-text (.split-sub-text) ───────────────────────────────────────── */
+
+.hero.split .hero-panel-content p.hero-subtext {
+  width: 80%;
+  margin: 0 auto;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+/* ── CTA — rose pill (.cmp-teaser__action-link) ───────────────────────── */
+
+.hero.split .hero-cta-container {
+  margin: 24px 0 0;
+  width: auto;
+}
+
+.hero.split a.hero-cta {
+  min-width: 0;
+  padding: 19px 23px 19px 32px;
+}
+
+/* ── "Actor portrayal" disclaimer ─────────────────────────────────────── */
+
+.hero.split .hero-panel-content p.hero-disclaimer {
+  right: 21px;
+  bottom: 6px;
+  font-size: 12px;
+}
+
+/* ── Split variant: desktop (≥ 900px) ─────────────────────────────────── */
+
+@media (width >= 900px) {
+  .hero.split .hero-panels {
+    grid-template-columns: 1fr 1fr; /* side-by-side panels */
+  }
+
+  .hero.split .hero-panel-1 .hero-panel-content p {
+    font-size: 22px;
+  }
+
+  .hero.split .hero-panel-2 .hero-panel-content {
+    padding-top: 40px;
+  }
+
+  .hero.split .hero-panel-2 .hero-panel-content p {
+    margin-bottom: 8px;
+    font-size: 28px;
+    line-height: 34px;
+  }
+
+  .hero.split .hero-display {
+    font-size: 48px;
+    line-height: 40px;
+  }
+
+  /* re-stated after the panel-2 paragraph rule, which ties on specificity */
+  .hero.split .hero-panel-content p.hero-subtext {
+    width: 60%;
+    font-size: 16px;
+    line-height: 19px;
+  }
+
+  .hero.split .hero-panel-content p.hero-disclaimer {
+    right: 50px;
+    bottom: 30px;
+    font-size: 16px;
+  }
+}
+
+/* ── Split variant: large desktop (≥ 1440px) ──────────────────────────── */
+
+@media (width >= 1440px) {
+  .hero.split .hero-display {
+    margin-bottom: 15px;
+    font-size: 64px;
+    line-height: 70px;
+  }
+
+  .hero.split .hero-panel-content p.hero-subtext {
+    width: 80%;
+    font-size: 18px;
+    line-height: 22px;
+  }
+}
+
+/* ── Reduced motion ────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .hero a.hero-cta {
+    transition: none;
   }
 }

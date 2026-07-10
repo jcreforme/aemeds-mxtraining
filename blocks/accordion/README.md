@@ -1,6 +1,6 @@
 # Accordion Block
 
-Accordion block para AEM EDS con soporte de contenido anidado (incluyendo otros blocks como `columns`, `cards`, etc.). Soporta dos variantes: **exclusive** (un panel abierto) y **multi-open** (múltiples paneles abiertos simultáneamente).
+Accordion block para AEM EDS con soporte de contenido anidado (incluyendo otros blocks como `columns`, `cards`, etc.). Soporta tres variantes: **exclusive** (un panel abierto), **multi-open** (múltiples paneles abiertos simultáneamente) y **faq** (diseño de tarjetas de la página [vyepti.com/vyepti-faq](https://www.vyepti.com/vyepti-faq)).
 
 ## 1. Authoring Contract
 
@@ -40,6 +40,41 @@ En esta variante:
 - El primer item inicia abierto; los demás cerrados.
 - Cada click alterna el estado del panel clickeado independientemente.
 
+### Variante FAQ
+
+Réplica del diseño de la página de FAQs del sitio en vivo. Agregar la clase `faq` al bloque:
+
+```text
+| accordion (faq) | |
+| About VYEPTI                | [preguntas y respuestas] |
+| Treatment with VYEPTI       | [preguntas y respuestas] |
+| Access and Support          | [preguntas y respuestas] |
+```
+
+Diferencias con el accordion estándar:
+
+- **Todos los items inician cerrados** (en el estándar el primero inicia abierto).
+- Cada categoría se renderiza como **tarjeta redondeada** (fondo `#eff6f9`, radio 10px, sombra suave, separación de 24px).
+- Título en gris oscuro semi-bold (24px móvil / 28px desktop), chevron teal a la derecha.
+- Comportamiento exclusive: abrir una categoría cierra las demás (combinable con `multi-open` si se requiere).
+
+**Contenido del panel (contrato de autoría):**
+
+- Cada **pregunta** se escribe como **Heading 3** (o Heading 4) dentro de la celda de contenido.
+- La **respuesta** son los párrafos/listas que siguen a cada pregunta.
+- A partir de la segunda pregunta se agrega automáticamente una línea divisoria gris (`#a4a4a4`) arriba de la pregunta.
+- Los links se renderizan en teal, bold y subrayados (como en el sitio en vivo).
+
+```text
+| accordion (faq) | |
+| About VYEPTI | ### What is VYEPTI?              ← pregunta (H3)
+|              | VYEPTI is a prescription medicine…  ← respuesta
+|              | ### How does VYEPTI work?        ← pregunta (H3)
+|              | VYEPTI is an aCGRP…                 ← respuesta |
+```
+
+Página de prueba: `drafts/faq-test.html` (`http://localhost:3000/drafts/faq-test`).
+
 ### Contenido Anidado
 
 Si un panel contiene blocks anidados (`columns`, `cards`, `hero`, etc.):
@@ -50,7 +85,8 @@ Si un panel contiene blocks anidados (`columns`, `cards`, `hero`, etc.):
 
 ## 2. Accessibility
 
-- Cada header es un `<button>` con `aria-expanded` (indica si el panel está abierto).
+- Cada trigger es un `<button>` envuelto en un `<h3 class="accordion-header">`, igual que el sitio en vivo — los títulos del accordion forman parte del outline del documento.
+- Cada `<button>` expone `aria-expanded` (indica si el panel está abierto).
 - Cada panel usa `role="region"` y `aria-labelledby` (enlaza con su título).
 - Soporte completo para navegación por teclado: Tab, Space/Enter para activar.
 - Respeta `prefers-reduced-motion`: desactiva animaciones si el usuario lo prefiere.
@@ -96,6 +132,14 @@ Variables CSS disponibles en `accordion.css`:
 --accordion-header-text       /* Color del texto */
 --accordion-body-bg           /* Background del panel */
 --accordion-icon-color        /* Color del chevron icon */
+```
+
+Variables adicionales de la variante FAQ:
+
+```css
+--accordion-faq-card-bg        /* Fondo de la tarjeta (#eff6f9) */
+--accordion-faq-title-color    /* Color del título y preguntas (#484848) */
+--accordion-faq-divider-color  /* Línea divisoria entre preguntas (#a4a4a4) */
 ```
 
 ## 6. Performance Notes

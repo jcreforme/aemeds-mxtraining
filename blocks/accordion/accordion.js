@@ -40,6 +40,11 @@ function createAccordionItem({
   trigger.setAttribute('aria-controls', panelId);
   trigger.textContent = title;
 
+  // heading wrapper gives the trigger a place in the document outline
+  const header = document.createElement('h3');
+  header.className = 'accordion-header';
+  header.append(trigger);
+
   const panel = document.createElement('div');
   panel.id = panelId;
   panel.className = 'accordion-panel';
@@ -59,12 +64,12 @@ function createAccordionItem({
   });
 
   panel.append(panelContent);
-  item.append(trigger, panel);
+  item.append(header, panel);
   return item;
 }
 
 function setItemExpandedState(item, expanded) {
-  const trigger = item.querySelector(':scope > .accordion-trigger');
+  const trigger = item.querySelector(':scope > .accordion-header > .accordion-trigger');
   const panel = item.querySelector(':scope > .accordion-panel');
   if (!trigger || !panel) return;
 
@@ -136,7 +141,7 @@ async function animatePanelClose(panel) {
 }
 
 async function setItemExpanded(item, expanded, { animate = true } = {}) {
-  const trigger = item.querySelector(':scope > .accordion-trigger');
+  const trigger = item.querySelector(':scope > .accordion-header > .accordion-trigger');
   const panel = item.querySelector(':scope > .accordion-panel');
   if (!trigger || !panel) return;
 
@@ -183,7 +188,7 @@ async function expandItem(items, targetItem) {
 
 async function toggleItem(item) {
   const isExpanded = item
-    .querySelector(':scope > .accordion-trigger')
+    .querySelector(':scope > .accordion-header > .accordion-trigger')
     ?.getAttribute('aria-expanded') === 'true';
   await setItemExpanded(item, !isExpanded);
 
@@ -204,6 +209,8 @@ export default async function decorate(block) {
   if (!sourceRows.length) return;
 
   const isMultiOpen = block.classList.contains('multi-open');
+  // FAQ variant starts fully collapsed, matching the live FAQ page
+  const expandFirst = !block.classList.contains('faq');
   const uid = `accordion-${Math.random().toString(36).slice(2, 8)}`;
   const items = [];
 
@@ -220,7 +227,7 @@ export default async function decorate(block) {
       panelId: `${uid}-panel-${index + 1}`,
       title,
       contentCells,
-      expanded: index === 0,
+      expanded: expandFirst && index === 0,
     });
 
     items.push(item);
@@ -229,7 +236,7 @@ export default async function decorate(block) {
   block.replaceChildren(...items);
 
   items.forEach((item) => {
-    const trigger = item.querySelector(':scope > .accordion-trigger');
+    const trigger = item.querySelector(':scope > .accordion-header > .accordion-trigger');
     if (!trigger) return;
 
     trigger.addEventListener('click', async () => {
@@ -245,6 +252,13 @@ export default async function decorate(block) {
       }
     });
   });
+
+  if (!expandFirst) {
+    items.forEach((item) => {
+      setItemExpandedState(item, false);
+    });
+    return;
+  }
 
   if (items[0]) {
     await setItemExpanded(items[0], true, { animate: false });

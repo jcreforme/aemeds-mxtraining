@@ -1,6 +1,5 @@
 .paragraph-block, .paragraph-center {
   max-width: 1140px;
-  padding: 0 30px;
 }
 
 .paragraph-block h2,
@@ -84,12 +83,12 @@
   .paragraph-block, .paragraph-center {
     padding: 0 10px;
   }
-  
+
 }
 
 @media (width < 450px) {
   .paragraph-block, .paragraph-center {
     padding: 0;
   }
-  
+
 }

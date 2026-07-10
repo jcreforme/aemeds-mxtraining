@@ -1,29 +1,33 @@
-/*
- * ISI (Important Safety Information) block
- *
- * Replicates the two-section Vyepti.com AEM pattern:
- *   .isi-tray   — fixed bottom sticky tray (mirrors #isiFixedBottom)
- *   .isi-panel  — inline panel in document flow (mirrors #SafetyPanelInfo)
- *
- * All selectors are scoped to .isi / .isi-tray — no global style leaks.
- * Responsive: mobile-first; 900 px breakpoint for desktop layout.
- */
-
-/* ── Design tokens ─────────────────────────────────────────────────────── */
-
 :root {
-  --isi-color-heading: #41748d;
+  /* brand colors (source: vyepti.com clientlib) */
+  --isi-color-heading: #41748d; /* tray headings */
+  --isi-color-heading-panel: var(--link-color, #046183); /* inline panel headings */
   --isi-color-text: #484848;
   --isi-color-border: #d1d1d1;
   --isi-color-bg: var(--background-color, #fff);
-  --isi-color-tray-accent: #41748d;
-  --isi-font-size-body: 14px;
-  --isi-font-size-heading: 15px;
+  --isi-color-hover: var(--link-hover-color, #7ebcc6);
+
+  /* typography */
+  --isi-font-size-body: 16px;
+  --isi-line-height-body: 1.5; /* 24px at 16px */
+  --isi-font-size-heading: 18px;
+  --isi-line-height-heading: 22px;
+
+  /* motion + sizing */
+  --isi-transition: 0.3s ease-in-out;
+  --isi-tray-body-max: 55vh;
+  --isi-tray-z: 100;
 
   /* Set by JS to equal the collapsed tray header height.          */
 
   /* Consumed as body padding-bottom so content is never hidden.   */
   --isi-tray-offset: 0px;
+}
+
+@media (width >= 900px) {
+  :root {
+    --isi-tray-body-max: 45vh;
+  }
 }
 
 /* ── Body offset — reserved from first paint (no CLS) ─────────────────── */
@@ -34,12 +38,16 @@ body {
 
 /* ── Shared typography ─────────────────────────────────────────────────── */
 
+.isi-container{
+  border-top: 1px solid var(--isi-color-border);
+}
+
 .isi-panel,
 .isi-tray {
   color: var(--isi-color-text);
   font-family: var(--body-font-family, sans-serif);
   font-size: var(--isi-font-size-body);
-  line-height: 1.5;
+  line-height: var(--isi-line-height-body);
 }
 
 .isi-panel h5,
@@ -48,38 +56,50 @@ body {
   color: var(--isi-color-heading);
   font-size: var(--isi-font-size-heading);
   font-weight: 700;
-  line-height: 1.2;
+  line-height: var(--isi-line-height-heading);
   text-transform: uppercase;
   letter-spacing: 0.02em;
 }
 
+/* inline panel headings use the darker teal from #SafetyPanelInfo */
+.isi-panel h5 {
+  margin-bottom: 16px;
+  color: var(--isi-color-heading-panel);
+}
+
 .isi-panel p,
 .isi-tray p {
-  margin: 0 0 12px;
+  margin: 0 0 15px;
 }
 
 .isi-panel ul,
 .isi-tray ul {
-  margin: 0 0 12px;
+  margin: 0 0 15px;
   padding-left: 20px;
+  list-style-type: disc;
 }
 
 .isi-panel li,
 .isi-tray li {
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .isi-panel a,
 .isi-tray a {
   color: var(--isi-color-heading);
-  font-weight: 700;
+  font-weight: 600;
   text-decoration: underline;
+  text-underline-position: under;
+}
+
+.isi-panel a {
+  color: var(--isi-color-heading-panel);
 }
 
 .isi-panel a:hover,
 .isi-tray a:hover {
-  opacity: 0.8;
-  text-decoration: none;
+  color: var(--isi-color-hover);
+  text-decoration: underline;
 }
 
 /* ── +/− toggle button ─────────────────────────────────────────────────── */
@@ -93,17 +113,18 @@ body {
   margin: 0;
   padding: 0;
   background: transparent;
-  border: 1.5px solid var(--isi-color-heading);
+  border: 2px solid currentcolor;
   border-radius: 50%;
   color: var(--isi-color-heading);
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: color 0.2s ease;
 }
 
-.isi-toggle:hover,
+.isi-toggle:hover {
+  color: var(--isi-color-hover);
+}
+
 .isi-toggle:focus-visible {
-  background-color: var(--isi-color-heading);
-  color: #fff;
   outline: 2px solid var(--isi-color-heading);
   outline-offset: 2px;
 }
@@ -145,12 +166,12 @@ body {
 .isi-tray {
   position: fixed;
   inset: auto 0 0;
-  z-index: 100;
+  z-index: var(--isi-tray-z);
   background: var(--isi-color-bg);
-  border-top: 3px solid var(--isi-color-tray-accent);
-  box-shadow: 0 -2px 16px rgb(0 0 0 / 12%);
+  border-top: 1px solid var(--isi-color-border);
+  box-shadow: 0 -2px 12px rgb(0 0 0 / 8%);
   transform: translateY(0);
-  transition: transform 0.3s ease;
+  transition: transform var(--isi-transition);
   will-change: transform;
 }
 
@@ -170,9 +191,14 @@ body {
   grid-template-areas: 'isi toggle';
   gap: 0 12px;
   align-items: start;
-  padding: 12px 16px;
+  padding: 13px 16px 8px;
   cursor: pointer;
   user-select: none;
+}
+
+/* collapsed header shows heading + one summary paragraph, nothing below */
+.isi-tray-header p:last-child {
+  margin-bottom: 0;
 }
 
 /* ── Left column — ISI summary (all breakpoints) ─────────────────────── */
@@ -185,7 +211,7 @@ body {
 .isi-tray-subtitle {
   display: block;
   color: var(--isi-color-heading);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -210,7 +236,7 @@ body {
 .isi-tray-body {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.35s ease;
+  transition: max-height var(--isi-transition);
 }
 
 .isi-tray-body-inner {
@@ -218,9 +244,11 @@ body {
 }
 
 .isi-tray.isi-tray-expanded .isi-tray-body {
-  max-height: 55vh;
+  max-height: var(--isi-tray-body-max);
   overflow-y: auto;
   overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--isi-color-heading) transparent;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -230,15 +258,15 @@ body {
 .isi-panel {
   position: relative;
   box-sizing: border-box;
-  padding: 24px 16px 32px;
-  border-top: 1px solid var(--isi-color-border);
+  padding: 48px 16px 32px;
   background: var(--isi-color-bg);
+  scroll-margin-top: 24px; /* breathing room for #SafetyPanelInfo deep links */
 }
 
 /* ── ISI content sections (AU + ISI) ─────────────────────────────────── */
 
 .isi-section + .isi-section {
-  margin-top: 20px;
+  margin-top: 24px;
 }
 
 /* ── ISI detail body — always visible in the inline panel ───────────── */
@@ -247,46 +275,8 @@ body {
   margin-top: 16px;
 }
 
-/* ── Back-to-top sticky button ───────────────────────────────────────── */
-
-.isi-back-top {
-  position: sticky;
-  top: 16px;
-  float: right;
-  width: 40px;
-  height: 40px;
-  margin: 0 0 8px 8px;
-  z-index: 10;
-}
-
-.isi-back-top-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  background: var(--isi-color-heading);
-  border-radius: 50%;
-  color: #fff;
-  text-decoration: none;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
-  transition: opacity 0.2s ease;
-}
-
-.isi-back-top-link:hover {
-  opacity: 0.85;
-  text-decoration: none;
-}
-
-/* Upward arrow via CSS */
-.isi-back-top-link::before {
-  content: '';
-  display: block;
-  width: 10px;
-  height: 10px;
-  border-top: 2px solid #fff;
-  border-right: 2px solid #fff;
-  transform: rotate(-45deg) translate(2px, 2px);
+.isi-section-detail > :last-child {
+  margin-bottom: 0;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -300,7 +290,8 @@ body {
     grid-template-columns: 1fr 1fr auto;
     grid-template-areas: 'isi au toggle';
     gap: 0 24px;
-    padding: 14px max(32px, calc((100% - 1200px) / 2));
+    max-width: 1140px;
+    margin: 0 auto;
   }
 
   /* Show Approved Use column on desktop */
@@ -317,14 +308,18 @@ body {
     padding: 4px max(32px, calc((100% - 1200px) / 2)) 24px;
   }
 
-  .isi-tray.isi-tray-expanded .isi-tray-body {
-    max-height: 45vh;
-  }
-
   /* ── Inline panel: constrained max-width with comfortable padding ─── */
 
   .isi-panel {
-    padding: 32px max(32px, calc((100% - 1200px) / 2)) 48px;
+    padding: 64px max(32px, calc((100% - 1200px) / 2));
+  }
+
+  .isi-panel p {
+    margin-bottom: 24px;
+  }
+
+  .isi-section-detail {
+    margin-top: 24px;
   }
 }
 
@@ -333,8 +328,8 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .isi-tray,
   .isi-tray-body,
-  .isi-toggle::after,
-  .isi-back-top-link {
+  .isi-toggle,
+  .isi-toggle::after {
     transition: none;
   }
 }

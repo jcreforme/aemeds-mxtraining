@@ -1,115 +1,136 @@
-# ISI Block — Authoring Guide
+# ISI Block — Important Safety Information
 
-The ISI (Important Safety Information) block renders the required pharmaceutical safety disclosure. It automatically produces two coordinated components from a single authored table:
+The ISI block renders the required pharmaceutical safety disclosure on every page. From a single shared content source (`/fragments/isi`) it produces two coordinated components:
 
-1. **Sticky bottom tray** — fixed to the viewport bottom while the user reads the page.
-2. **Inline panel** — anchored in the page flow, above the footer, at `#SafetyPanelInfo`.
-
----
-
-## Authoring in Google Docs / SharePoint
-
-Create a one-column table with the block name **isi** in the header row, and all content in a single body cell:
-
-| isi |
-|-----|
-| *(all ISI content — see structure below)* |
-
-### Content structure inside the cell
-
-The block splits content into sections using **Heading 5** (`#####`) as dividers. You must have exactly two sections in this order:
-
-1. **APPROVED USE** — heading + one paragraph summary
-2. **IMPORTANT SAFETY INFORMATION** — heading + one summary paragraph + full detail (bullet lists, additional paragraphs, PI/PPI links)
-
-```
-##### APPROVED USE
-VYEPTI is a prescription medicine used for the preventive treatment of migraine in adults.
-
-##### IMPORTANT SAFETY INFORMATION
-**Do not receive VYEPTI** if you have a known allergy to eptinezumab-jjmr or its ingredients.
-
-**VYEPTI may cause serious side effects such as:**
-- **Allergic reactions.** Call your healthcare provider or get emergency medical help right away…
-- **High blood pressure.** High blood pressure or worsening of high blood pressure can happen…
-- **Raynaud's phenomenon.** A type of circulation problem…
-
-**Before starting VYEPTI,** tell your healthcare provider about all your medical conditions…
-
-**Tell your healthcare provider** about all the medicines you take…
-
-**The most common side effects** of VYEPTI include stuffy nose and scratchy throat…
-
-**You are encouraged to report negative side effects of prescription drugs to the FDA.
-Visit [www.fda.gov/medwatch](https://www.fda.gov/medwatch) or call 1-800-FDA-1088.**
-
-**For more information, please see the [Prescribing Information](…) and [Patient Information](…).**
-```
+1. **Sticky bottom tray** — fixed to the viewport bottom while the user reads the page. Collapsed, it shows the ISI heading plus the most critical disclosure (and, on desktop, the Approved Use column). A **+/−** button expands the full detail in a scrollable tray.
+2. **Inline panel** — anchored in the page flow above the footer at `#SafetyPanelInfo`, always showing the full safety information. When it scrolls into view, the sticky tray automatically slides away.
 
 ---
 
-## What renders where
+## Developer Notes
 
-### Sticky bottom tray
+### Content sourcing — always from `/fragments/isi`
 
-| Content | Desktop | Mobile |
-|---------|---------|--------|
-| ISI heading + **first paragraph** | Left column | Full width |
-| "AND APPROVED USE" subtitle | Hidden | Shown inside ISI heading |
-| APPROVED USE heading + paragraph | Right column | Hidden |
-| +/− toggle button | Far right | Far right |
-| Full ISI detail (bullets, paragraphs) | Slides in below header on expand | Slides in below header on expand |
+The block **fetches its own content** from `/fragments/isi.plain.html` inside `decorate()`. Pages do not need to author the ISI at all: `loadISI()` in `scripts/scripts.js` injects an empty `isi` block as the last section of `main` on every page (skipped on `/fragments/*` pages and when an author already placed one).
 
-- The tray **automatically slides away** when the user scrolls to the inline panel.
-- Clicking the header area or the +/− button **expands / collapses** the full ISI detail.
-- The Escape key collapses the tray when expanded.
-- Links inside the expanded body open normally without collapsing the tray.
+Path resolution order inside the block:
 
-### Inline panel (`#SafetyPanelInfo`)
+1. A link authored inside the block table (same-origin) — lets a page point at an alternate fragment, e.g. `/fragments/isi-es`.
+2. A plain-text path authored in the cell (e.g. `/fragments/isi-hcp`).
+3. Default: `/fragments/isi`.
 
-All content is always visible — there is no accordion here. Layout is single-column:
+Content authored directly in the block table is used only as a **fallback** if the fragment request fails.
 
-1. APPROVED USE heading + paragraph
-2. IMPORTANT SAFETY INFORMATION heading + first paragraph
-3. Full ISI detail (bullets and remaining paragraphs)
+### The "loading state lock" bug — and how it was fixed
 
-A **back-to-top button** (blue circle, top-right) is always visible and scrolls the user to the top of the page.
+**Symptom:** while the ISI fragment was being fetched, other sections of the page stayed stuck at `data-section-status="initialized"` / `"loading"` with `display: none` inline styling, so page content never appeared.
+
+**Root cause:** the previous implementation fetched the fragment in `scripts.js`, manually created a section, set it to `data-section-status="initialized"` + `display: none`, and awaited the whole chain inside `loadLazy()`. Any rejection, hang, or re-decoration along that path left sections permanently hidden, and the `await` chained the footer and lazy assets behind the fragment network request.
+
+**Fix — three independent safety layers:**
+
+1. **The block's promises always resolve.** The fetch in `isi.js` is time-boxed with `AbortSignal.timeout(5000)` and every failure path is caught and resolved to `null`. `decorate()` can therefore never reject or hang, so `loadBlock()` / `loadSection()` in `aem.js` always complete and transition sections to `data-section-status="loaded"`.
+2. **Fail-open guard.** `decorate()` has a `finally` clause that force-releases its host section (`sectionStatus = 'loaded'`, `display` cleared) — the same safety net used by the `fragment` block. Even a bug inside the decoration logic cannot leave the section hidden.
+3. **No manual pipeline surgery, no blocking await.** `loadISI()` in `scripts.js` now only appends an empty block and runs it through the standard `decorateBlock()` → `loadSection()` pipeline — it never pre-hides anything. It is called **without `await`** in `loadLazy()`, so the footer, lazy CSS, and fonts load regardless of how slow the fragment is.
+
+If the fragment is missing entirely, the block removes itself cleanly and the page renders normally — the ISI must never take the page down with it.
+
+### Files
+
+| File | Purpose |
+|------|---------|
+| `blocks/isi/isi.js` | Fragment fetch, content parsing, tray + panel construction, toggle/docking behavior |
+| `blocks/isi/isi.css` | All styling, scoped to `.isi` / `.isi-tray`; tokens extracted from the production vyepti.com clientlib |
+| `scripts/scripts.js` → `loadISI()` | Auto-injection of the block on every page (lazy phase, fire-and-forget) |
+
+### Behavior reference
+
+- Clicking anywhere on the tray header (or the +/− button) expands/collapses the detail body (`max-height` transition, `0.3s ease-in-out`).
+- <kbd>Esc</kbd> collapses the tray and returns focus to the toggle.
+- An `IntersectionObserver` docks the tray (slides it out) while `#SafetyPanelInfo` is in view.
+- A `ResizeObserver` keeps `--isi-tray-offset` equal to the collapsed tray height; the body gets that much `padding-bottom` so the tray never covers page content (no CLS).
+- The toggle is a real `<button>` with `aria-expanded` / `aria-controls`; the tray is `role="complementary"`, the detail body `role="region"`.
+- Links ending in `.pdf` (Prescribing/Patient Information) open in a new tab.
 
 ---
 
-## Rules for authors
+## Authoring Guide (Word / Google Docs)
+
+### Where the content lives
+
+All ISI content is authored **once**, in the document at **`/fragments/isi`** in your content drive (Google Docs or SharePoint/Word). Every page on the site picks it up automatically — you do **not** add an ISI block to individual pages.
+
+To update the safety information: edit the `/fragments/isi` document, then **Preview** and **Publish** it with the AEM Sidekick. Every published page shows the new content immediately.
+
+### Structure of the `/fragments/isi` document
+
+Write the content as plain rich text (no table needed in the fragment). Use **Heading 5** for the two section headings — the block splits the content on them:
+
+> ##### APPROVED USE
+> VYEPTI is a prescription medicine used for the preventive treatment of migraine in adults.
+>
+> ##### IMPORTANT SAFETY INFORMATION
+> **Do not receive VYEPTI** if you have a known allergy to eptinezumab-jjmr or its ingredients.
+>
+> **VYEPTI may cause serious side effects such as:**
+> - **Allergic reactions.** Call your healthcare provider or get emergency medical help right away…
+> - **High blood pressure.** …
+> - **Raynaud's phenomenon.** …
+>
+> *(remaining paragraphs, FDA MedWatch notice, PI/PPI links)*
+
+### What renders where
+
+| Content | Sticky tray (collapsed) | Sticky tray (expanded) | Inline panel |
+|---------|------------------------|------------------------|--------------|
+| APPROVED USE heading + first paragraph | Right column (desktop only; mobile shows "AND APPROVED USE" subtitle) | same | Top section |
+| IMPORTANT SAFETY INFORMATION heading + **first** paragraph | Left column / full width on mobile | same | Middle section |
+| Everything after the first ISI paragraph | Hidden | Scrollable body below the header | Bottom, always visible |
+
+### Rules for authors
 
 | Rule | Detail |
 |------|--------|
 | Section order | APPROVED USE must come **before** IMPORTANT SAFETY INFORMATION |
-| Section headings | Must use **Heading 5** — not bold text, not Heading 4 or 6 |
-| APPROVED USE body | One paragraph only. Additional paragraphs will appear in the tray summary but not the tray detail |
-| ISI summary | The **first** paragraph after the IMPORTANT SAFETY INFORMATION heading appears in the collapsed tray. Make it the most critical disclosure ("Do not receive…") |
-| ISI detail | Everything after the first ISI paragraph is hidden in the tray until the user expands it |
+| Section headings | Must be **Heading 5** — not bold text, not Heading 4 or 6 |
+| APPROVED USE body | Keep it to one paragraph |
+| First ISI paragraph | Appears in the collapsed tray on every page — make it the most critical disclosure ("Do not receive…") and keep it short (one to two lines) |
 | PDF links | Links ending in `.pdf` automatically open in a new tab |
-| Placement on page | Place the ISI block as the **last section** on the page, just above the footer |
+| Preview before publish | Check one page's sticky tray and inline panel in Preview before publishing the fragment |
 
----
+### Optional: placing the block on a page manually
 
-## Page placement example
+Only needed to point a specific page at a **different** fragment (e.g. a Spanish or HCP variant). Insert a one-column table:
 
-```
-[Hero]
-[Content sections…]
-[ISI]        ← last section, just above footer
-[Footer]
-```
+| isi |
+|-----|
+| /fragments/isi-es |
 
-The ISI block must be in its own section (its own pair of `---` dividers in Google Docs, or its own row in the page structure). Do not add other content blocks inside the same section.
+Leave the second cell empty to use the default `/fragments/isi`. Place the block as the **last section** of the page, in its own section (its own `---` dividers).
 
----
+### Linking to the full safety information
 
-## Anchor links
-
-Other blocks on the page can link to the inline panel using the anchor `#SafetyPanelInfo`:
+Any page or the footer can deep-link to the inline panel:
 
 ```
 [See full Important Safety Information](#SafetyPanelInfo)
 ```
 
-This is the same anchor used in the real site footer and utility navigation.
+---
+
+## Visual QA Checklist
+
+Verify in the browser inspector against the brand reference (vyepti.com):
+
+- [ ] `.isi-tray` — `border-top: 1px solid #d1d1d1`, `background: #fff`, body text `#484848` at `16px`, `line-height: 24px`
+- [ ] `.isi-tray h5` / `.isi-tray-subtitle` — color `#41748d`, `18px/22px`, `font-weight: 700`, uppercase
+- [ ] `.isi-panel h5` — color `#046183` (darker teal — intentionally different from the tray)
+- [ ] `.isi-toggle` — 26px circle, color `#41748d`, hover swaps to `#7ebcc6` (no fill), visible `:focus-visible` outline
+- [ ] Tray/body transitions — `0.3s ease-in-out`; none under `prefers-reduced-motion: reduce`
+- [ ] Desktop ≥900px — tray header is `1fr 1fr auto` grid (ISI | APPROVED USE | toggle), gutters `max(32px, calc((100% - 1200px) / 2))` matching `main > .section > div`
+- [ ] Mobile <900px — AU column hidden, "AND APPROVED USE" subtitle visible inside the ISI heading
+- [ ] Expanded tray — detail body scrolls at `max-height: 55vh` (mobile) / `45vh` (desktop), page behind does not scroll-chain
+- [ ] `body` `padding-bottom` equals collapsed tray height (`--isi-tray-offset`), and drops to `0` when the tray docks
+- [ ] Scroll to the inline panel — tray slides out (`translateY(110%)`); scroll back up — it returns
+- [ ] `ul` — `padding-left: 20px`, `li` `margin-bottom: 10px`, disc bullets
+- [ ] PI/PPI PDF links — underlined, `font-weight: 600`, open in a new tab

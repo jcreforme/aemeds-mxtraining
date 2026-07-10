@@ -17,7 +17,9 @@ function closeOnEscape(e) {
     } else if (!isDesktop.matches) {
       // eslint-disable-next-line no-use-before-define
       toggleMenu(nav, navSections);
-      nav.querySelector('button').focus();
+      // return focus to the hamburger (the first nav button is a utility
+      // dropdown, not the menu toggle)
+      nav.querySelector('.nav-hamburger button').focus();
     }
   }
 }
@@ -210,7 +212,7 @@ function markActiveNavItem(navSections) {
 export default async function decorate(block) {
   // load nav as fragment
   const navMeta = getMetadata('nav');
-  const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
+  const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/fragments/nav';
   const fragment = await loadFragment(navPath);
 
   // decorate nav DOM
@@ -322,9 +324,12 @@ export default async function decorate(block) {
   navWrapper.append(nav);
   block.append(navWrapper);
 
-  // keep the space reserved for the fixed header in sync with its
-  // rendered height (the utility strip wraps to 2-3 rows at narrow widths,
-  // so a static --nav-height would let the header overlap page content)
+  // The header is STATIC — it sits in the document flow and scrolls out of
+  // view naturally (no fixed/sticky positioning, no scroll listeners). The
+  // <header> element reserves --nav-height of space before this block loads
+  // (see styles.css); keep that variable in sync with the rendered height so
+  // the reservation is exact (the utility strip wraps to 2-3 rows at narrow
+  // widths, so a hardcoded --nav-height would leave a gap or an overlap).
   const syncNavHeight = () => {
     // when the mobile menu is open the nav fills the viewport (100dvh); don't
     // reserve that height for the page flow
@@ -338,30 +343,4 @@ export default async function decorate(block) {
   if (document.fonts?.ready) document.fonts.ready.then(syncNavHeight);
   window.addEventListener('load', syncNavHeight);
   window.addEventListener('resize', syncNavHeight);
-
-  // auto-hide the sticky-top header on scroll down, reveal on scroll up.
-  // The reserved space (--nav-height on <header>) stays, so page content
-  // never jumps when the wrapper slides away.
-  let lastScrollY = window.scrollY;
-  let ticking = false;
-  const onScroll = () => {
-    const y = Math.max(0, window.scrollY);
-    // never hide while the mobile menu is open (it fills the viewport)
-    const menuOpen = nav.getAttribute('aria-expanded') === 'true' && !isDesktop.matches;
-    if (!menuOpen) {
-      if (y > lastScrollY && y > navWrapper.offsetHeight) {
-        navWrapper.classList.add('nav-hidden');
-      } else if (y < lastScrollY) {
-        navWrapper.classList.remove('nav-hidden');
-      }
-    }
-    lastScrollY = y;
-    ticking = false;
-  };
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      window.requestAnimationFrame(onScroll);
-      ticking = true;
-    }
-  }, { passive: true });
 }

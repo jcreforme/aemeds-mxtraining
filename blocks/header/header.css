@@ -1,24 +1,29 @@
 /* header and nav layout */
+
+/* ── Design tokens (source: vyepti.com clientlib .header-section/.navbar) ── */
+
+:root {
+  --header-bg: var(--background-color, #fff);
+  --header-border-color: #d1d1d1;
+  --header-shadow: 0 1px 8px rgb(0 0 0 / 12%);
+  --header-z: 4;
+}
+
+/*
+ * STATIC HEADER — the wrapper sits at the top of the document flow and
+ * scrolls out of view naturally, matching the source site (whose
+ * .header-section is position: relative). Do NOT reintroduce
+ * position: fixed / sticky or scroll-based show/hide logic here.
+ * position: relative carries no offsets; it exists only so z-index
+ * stacks the dropdowns and the open mobile menu above page content.
+ */
 header .nav-wrapper {
-  background-color: var(--background-color);
+  position: relative;
+  z-index: var(--header-z);
   width: 100%;
-  z-index: 2;
-  position: fixed;
-  top: 0;
-  transition: transform 0.3s ease;
-  will-change: transform;
-}
-
-/* auto-hide: slide the sticky-top header out of view when scrolling down,
-   reveal it when scrolling back up (toggled by header.js) */
-header .nav-wrapper.nav-hidden {
-  transform: translateY(-100%);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  header .nav-wrapper {
-    transition: none;
-  }
+  background-color: var(--header-bg);
+  border-bottom: 1px solid var(--header-border-color);
+  box-shadow: var(--header-shadow);
 }
 
 header nav {
@@ -54,17 +59,31 @@ header nav a:hover {
   text-decoration: none;
 }
 
-/* Mobile-only tagline — sits inline between logo and Menu button */
+/* Mobile-only tagline — sits inline between logo and Menu button.
+   Source: .vyepti-logo+p — 14px/18px 700 with a 1px×35px #979797 divider */
 header nav .nav-tagline {
   order: 2;
+  position: relative;
   flex: 1 1 auto;
   min-width: 0;
-  margin: 0 4px;
+  max-width: 167px;
+  margin: 0;
+  padding-left: 17px;
   color: var(--link-color);
-  font-size: 11px;
-  font-weight: 600;
-  font-style: italic;
-  line-height: 1.35;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 18px;
+}
+
+header nav .nav-tagline::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 1px;
+  height: 35px;
+  background: #979797;
+  transform: translateY(-50%);
 }
 
 /* brand bar: hamburger + logo + tools */
@@ -82,10 +101,13 @@ header nav .nav-bar {
 
 header nav .nav-hamburger {
   order: 3;
+  margin-left: auto;
 }
 
+/* icon stacked above the "Menu" label (source: .navbar-toggler + .menu-text) */
 header nav .nav-hamburger button {
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 6px;
   margin: 0;
@@ -120,57 +142,45 @@ header nav[aria-expanded="true"] .nav-bar {
   justify-content: flex-end;
 }
 
-header nav .nav-hamburger-icon,
-header nav .nav-hamburger-icon::before,
-header nav .nav-hamburger-icon::after {
+/* 29px × 3px bars spaced 10px apart (source: .navbar-toggler-icon) */
+header nav .nav-hamburger-icon {
   box-sizing: border-box;
   display: block;
   position: relative;
-  width: 24px;
+  width: 29px;
+  height: 23px;
 }
 
 header nav .nav-hamburger-icon::before,
 header nav .nav-hamburger-icon::after {
   content: "";
   position: absolute;
-  background: currentcolor;
-}
-
-header nav[aria-expanded="false"] .nav-hamburger-icon,
-header nav[aria-expanded="false"] .nav-hamburger-icon::before,
-header nav[aria-expanded="false"] .nav-hamburger-icon::after {
+  left: 0;
+  width: 29px;
   height: 3px;
   border-radius: 3px;
   background: currentcolor;
 }
 
+/* closed: top bar + middle bar (box-shadow) + bottom bar */
 header nav[aria-expanded="false"] .nav-hamburger-icon::before {
-  top: -7px;
+  top: 0;
+  box-shadow: 0 10px 0 currentcolor;
 }
 
 header nav[aria-expanded="false"] .nav-hamburger-icon::after {
-  top: 7px;
+  bottom: 0;
 }
 
-header nav[aria-expanded="true"] .nav-hamburger-icon {
-  height: 22px;
-}
-
+/* open: the two bars cross into a ✕ */
 header nav[aria-expanded="true"] .nav-hamburger-icon::before,
 header nav[aria-expanded="true"] .nav-hamburger-icon::after {
-  top: 4px;
-  left: 1px;
-  width: 22px;
-  height: 3px;
-  border-radius: 3px;
-  transform: rotate(45deg);
-  transform-origin: 2px 1px;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
 }
 
 header nav[aria-expanded="true"] .nav-hamburger-icon::after {
-  top: unset;
-  bottom: 4px;
-  transform: rotate(-45deg);
+  transform: translateY(-50%) rotate(-45deg);
 }
 
 /* brand */
@@ -343,6 +353,7 @@ header nav .nav-social a:hover .icon {
 /* utility strip */
 
 header nav .nav-utility {
+  position: relative; /* anchors the full-width mobile dropdown panels */
   background-color: var(--link-color);
   color: var(--background-color);
   font-size: 14px;
@@ -377,9 +388,12 @@ header nav .nav-utility .default-content-wrapper > ul > li:not(.nav-drop, .nav-s
   display: none;
 }
 
+/* Mobile: the two PI/PPI dropdowns centered with a white "|" divider
+   (source: .header-strip-mobile .navbar-nav) */
 header nav .nav-utility > .default-content-wrapper > ul {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
   gap: 4px 20px;
 }
@@ -388,8 +402,14 @@ header nav .nav-utility > .default-content-wrapper > ul > li > a {
   white-space: nowrap;
 }
 
+header nav .nav-utility .default-content-wrapper > ul > li.nav-drop + li.nav-drop {
+  border-left: 1px solid var(--background-color);
+  padding-left: 20px;
+}
+
+/* Mobile: dropdown panels anchor to the strip and span its full width */
 header nav .nav-utility .nav-drop {
-  position: relative;
+  position: static;
 }
 
 header nav .nav-utility .nav-drop > button {
@@ -424,18 +444,20 @@ header nav .nav-utility .nav-drop > button[aria-expanded="true"]::after {
   transform: rotate(-45deg);
 }
 
+/* Mobile panel: full strip width, red bottom border, centered items
+   (source: .header-strip-mobile .dropdown-menu) */
 header nav .nav-utility .nav-drop > ul {
   display: none;
   position: absolute;
   top: 100%;
   left: 0;
+  right: 0;
   z-index: 3;
-  min-width: 220px;
-  padding: 8px 0;
-  border-top: 4px solid var(--link-color);
-  border-radius: 2px;
+  padding: 16px 0 0;
+  border-bottom: 5px solid var(--nav-accent-color);
+  border-radius: 0 0 4px 4px;
   background-color: var(--background-color);
-  box-shadow: 0 2px 8px rgb(46 50 51 / 20%);
+  box-shadow: 0 2px 8px rgb(46 50 51 / 50%);
 }
 
 header nav .nav-utility .nav-drop > button[aria-expanded="true"] ~ ul {
@@ -444,9 +466,12 @@ header nav .nav-utility .nav-drop > button[aria-expanded="true"] ~ ul {
 
 header nav .nav-utility .nav-drop > ul li a {
   display: block;
-  padding: 8px 16px;
-  color: var(--link-color);
-  font-weight: 600;
+  padding: 0 0 16px;
+  color: var(--dark-color);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22px;
+  text-align: center;
 }
 
 header nav .nav-utility .nav-drop > ul li a:hover {
@@ -646,8 +671,38 @@ header nav .nav-mobile-footer .nav-social {
 
   header nav .nav-utility > .default-content-wrapper > ul {
     flex-wrap: nowrap;
+    justify-content: flex-start;
     gap: 0;
     padding-bottom: 7px;
+  }
+
+  /* No "|" divider on desktop — items separate with margins instead */
+  header nav .nav-utility .default-content-wrapper > ul > li.nav-drop + li.nav-drop {
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  /* Desktop: dropdown panels re-anchor to their own item */
+  header nav .nav-utility .nav-drop {
+    position: relative;
+  }
+
+  header nav .nav-utility .nav-drop > ul {
+    right: auto;
+    min-width: 220px;
+    padding: 8px 0;
+    border-top: 4px solid var(--link-color);
+    border-bottom: 0;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgb(46 50 51 / 20%);
+  }
+
+  header nav .nav-utility .nav-drop > ul li a {
+    padding: 8px 16px;
+    color: var(--link-color);
+    font-size: 16px;
+    font-weight: 600;
+    text-align: left;
   }
 
   header nav .nav-utility .default-content-wrapper ul li p {

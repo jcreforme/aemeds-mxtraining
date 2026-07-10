@@ -182,10 +182,35 @@ footer .footer .footer-brand .icon-lundbeck {
     max-width: 640px;
   }
 
+  /* label inline with the call button, vertically centered
+     (source: .divider-desktop { display: inline-flex; align-items: center }) */
   footer .footer .footer-cta {
     grid-column: 2;
     grid-row: 1;
-    align-items: flex-end;
-    text-align: right;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 11px;
+  }
+
+  footer .footer .footer-info .footer-cta p {
+    padding-bottom: 0;
+    white-space: nowrap;
+  }
+
+  /* social + Lundbeck row tucks up under the call button, right-aligned
+     (source: .footer-logo-container { margin-top: 27px }) */
+  footer .footer .footer-brand > div {
+    gap: 16px 40px;
+    padding-top: 0;
+  }
+
+  footer .footer .footer-brand ul {
+    gap: 10px;
+  }
+
+  footer .footer .footer-brand ul .icon {
+    width: 27px;
+    height: 27px;
   }
 }
