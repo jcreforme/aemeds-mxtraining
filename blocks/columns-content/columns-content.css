@@ -229,6 +229,11 @@ main > .section.real-life-impact > div {
     width: 120px;
   }
 
+  /* more-support section: larger support icon */
+  .more-support .columns-content.icon-right .columns-content-icon {
+    width: 194px;
+  }
+
   /* spacing between the two columns; no divider (matches source design) */
   .columns-content.icon-right .columns-content-left {
     padding-right: 56px;
