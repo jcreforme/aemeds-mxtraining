@@ -178,6 +178,7 @@ main > .section.real-life-impact > div {
 .columns-content.icon-right:not(.dot-list) .columns-content-right.has-icon {
   order: 0;
   display: block;
+  margin-bottom: 15px;
 }
 
 .columns-content.icon-right:not(.dot-list) .columns-content-left {
@@ -230,8 +231,9 @@ main > .section.real-life-impact > div {
     padding-right: 0;
   }
 
-  .columns-content.icon-right:not(.dot-list) .columns-content-right {
+  .columns-content.icon-right:not(.dot-list) .columns-content-right.has-icon {
     order: 1;
+    margin-bottom: 0;
   }
 
   .columns-content.icon-right:not(.dot-list) .columns-content-icon {
