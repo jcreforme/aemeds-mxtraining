@@ -148,6 +148,12 @@
   font-size: 14px;
 }
 
+@media (width >= 900px) {
+  .more-support .default-content-wrapper {
+    width: 820px;
+  }
+}
+
 .columns-content.dot-list li::marker {
   color: #c02c57;
 }
