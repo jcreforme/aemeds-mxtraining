@@ -74,6 +74,15 @@
   .hero-two-columns .hero-two-columns-content h1 {
     font-size: 32px;
   }
+
+  /* financial-assistance tablet: prevent H1 wrapping, adjust padding */
+  .hero-banner-financial-assistance .hero-two-columns-content {
+    padding: 20% 15px 8px;
+  }
+
+  .hero-banner-financial-assistance .hero-two-columns-content h1 {
+    max-width: 640px;
+  }
 }
 
 /* tablet+ : full-bleed background image, text overlaid and centered */
