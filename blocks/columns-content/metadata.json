@@ -1,0 +1,39 @@
+{
+  "variantName": "columns-content (icon-right, dot-list)",
+  "baseBlock": "columns-content",
+  "version": "1.0.0",
+  "created": "2026-07-10T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.vyepti.com/financial-assistance",
+    "originPage": "VYEPTI financial assistance",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "wide",
+    "purpose": "informational",
+    "imagePattern": "icon"
+  },
+  "contentPattern": {
+    "structure": "heading + intro + bulleted list (left) | responsive icon graphic (right)",
+    "buttonCount": 0,
+    "imageCount": 2
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "two-column info section with a bulleted list beside a supporting icon",
+      "text-heavy explainer with magenta dot markers and a right-aligned graphic",
+      "sections needing a desktop/tablet responsive icon swap (two authored images)"
+    ],
+    "notSuitableFor": [
+      "dark-background CTA sections (use the columns-content dark variant)",
+      "cost/price sections needing the 81/19 grid (use columns-content icon-right without dot-list)",
+      "card grids or carousels"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/financial-assistance"],
+    "reuseCount": 1,
+    "lastUsed": "2026-07-10T00:00:00.000Z"
+  }
+}
