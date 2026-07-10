@@ -26,6 +26,7 @@ function createAccordionItem({
   itemId,
   panelId,
   title,
+  titleHTML,
   contentCells,
   expanded,
 }) {
@@ -38,7 +39,14 @@ function createAccordionItem({
   trigger.className = 'accordion-trigger';
   trigger.setAttribute('aria-expanded', String(expanded));
   trigger.setAttribute('aria-controls', panelId);
-  trigger.textContent = title;
+  // preserve authored inline formatting (e.g. a <strong> label) when present,
+  // otherwise use plain text.
+  if (titleHTML) {
+    trigger.innerHTML = titleHTML;
+    trigger.setAttribute('aria-label', title);
+  } else {
+    trigger.textContent = title;
+  }
 
   // heading wrapper gives the trigger a place in the document outline
   const header = document.createElement('h3');
@@ -209,8 +217,11 @@ export default async function decorate(block) {
   if (!sourceRows.length) return;
 
   const isMultiOpen = block.classList.contains('multi-open');
-  // FAQ variant starts fully collapsed, matching the live FAQ page
-  const expandFirst = !block.classList.contains('faq');
+  // FAQ and insurance variants start fully collapsed
+  const collapseByDefault = block.classList.contains('faq') || block.classList.contains('insurance');
+  const expandFirst = !collapseByDefault;
+  // insurance variant keeps inline title formatting (bold label + description)
+  const preserveTitleHTML = block.classList.contains('insurance');
   const uid = `accordion-${Math.random().toString(36).slice(2, 8)}`;
   const items = [];
 
@@ -221,11 +232,13 @@ export default async function decorate(block) {
     const titleCell = cells[0];
     const contentCells = cells.slice(1);
     const title = titleCell.textContent.trim() || `Section ${index + 1}`;
+    const titleHTML = preserveTitleHTML ? titleCell.innerHTML.trim() : '';
 
     const item = createAccordionItem({
       itemId: `${uid}-item-${index + 1}`,
       panelId: `${uid}-panel-${index + 1}`,
       title,
+      titleHTML,
       contentCells,
       expanded: expandFirst && index === 0,
     });
