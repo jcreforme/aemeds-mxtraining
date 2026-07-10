@@ -157,7 +157,7 @@
 }
 
 .accordion.insurance .accordion-panel {
-    background: #fff;
+    background: var(--accordion-ins-card-bg);
 }
 
 .accordion.insurance .accordion-trigger:hover,
