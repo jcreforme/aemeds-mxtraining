@@ -136,6 +136,12 @@
   margin: 0 auto;
 }
 
+/* Costs variant (icon-right, no dot-list): match source 12-col grid.
+   Source: 780px container, text col ~81% / icon col ~19%, no divider. */
+.columns-content.icon-right:not(.dot-list) {
+  max-width: 780px;
+}
+
 .columns-content.icon-right .columns-content-right.has-icon {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -167,6 +173,23 @@
   /* spacing between the two columns; no divider (matches source design) */
   .columns-content.icon-right .columns-content-left {
     padding-right: 56px;
+  }
+
+  /* Costs variant: source 12-col grid ratio (text ~81% / icon ~19%). */
+  .columns-content.icon-right:not(.dot-list) > div {
+    grid-template-columns: 81% 19%;
+    gap: 30px;
+    align-items: center;
+  }
+
+  .columns-content.icon-right:not(.dot-list) .columns-content-icon {
+    width: 137px;
+  }
+
+  /* source design has no divider between the columns */
+  .columns-content.icon-right:not(.dot-list) .columns-content-left {
+    border-right: 0;
+    padding-right: 0;
   }
 }
 
