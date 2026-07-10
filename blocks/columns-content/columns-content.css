@@ -343,7 +343,7 @@ main > .section.real-life-impact > div {
 }
 
 .columns-content.dark a.button.primary:any-link {
-  padding: 19px 23px 19px 27px;
+  padding: 19px 29px;
   background-color: #c02c57;
   color: #fff;
   font-size: 18px;
@@ -358,7 +358,7 @@ main > .section.real-life-impact > div {
 }
 
 .columns-content.dark a.button.secondary:any-link {
-  padding: 16px 14px;
+  padding: 16px 35px;
   background-color: #e1f0f6;
   color: #046183;
   font-size: 16px;
