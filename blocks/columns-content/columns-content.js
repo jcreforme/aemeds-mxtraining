@@ -35,17 +35,58 @@ function normalizeAuthoredIcon(iconElement) {
   iconImage.src = iconImage.src.replace(/\/icons\/icon-([a-z0-9-]+)\.svg$/i, '/icons/$1.svg');
 }
 
+// Picks the best available source URL from an authored <picture> or <img>.
+function bestSrc(graphic) {
+  if (graphic.tagName === 'PICTURE') {
+    const source = graphic.querySelector('source[type="image/webp"][media]')
+      || graphic.querySelector('source[type="image/webp"]')
+      || graphic.querySelector('source');
+    if (source && source.getAttribute('srcset')) return source.getAttribute('srcset');
+  }
+  const img = graphic.tagName === 'IMG' ? graphic : graphic.querySelector('img');
+  return img ? img.getAttribute('src') : '';
+}
+
+// Combines an authored desktop + mobile graphic into one responsive <picture>
+// that swaps at the 900px breakpoint (desktop >= 900px, tablet/mobile below).
+function buildResponsivePicture(desktopGraphic, mobileGraphic) {
+  const out = document.createElement('picture');
+
+  const source = document.createElement('source');
+  source.media = '(min-width: 900px)';
+  source.srcset = bestSrc(desktopGraphic);
+  out.append(source);
+
+  const mobileImg = mobileGraphic.tagName === 'IMG' ? mobileGraphic : mobileGraphic.querySelector('img');
+  const img = document.createElement('img');
+  img.src = bestSrc(mobileGraphic);
+  img.alt = mobileImg ? mobileImg.getAttribute('alt') || '' : '';
+  img.loading = 'lazy';
+  out.append(img);
+
+  return out;
+}
+
 // Splits a column into a leading icon graphic + the remaining text so they can
 // sit side by side. The icon is the first image/picture the author placed in
-// the column; everything else becomes the text side.
+// the column; everything else becomes the text side. When the author supplies
+// two graphics, they become a responsive desktop/tablet swap at 900px.
 function buildIconColumn(column) {
-  const picture = column.querySelector('picture, img');
-  if (!picture) return;
+  const graphics = [...column.querySelectorAll('picture, img')]
+    .filter((el) => !(el.tagName === 'IMG' && el.closest('picture')));
+  if (!graphics.length) return;
 
   const iconWrapper = document.createElement('div');
   iconWrapper.className = 'columns-content-icon';
   iconWrapper.setAttribute('aria-hidden', 'true');
-  iconWrapper.append(picture.closest('picture') || picture);
+
+  if (graphics.length >= 2) {
+    iconWrapper.append(buildResponsivePicture(graphics[0], graphics[1]));
+    graphics.forEach((g) => (g.closest('p') || g).remove());
+  } else {
+    const graphic = graphics[0];
+    iconWrapper.append(graphic.closest('picture') || graphic);
+  }
 
   const text = document.createElement('div');
   text.className = 'columns-content-icon-text';
