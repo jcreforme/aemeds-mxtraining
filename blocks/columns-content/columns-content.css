@@ -162,6 +162,16 @@
     width: auto;
     border-right: none;
   }
+
+  /* push the icon to the right edge of the 1140px block */
+  .more-support .columns-content.icon-right .columns-content-right.has-icon {
+    display: block;
+  }
+
+  .more-support .columns-content.icon-right .columns-content-icon {
+    margin-left: auto;
+    margin-right: 0;
+  }
 }
 
 .columns-content.dot-list li::marker {
