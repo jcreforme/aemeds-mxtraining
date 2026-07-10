@@ -35,6 +35,11 @@
   text-align: center;
 }
 
+/* financial-assistance mobile: adjust content padding */
+.hero-banner-financial-assistance .hero-two-columns-content {
+  padding: 15% 15px 8px;
+}
+
 .hero-two-columns .hero-two-columns-content h3 {
   color: #333;
   font-family: proxima-nova, arial, sans-serif;
