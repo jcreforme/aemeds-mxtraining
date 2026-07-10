@@ -133,6 +133,10 @@
   padding-right: 14px;
 }
 
+.more-support .columns-content.dot-list ul li {
+  font-size: 16px;
+}
+
 .columns-content.dot-list li::marker {
   color: #c02c57;
 }
