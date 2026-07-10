@@ -138,6 +138,12 @@
 }
 
 /* more-support trailing disclaimer (default content below the block) */
+.more-support .default-content-wrapper {
+  width: 1140px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
 .more-support .default-content-wrapper p {
   font-size: 14px;
 }
