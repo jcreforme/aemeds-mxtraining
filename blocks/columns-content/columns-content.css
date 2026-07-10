@@ -348,6 +348,14 @@ main > .section.real-life-impact > div {
   color: #fff;
 }
 
+/* arrow icon on the primary (enroll) CTA */
+.columns-content.dark a.button.primary:any-link::after {
+  content: "";
+  width: 22px;
+  height: 10px;
+  background: url("/icons/cta-button-arrow-20-global-white.svg") center / contain no-repeat;
+}
+
 .columns-content.dark a.button.secondary:any-link {
   background-color: #e1f0f6;
   color: #046183;
