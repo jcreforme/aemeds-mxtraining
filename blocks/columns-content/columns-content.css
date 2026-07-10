@@ -380,23 +380,23 @@ main > .section.copay-dark {
   padding: 50px 15px 65px;
 }
 
-/* mobile: constrain and center the block container */
-main > .section.copay-dark .columns-content-container {
+/* mobile: constrain and center the content wrappers */
+main > .section.copay-dark .columns-content-wrapper,
+main > .section.copay-dark .default-content-wrapper {
   width: 384px;
   max-width: 100%;
   margin: 0 auto;
 }
 
-/* tablet: wider container */
+/* tablet: wider wrappers */
 @media (width >= 600px) {
-  main > .section.copay-dark .columns-content-container {
+  main > .section.copay-dark .columns-content-wrapper,
+  main > .section.copay-dark .default-content-wrapper {
     width: 540px;
   }
 }
 
 main > .section.copay-dark .default-content-wrapper {
-  max-width: 1140px;
-  margin: 0 auto;
   color: #fff;
 }
 
@@ -431,8 +431,10 @@ main > .section.copay-dark .default-content-wrapper:last-of-type p {
 }
 
 @media (width >= 900px) {
-  main > .section.copay-dark .columns-content-container {
+  main > .section.copay-dark .columns-content-wrapper,
+  main > .section.copay-dark .default-content-wrapper {
     width: auto;
+    max-width: 1140px;
   }
 
   .columns-content.dark > div {
