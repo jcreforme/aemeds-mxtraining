@@ -353,6 +353,14 @@ main > .section.real-life-impact > div {
   color: #046183;
 }
 
+/* download icon on the secondary (brochure) CTA */
+.columns-content.dark a.button.secondary:any-link::after {
+  content: "";
+  width: 18px;
+  height: 19px;
+  background: url("/icons/download-18.svg") center / contain no-repeat;
+}
+
 /* full-bleed dark band via the section wrapper */
 main > .section.copay-dark {
   background-color: #046183;
