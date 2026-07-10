@@ -149,8 +149,9 @@
 }
 
 @media (width >= 900px) {
-  .more-support .default-content-wrapper {
-    width: 820px;
+  /* keep the disclaimer left-aligned with the block; constrain text to 820px */
+  .more-support .default-content-wrapper p {
+    max-width: 820px;
   }
 }
 
