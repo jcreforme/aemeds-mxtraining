@@ -164,9 +164,8 @@
     width: 120px;
   }
 
-  /* restore the vertical divider between the two columns (dot-list removes it) */
+  /* spacing between the two columns; no divider (matches source design) */
   .columns-content.icon-right .columns-content-left {
-    border-right: 1px solid #d0d5db;
     padding-right: 56px;
   }
 }
