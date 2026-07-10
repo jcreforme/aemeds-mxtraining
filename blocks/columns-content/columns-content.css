@@ -380,8 +380,12 @@ main > .section.copay-dark {
 main > .section.copay-dark .default-content-wrapper {
   max-width: 1140px;
   margin: 0 auto;
-  text-align: center;
   color: #fff;
+}
+
+/* heading + intro wrapper (above the block) is centered */
+main > .section.copay-dark .default-content-wrapper:first-of-type {
+  text-align: center;
 }
 
 main > .section.copay-dark .default-content-wrapper h2 {
@@ -393,6 +397,16 @@ main > .section.copay-dark .default-content-wrapper h2 {
 
 main > .section.copay-dark .default-content-wrapper p {
   color: #fff;
+}
+
+/* trailing disclaimer wrapper (below the block): full width, small text */
+main > .section.copay-dark .default-content-wrapper:last-of-type {
+  margin-top: 24px;
+}
+
+main > .section.copay-dark .default-content-wrapper:last-of-type p {
+  font-size: 14px;
+  line-height: 20px;
 }
 
 @media (width >= 900px) {
@@ -408,7 +422,7 @@ main > .section.copay-dark .default-content-wrapper p {
     padding-right: 48px;
   }
 
-  main > .section.copay-dark .default-content-wrapper {
+  main > .section.copay-dark .default-content-wrapper:first-of-type {
     margin-bottom: 60px;
   }
 }
