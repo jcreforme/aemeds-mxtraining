@@ -136,6 +136,10 @@
     max-width: 540px;
     margin-left: 30px;
   }
+
+  .hero-banner-financial-assistance .hero-two-columns-content h1 {
+    max-width: 640px;
+  }
 }
 
 @media (width >= 1900px) {
