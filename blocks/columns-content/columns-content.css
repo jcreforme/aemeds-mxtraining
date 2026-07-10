@@ -402,6 +402,10 @@ main > .section.copay-dark .default-content-wrapper p {
   color: #fff;
 }
 
+main > .section.copay-dark .default-content-wrapper a:any-link {
+  color: #fff;
+}
+
 /* trailing disclaimer wrapper (below the block): full width, small text */
 main > .section.copay-dark .default-content-wrapper:last-of-type {
   margin-top: 24px;
