@@ -153,6 +153,11 @@
   .more-support .default-content-wrapper p {
     max-width: 820px;
   }
+
+  .more-support .columns-content-left {
+    width: 820px;
+    border-right: none;
+  }
 }
 
 .columns-content.dot-list li::marker {
