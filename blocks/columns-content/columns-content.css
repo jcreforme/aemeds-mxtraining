@@ -318,6 +318,11 @@ main > .section.real-life-impact > div {
   color: #fff;
 }
 
+/* no callout background in the dark variant */
+.columns-content.dark .columns-content-callout {
+  background-color: transparent;
+}
+
 /* pill CTAs: primary (coral) + secondary (light) */
 .columns-content.dark .button-wrapper {
   display: inline-flex;
