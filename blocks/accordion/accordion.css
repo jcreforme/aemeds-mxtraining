@@ -171,7 +171,57 @@
 }
 
 .accordion.insurance .accordion-panel-content {
-    padding: 0 28px 24px;
+    padding: 0 56px 24px;
+    color: #333;
+}
+
+.accordion.insurance .accordion-panel-cell p,
+.accordion.insurance .accordion-panel-cell li {
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+.accordion.insurance .accordion-panel-cell ul {
+    margin: 0 0 16px;
+    padding-left: 20px;
+}
+
+.accordion.insurance .accordion-panel-cell li::marker {
+    color: #c02c57;
+}
+
+/* footnote paragraphs render smaller */
+.accordion.insurance .accordion-panel-cell p.small-size-p {
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.accordion.insurance .accordion-panel-cell a:any-link {
+    color: #046183;
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+/* primary CTA button inside the panel */
+.accordion.insurance .accordion-panel-cell a.button.primary:any-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+    border-radius: 100px;
+    padding: 19px 29px;
+    background-color: #046183;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.accordion.insurance .accordion-panel-cell a.button.primary:any-link::after {
+    content: "";
+    width: 22px;
+    height: 10px;
+    background: url("/icons/cta-button-arrow-20-global-white.svg") center / contain no-repeat;
 }
 
 /* ---------- FAQ variant (vyepti.com/vyepti-faq) ---------- */
@@ -252,6 +302,7 @@
     border-top: 1px solid var(--accordion-faq-divider-color);
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 .accordion.faq .accordion-panel-cell a {
     font-weight: 700;
     text-decoration: underline;
