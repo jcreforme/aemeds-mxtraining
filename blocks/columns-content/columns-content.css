@@ -154,8 +154,13 @@
     max-width: 820px;
   }
 
+  /* wide text column (820px) + narrow icon column, no divider */
+  .more-support .columns-content.icon-right > div {
+    grid-template-columns: 820px 1fr;
+  }
+
   .more-support .columns-content-left {
-    width: 820px;
+    width: auto;
     border-right: none;
   }
 }
