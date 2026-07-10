@@ -380,6 +380,20 @@ main > .section.copay-dark {
   padding: 50px 15px 65px;
 }
 
+/* mobile: constrain and center the block container */
+main > .section.copay-dark .columns-content-container {
+  width: 384px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* tablet: wider container */
+@media (width >= 600px) {
+  main > .section.copay-dark .columns-content-container {
+    width: 540px;
+  }
+}
+
 main > .section.copay-dark .default-content-wrapper {
   max-width: 1140px;
   margin: 0 auto;
@@ -417,6 +431,10 @@ main > .section.copay-dark .default-content-wrapper:last-of-type p {
 }
 
 @media (width >= 900px) {
+  main > .section.copay-dark .columns-content-container {
+    width: auto;
+  }
+
   .columns-content.dark > div {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 48px;
