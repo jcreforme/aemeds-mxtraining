@@ -118,6 +118,14 @@
     --accordion-icon-color: #005f86;
 }
 
+/* constrain the section wrappers around an insurance accordion */
+.section:has(.accordion.insurance) .accordion-wrapper,
+.section:has(.accordion.insurance) .default-content-wrapper {
+    max-width: 1140px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 /* each row is a rounded, borderless card with a gap */
 .accordion.insurance .accordion-item {
     margin-bottom: 16px;
