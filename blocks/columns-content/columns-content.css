@@ -136,10 +136,38 @@
   margin: 0 auto;
 }
 
-/* Costs variant (icon-right, no dot-list): match source 12-col grid.
-   Source: text col ~81% / icon col ~19%, no divider. */
+/* Costs variant (icon-right, no dot-list).
+   Mobile-first: stacked, centered, icon on top. Desktop below restores the
+   source 12-col grid (text ~81% / icon ~19%, no divider). */
 .columns-content.icon-right:not(.dot-list) {
-  max-width: 1140px;
+  max-width: 414px;
+  text-align: center;
+}
+
+.columns-content.icon-right:not(.dot-list) > div {
+  gap: 16px;
+}
+
+/* icon on top, text below */
+.columns-content.icon-right:not(.dot-list) .columns-content-right.has-icon {
+  order: 0;
+  display: block;
+}
+
+.columns-content.icon-right:not(.dot-list) .columns-content-left {
+  order: 1;
+}
+
+/* center the icon graphic */
+.columns-content.icon-right:not(.dot-list) .columns-content-icon {
+  margin: 0 auto;
+}
+
+/* tablet: wider constrained width */
+@media (width >= 600px) {
+  .columns-content.icon-right:not(.dot-list) {
+    max-width: 540px;
+  }
 }
 
 .columns-content.icon-right .columns-content-right.has-icon {
@@ -177,7 +205,9 @@
 
   /* Costs variant: source 12-col grid ratio (text ~81% / icon ~19%). */
   .columns-content.icon-right:not(.dot-list) {
+    max-width: 1140px;
     height: 215px;
+    text-align: left;
   }
 
   .columns-content.icon-right:not(.dot-list) > div {
@@ -186,14 +216,20 @@
     align-items: center;
   }
 
-  .columns-content.icon-right:not(.dot-list) .columns-content-icon {
-    width: 137px;
-  }
-
-  /* source design has no divider between the columns */
+  /* restore source column order: text left, icon right */
   .columns-content.icon-right:not(.dot-list) .columns-content-left {
+    order: 0;
     border-right: 0;
     padding-right: 0;
+  }
+
+  .columns-content.icon-right:not(.dot-list) .columns-content-right {
+    order: 1;
+  }
+
+  .columns-content.icon-right:not(.dot-list) .columns-content-icon {
+    width: 137px;
+    margin: 0;
   }
 }
 
