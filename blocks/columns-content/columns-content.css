@@ -78,6 +78,29 @@
   text-decoration: underline;
 }
 
+/* dark variant element colors (declared here for specificity ordering) */
+.columns-content.dark h1,
+.columns-content.dark h2,
+.columns-content.dark h3,
+.columns-content.dark h4,
+.columns-content.dark h5,
+.columns-content.dark h6,
+.columns-content.dark p {
+  color: #fff;
+}
+
+.columns-content.dark img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.columns-content.dark a:any-link {
+  color: #fff;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
 @media (width >= 900px) {
   .columns-content > div {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -281,5 +304,84 @@ main > .section.real-life-impact > div {
   .section.real-life-impact {
     padding-left: 15px;
     padding-right: 15px;
+  }
+}
+
+/* ==========================================================================
+   Variant: dark (e.g. copay $0 section)
+   Dark teal band, white text, image left / text + pill CTAs right.
+   ========================================================================== */
+
+.columns-content.dark {
+  max-width: 1140px;
+  margin: 0 auto;
+  color: #fff;
+}
+
+/* pill CTAs: primary (coral) + secondary (light) */
+.columns-content.dark .button-wrapper {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 8px 0;
+}
+
+.columns-content.dark a.button:any-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 0;
+  border-radius: 100px;
+  padding: 18px 26px;
+  font-size: 18px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.columns-content.dark a.button.primary:any-link {
+  background-color: #c02c57;
+  color: #fff;
+}
+
+.columns-content.dark a.button.secondary:any-link {
+  background-color: #e1f0f6;
+  color: #046183;
+}
+
+/* full-bleed dark band via the section wrapper */
+main > .section.copay-dark {
+  background-color: #046183;
+  padding: 50px 15px 65px;
+}
+
+main > .section.copay-dark .default-content-wrapper {
+  max-width: 1140px;
+  margin: 0 auto;
+  text-align: center;
+  color: #fff;
+}
+
+main > .section.copay-dark .default-content-wrapper h2 {
+  color: #fff;
+  font-size: 32px;
+  line-height: 38px;
+  font-weight: 800;
+}
+
+main > .section.copay-dark .default-content-wrapper p {
+  color: #fff;
+}
+
+@media (width >= 900px) {
+  .columns-content.dark > div {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 48px;
+    align-items: center;
+  }
+
+  /* vertical divider between the image and the text/CTA column */
+  .columns-content.dark .columns-content-left {
+    border-right: 1px solid rgb(255 255 255 / 40%);
+    padding-right: 48px;
   }
 }
