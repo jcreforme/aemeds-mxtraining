@@ -156,6 +156,18 @@ function buttonizeStandaloneLinks(block) {
   });
 }
 
+// dark variant: merge adjacent button-wrappers (authored as separate
+// paragraphs) into a single row so the CTAs sit side by side.
+function groupAdjacentButtons(block) {
+  block.querySelectorAll('.button-wrapper').forEach((wrapper) => {
+    const next = wrapper.nextElementSibling;
+    if (next && next.classList.contains('button-wrapper')) {
+      [...next.childNodes].forEach((node) => wrapper.append(node));
+      next.remove();
+    }
+  });
+}
+
 /**
  * Decorates 2-column layout with optional callout.
  * Configured via block variant: "Columns Content (callout-both)", "Columns Content (callout-left)"
@@ -171,7 +183,10 @@ export default function decorate(block) {
   // icon-right variant: the right column leads with an icon graphic beside its text.
   const iconRight = block.classList.contains('icon-right');
 
-  if (block.classList.contains('dark')) buttonizeStandaloneLinks(block);
+  if (block.classList.contains('dark')) {
+    buttonizeStandaloneLinks(block);
+    groupAdjacentButtons(block);
+  }
 
   [...block.children].forEach((row) => {
     const cols = [...row.children];

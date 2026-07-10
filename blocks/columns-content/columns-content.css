@@ -325,10 +325,10 @@ main > .section.real-life-impact > div {
 
 /* pill CTAs: primary (coral) + secondary (light) */
 .columns-content.dark .button-wrapper {
-  display: inline-flex;
+  display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  margin: 8px 0;
+  margin: 25px 0 50px;
 }
 
 .columns-content.dark a.button:any-link {
