@@ -321,6 +321,7 @@ main > .section.real-life-impact > div {
 /* no callout background in the dark variant */
 .columns-content.dark .columns-content-callout {
   background-color: transparent;
+  padding: 5px;
 }
 
 /* pill CTAs: primary (coral) + secondary (light) */
