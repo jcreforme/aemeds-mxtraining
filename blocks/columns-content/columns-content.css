@@ -149,6 +149,10 @@
   font-size: 14px;
 }
 
+.more-support .default-content-wrapper a:any-link {
+  color: #046183;
+}
+
 @media (width >= 900px) {
   .more-support .default-content-wrapper p {
     max-width: 100%;
