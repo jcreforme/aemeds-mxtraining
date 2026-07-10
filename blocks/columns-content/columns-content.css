@@ -137,9 +137,9 @@
 }
 
 /* Costs variant (icon-right, no dot-list): match source 12-col grid.
-   Source: 780px container, text col ~81% / icon col ~19%, no divider. */
+   Source: text col ~81% / icon col ~19%, no divider. */
 .columns-content.icon-right:not(.dot-list) {
-  max-width: 780px;
+  max-width: 1140px;
 }
 
 .columns-content.icon-right .columns-content-right.has-icon {
@@ -176,6 +176,10 @@
   }
 
   /* Costs variant: source 12-col grid ratio (text ~81% / icon ~19%). */
+  .columns-content.icon-right:not(.dot-list) {
+    height: 215px;
+  }
+
   .columns-content.icon-right:not(.dot-list) > div {
     grid-template-columns: 81% 19%;
     gap: 30px;
