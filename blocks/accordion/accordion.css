@@ -126,6 +126,12 @@
     margin-right: auto;
 }
 
+/* section heading above the insurance accordion */
+.section:has(.accordion.insurance) .default-content-wrapper h2 {
+    font-size: 24px;
+    color: #046183;
+}
+
 /* each row is a rounded, borderless card with a gap */
 .accordion.insurance .accordion-item {
     margin-bottom: 16px;
