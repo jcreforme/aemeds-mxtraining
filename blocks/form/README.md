@@ -1,22 +1,22 @@
-# Form Block — Formulario de Captura de Leads
+# Form Block — Lead Capture Form
 
-Bloque de formulario de captura de leads. Construye un `<form>` a partir de una tabla autorada: cada fila define un campo (label + tipo). Al enviar, valida en el cliente (`checkValidity`), muestra un mensaje de agradecimiento y deshabilita el formulario. No hay backend: el envío es puramente client-side y no realiza ninguna petición de red.
+Lead capture form block. It builds a `<form>` from an authored table: each row defines a field (label + type). On submit, it validates on the client (`checkValidity`), shows a thank-you message, and disables the form. There is no backend: submission is purely client-side and makes no network request.
 
 ## 1. Authoring Contract
 
-Cada fila del bloque representa **un campo** del formulario.
+Each row of the block represents **one field** of the form.
 
-- **Columna 1**: Label del campo (obligatorio; si está vacía, la fila se ignora).
-- **Columna 2**: Tipo de campo.
-- **Columna 3** (opcional): Opciones para `select`, separadas por comas (equivalente a `select:A,B` en la columna 2).
+- **Column 1**: Field label (required; if empty, the row is ignored).
+- **Column 2**: Field type.
+- **Column 3** (optional): Options for `select`, separated by commas (equivalent to `select:A,B` in column 2).
 
-### Tipos de campo soportados
+### Supported field types
 
 `text` · `email` · `tel` · `textarea` · `select` · `checkbox` · `submit`
 
-Cualquier valor no reconocido en la columna 2 se trata como `text`.
+Any unrecognized value in column 2 is treated as `text`.
 
-### Estructura Conceptual
+### Conceptual Structure
 
 ```text
 | form           |                    |                        |
@@ -29,45 +29,45 @@ Cualquier valor no reconocido en la columna 2 se trata como `text`.
 | Sign Up        | submit             |                        |
 ```
 
-Notas de contrato:
+Contract notes:
 
-- El **`id`/`name`** de cada campo se deriva del label: minúsculas con espacios reemplazados por guiones, prefijado con `form-` (p. ej. `Full Name` → `form-full-name`).
-- La fila **`submit`**: la columna 1 es el texto del botón (p. ej. `Sign Up`), la columna 2 es `submit`. Se renderiza como `<button type="submit" class="button primary">`.
-- **`select`**: puede autorarse como `select:California,Texas` en la columna 2, o como `select` en la columna 2 con las opciones en la columna 3. Se añade una opción placeholder deshabilitada y seleccionada por defecto (`Select {label}`).
-- **`textarea`**: se renderiza con `rows="4"`.
-- **`checkbox`**: se renderiza en línea (input + label), y es **requerido**.
-- Todos los campos excepto `select` se marcan como `required`. `email` recibe `autocomplete="email"`; `tel` recibe `autocomplete="tel"`.
+- Each field's **`id`/`name`** is derived from the label: lowercase with spaces replaced by hyphens, prefixed with `form-` (e.g. `Full Name` → `form-full-name`).
+- The **`submit`** row: column 1 is the button text (e.g. `Sign Up`), column 2 is `submit`. It renders as `<button type="submit" class="button primary">`.
+- **`select`**: can be authored as `select:California,Texas` in column 2, or as `select` in column 2 with the options in column 3. A disabled placeholder option, selected by default (`Select {label}`), is added.
+- **`textarea`**: renders with `rows="4"`.
+- **`checkbox`**: renders inline (input + label), and is **required**.
+- All fields except `select` are marked as `required`. `email` gets `autocomplete="email"`; `tel` gets `autocomplete="tel"`.
 
-### Comportamiento de envío
+### Submission behavior
 
-- El `<form>` usa `noValidate` y valida manualmente con `checkValidity()` en el evento `submit` (con `preventDefault`).
-- Si es inválido, invoca `reportValidity()` y no continúa.
-- Si es válido: añade la clase `form-success` al bloque, muestra el mensaje *"Thank you. Your information has been submitted."* y deshabilita todos los `input`, `select`, `textarea` y `button`.
-- La clase `form-success` en CSS oculta todos los campos y el botón, dejando visible solo el mensaje.
+- The `<form>` uses `noValidate` and validates manually with `checkValidity()` on the `submit` event (with `preventDefault`).
+- If invalid, it invokes `reportValidity()` and does not continue.
+- If valid: it adds the `form-success` class to the block, shows the message *"Thank you. Your information has been submitted."* and disables all `input`, `select`, `textarea`, and `button` elements.
+- The `form-success` class in CSS hides all fields and the button, leaving only the message visible.
 
 ## 2. Accessibility
 
-- Cada campo tiene un `<label>` asociado por `htmlFor`/`id`.
-- El placeholder del `select` está `disabled` para forzar una selección explícita.
-- La validación nativa del navegador (`required`, tipos `email`/`tel`) provee feedback accesible vía `reportValidity()`.
-- El mensaje de confirmación (`.form-message`) inicia con atributo `hidden` y se revela al enviar con éxito.
-- El foco de inputs/select/textarea muestra un `outline` visible (`:focus-visible`).
+- Each field has a `<label>` associated by `htmlFor`/`id`.
+- The `select` placeholder is `disabled` to force an explicit selection.
+- The browser's native validation (`required`, `email`/`tel` types) provides accessible feedback via `reportValidity()`.
+- The confirmation message (`.form-message`) starts with the `hidden` attribute and is revealed on successful submission.
+- Focusing inputs/select/textarea shows a visible `outline` (`:focus-visible`).
 
 ## 3. CSS Customization
 
-`form.css` no declara `--custom-properties` propias; consume variables globales con fallback:
+`form.css` does not declare its own `--custom-properties`; it consumes global variables with a fallback:
 
 ```css
---body-font-size-s              /* tamaño de labels y del mensaje */
---vyepti-teal (#00a3a1)         /* color del outline y borde en focus */
---vyepti-teal-light (#e6f7f7)   /* fondo del mensaje de confirmación */
---vyepti-dark (#1a1a2e)         /* color del texto del mensaje */
---background-color              /* fondo de inputs/select/textarea */
+--body-font-size-s              /* size of labels and the message */
+--vyepti-teal (#00a3a1)         /* outline color and border on focus */
+--vyepti-teal-light (#e6f7f7)   /* background of the confirmation message */
+--vyepti-dark (#1a1a2e)         /* text color of the message */
+--background-color              /* background of inputs/select/textarea */
 ```
 
-El formulario tiene un ancho máximo de 480px y se centra automáticamente.
+The form has a maximum width of 480px and centers automatically.
 
 ## 4. Performance Notes
 
-- Sin dependencias ni peticiones de red: todo el markup se genera con DOM APIs y el envío se resuelve en cliente.
-- El bloque reemplaza su contenido con `replaceChildren(form)` en una sola operación.
+- No dependencies or network requests: all markup is generated with DOM APIs and submission is resolved on the client.
+- The block replaces its content with `replaceChildren(form)` in a single operation.

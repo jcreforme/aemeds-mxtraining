@@ -1,31 +1,31 @@
-# Quote Single Block — Cita Destacada
+# Quote Single Block — Featured Quote
 
-Bloque de cita destacada sobre panel teal, con imagen art-directed opcional a la derecha (en desktop). Renderiza una cita, un autor y un disclaimer opcional junto a una imagen responsiva construida como `<picture>` a partir de imágenes provistas por el autor.
+Featured quote block on a teal panel, with an optional art-directed image on the right (on desktop). It renders a quote, an author, and an optional disclaimer next to a responsive image built as a `<picture>` from author-provided images.
 
 ## 1. Authoring Contract
 
-El bloque es tolerante a distintas formas de autoría, porque el pegado desde DA puede aplanar el contenido en una sola celda. El JS **no depende de una tabla rígida**: consulta el DOM directamente.
+The block is tolerant of different authoring shapes, because pasting from DA can flatten the content into a single cell. The JS **does not depend on a rigid table**: it queries the DOM directly.
 
-### Texto de la cita
+### Quote text
 
-- **Cita**: el primer `blockquote`, `h1`, `h2` o `h3` del bloque → `.quote-single-quote`.
-- **Autor**: el primer párrafo que contiene un `<strong>` → `.quote-single-author`.
-- **Disclaimer** (opcional): el último párrafo, si no es el autor → `.quote-single-disclaimer`.
+- **Quote**: the first `blockquote`, `h1`, `h2`, or `h3` in the block → `.quote-single-quote`.
+- **Author**: the first paragraph that contains a `<strong>` → `.quote-single-author`.
+- **Disclaimer** (optional): the last paragraph, if it is not the author → `.quote-single-disclaimer`.
 
-Se filtran los párrafos que contienen imágenes, los que están dentro de un `blockquote`, los vacíos y los que son etiquetas de breakpoint (`desktop`, `tablet`, `mobile`, `small desktop`).
+Paragraphs that contain images, those inside a `blockquote`, empty ones, and those that are breakpoint labels (`desktop`, `tablet`, `mobile`, `small desktop`) are filtered out.
 
-### Imágenes responsivas (opcional)
+### Responsive images (optional)
 
-Cada imagen se empareja con la **etiqueta de breakpoint** que la precede (texto en el elemento hermano previo). Solo se soportan dos imágenes:
+Each image is paired with the **breakpoint label** that precedes it (text in the previous sibling element). Only two images are supported:
 
-- Etiqueta que contiene **`desktop`** → obtiene su propio `<source media="(min-width: 900px)">`.
-- Cualquier otra (incluida `mobile` / `tablet`) → se usa como `<img>` de fallback.
+- Label that contains **`desktop`** → gets its own `<source media="(min-width: 900px)">`.
+- Any other (including `mobile` / `tablet`) → is used as the fallback `<img>`.
 
-El `alt` de la imagen se toma del texto del autor.
+The image's `alt` is taken from the author text.
 
-### Estructura Conceptual
+### Conceptual Structure
 
-Como filas separadas (label + imagen):
+As separate rows (label + image):
 
 ```text
 | quote-single |                                          |
@@ -36,7 +36,7 @@ Como filas separadas (label + imagen):
 | mobile       | ![](quote-mobile.png)                     |
 ```
 
-O aplanado en una sola celda (secuencia de párrafos), igualmente soportado:
+Or flattened into a single cell (sequence of paragraphs), also supported:
 
 ```text
 | quote-single |
@@ -49,29 +49,29 @@ O aplanado en una sola celda (secuencia de párrafos), igualmente soportado:
 | ![](quote-mobile.png) |
 ```
 
-## 2. Variante Sin Imagen
+## 2. No-Image Variant
 
-Si el autor no provee ninguna imagen, el bloque recibe la clase **`quote-single-no-image`** automáticamente y el texto ocupa todo el panel (ancho máximo 760px móvil, 100% en desktop). No es una clase que el autor añada: se aplica por ausencia de imágenes.
+If the author does not provide any image, the block automatically receives the **`quote-single-no-image`** class and the text occupies the entire panel (maximum width 760px on mobile, 100% on desktop). It is not a class the author adds: it is applied due to the absence of images.
 
 ## 3. Accessibility
 
-- La imagen recibe `alt` derivado del texto del autor.
-- Las imágenes se cargan con `loading="lazy"`.
-- La cita se renderiza con el elemento semántico autorado (`blockquote`/`h1`/`h2`/`h3`), preservando el outline del documento.
+- The image receives an `alt` derived from the author text.
+- Images are loaded with `loading="lazy"`.
+- The quote is rendered with the authored semantic element (`blockquote`/`h1`/`h2`/`h3`), preserving the document outline.
 
 ## 4. CSS Customization
 
-`quote-single.css` no declara `--custom-properties` propias; usa colores fijos de marca y consume `--body-font-family`. Colores clave:
+`quote-single.css` does not declare its own `--custom-properties`; it uses fixed brand colors and consumes `--body-font-family`. Key colors:
 
 ```css
-#046183  /* fondo teal del panel */
-#e8635a  /* coral: círculo de la comilla decorativa y línea sobre el autor */
-#fff     /* texto blanco */
+#046183  /* teal background of the panel */
+#e8635a  /* coral: decorative quotation-mark circle and line above the author */
+#fff     /* white text */
 ```
 
-Detalles visuales: comilla decorativa (`\201C`) en un círculo coral, línea coral de 50×4px sobre el autor, layout en columna en móvil y en fila (60% texto / 40% imagen) en desktop (≥900px). La imagen usa `object-fit: cover` con `object-position: center bottom`.
+Visual details: decorative quotation mark (`\201C`) in a coral circle, a coral line of 50×4px above the author, column layout on mobile and row layout (60% text / 40% image) on desktop (≥900px). The image uses `object-fit: cover` with `object-position: center bottom`.
 
 ## 5. Performance Notes
 
-- `<picture>` art-directed sirve la imagen desktop solo en ≥900px vía `<source media>`, evitando descargar la variante grande en móvil.
-- Imágenes con `loading="lazy"`.
+- The art-directed `<picture>` serves the desktop image only at ≥900px via `<source media>`, avoiding downloading the large variant on mobile.
+- Images with `loading="lazy"`.

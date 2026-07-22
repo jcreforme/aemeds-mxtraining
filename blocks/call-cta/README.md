@@ -1,45 +1,45 @@
 # Call CTA Block
 
-Franja centrada de llamada a la acción ("Need help getting started on VYEPTI? Call ...") con un icono informativo opcional sobre una banda de color teal claro. Replica el componente original `.vyepti-homepage-call-cta`.
+Centered call-to-action strip ("Need help getting started on VYEPTI? Call ...") with an optional information icon over a light teal band. Replicates the original `.vyepti-homepage-call-cta` component.
 
 ## 1. Authoring Contract
 
-El bloque es una tabla de **una sola fila**. La fila puede tener una o dos celdas:
+The block is a **single-row** table. The row can have one or two cells:
 
-- **Celda de icono** (opcional): contiene únicamente un icono/imagen y ningún texto significativo.
-- **Celda de texto**: contiene el mensaje, típicamente con un enlace `tel:` en negrita.
+- **Icon cell** (optional): contains only an icon/image and no meaningful text.
+- **Text cell**: contains the message, typically with a bold `tel:` link.
 
-El JS detecta la celda de icono buscando una celda que tenga `.icon`/`img` **y** sin texto. La celda de texto es la otra celda con contenido (o la última celda si no se puede determinar).
+The JS detects the icon cell by looking for a cell that has `.icon`/`img` **and** no text. The text cell is the other cell with content (or the last cell if it cannot be determined).
 
-### Estructura Conceptual
+### Conceptual Structure
 
 ```text
 | call-cta | | |
 | :information: | **Need help getting started on VYEPTI? Call [833-4-VYEPTI](tel:8334893784) (833-489-3784).** |
 ```
 
-La celda de icono es opcional: una fila de una sola celda renderiza solo el texto.
+The icon cell is optional: a single-cell row renders only the text.
 
-Clases aplicadas por el JS:
+Classes applied by the JS:
 
-- La celda de icono recibe la clase `vyepti-homepage-info-icon`.
-- La celda de texto recibe la clase `vyepti-homepage-cta`.
+- The icon cell receives the class `vyepti-homepage-info-icon`.
+- The text cell receives the class `vyepti-homepage-cta`.
 
 ## Accessibility
 
-- El bloque recibe `role="note"` para exponer el mensaje como una nota informativa a tecnologías de asistencia.
-- Los iconos/imágenes de la celda de icono son decorativos: reciben `aria-hidden="true"` (el mensaje lo transmite el texto).
+- The block receives `role="note"` to expose the message as an informational note to assistive technologies.
+- The icons/images in the icon cell are decorative: they receive `aria-hidden="true"` (the message is conveyed by the text).
 
 ## CSS Customization
 
-`call-cta.css` no define custom properties propias; usa variables globales del proyecto:
+`call-cta.css` does not define its own custom properties; it uses the project's global variables:
 
-- `--light-color` — fondo de la banda teal claro.
-- `--body-font-size-s` — tamaño de fuente del texto (móvil).
-- `--link-color` / `--link-hover-color` — color del enlace y su hover.
+- `--light-color` — light teal band background.
+- `--body-font-size-s` — text font size (mobile).
+- `--link-color` / `--link-hover-color` — link color and its hover.
 
-En desktop (>= 900px) la banda se centra con `min-width: 800px` y el icono crece de 40px a 48px.
+On desktop (>= 900px) the band is centered with `min-width: 800px` and the icon grows from 40px to 48px.
 
 ## Performance Notes
 
-Bloque sin dependencias externas; decoración síncrona sencilla (una sola fila, sin fetch).
+Block with no external dependencies; simple synchronous decoration (a single row, no fetch).

@@ -1,66 +1,66 @@
-# Study Results Block — Resultados del Estudio
+# Study Results Block — Study Results
 
-Bloque que presenta los resultados de un estudio clínico dentro de una caja con esquinas superiores redondeadas y fondo degradado teal. Clasifica automáticamente cada fila según su forma (número de celdas y presencia de imagen) en cuatro tipos de contenido: título, fila de estadísticas (3 columnas), banner de seguridad, y fila de impacto (imagen + texto).
+Block that presents the results of a clinical study inside a box with rounded top corners and a teal gradient background. It automatically classifies each row according to its shape (number of cells and presence of an image) into four content types: title, statistics row (3 columns), safety banner, and impact row (image + text).
 
 ## 1. Authoring Contract
 
-`decorate(block)` primero normaliza la estructura (ver más abajo) y luego `classify(block)` recorre `block.children` y asigna clases según la forma de cada fila:
+`decorate(block)` first normalizes the structure (see below) and then `classify(block)` walks through `block.children` and assigns classes according to the shape of each row:
 
-| Forma de la fila | Clase asignada | Uso |
+| Row shape | Assigned class | Use |
 |------------------|----------------|-----|
-| 3 celdas | `.study-results-stats` (cada celda → `.study-results-stat`) | Fila de 3 estadísticas |
-| 1 celda con imagen | `.study-results-safety` | Banner de seguridad (icono escudo + heading) |
-| 2 celdas | `.study-results-impact` (celda 1 → `-impact-image`, celda 2 → `-impact-text`) | Imagen redonda + texto |
-| 1 celda con heading y texto | `.study-results-title` | Título de sección (se deja) |
-| 1 celda sin heading | *(se elimina)* | Fila vacía descartada |
+| 3 cells | `.study-results-stats` (each cell → `.study-results-stat`) | Row of 3 statistics |
+| 1 cell with image | `.study-results-safety` | Safety banner (shield icon + heading) |
+| 2 cells | `.study-results-impact` (cell 1 → `-impact-image`, cell 2 → `-impact-text`) | Round image + text |
+| 1 cell with heading and text | `.study-results-title` | Section title (kept) |
+| 1 cell without heading | *(removed)* | Empty row discarded |
 
-En las filas de estadísticas, la **etiqueta** de cada stat es un `<h4>` (o el primer hijo de la celda) y recibe `.study-results-stat-label`.
+In the statistics rows, the **label** of each stat is an `<h4>` (or the first child of the cell) and receives `.study-results-stat-label`.
 
-### Estructura Conceptual
+### Conceptual Structure
 
 ```text
 | study-results |          |          |
-| ## Study Results         |          |          |   ← título (1 celda con heading)
-| #### 75%                 | #### 50% | #### 30% |   ← 3 stats (h4 = label + texto debajo)
+| ## Study Results         |          |          |   ← title (1 cell with heading)
+| #### 75%                 | #### 50% | #### 30% |   ← 3 stats (h4 = label + text below)
 | Reduction ...            | ...      | ...      |
-| ![](shield.svg) ## Well-studied safety |    |    |   ← banner seguridad (1 celda + imagen)
-| ![](patient.png)         | ## Real impact **for patients** ... |  ← impacto (imagen + texto) |
+| ![](shield.svg) ## Well-studied safety |    |    |   ← safety banner (1 cell + image)
+| ![](patient.png)         | ## Real impact **for patients** ... |  ← impact (image + text) |
 ```
 
-### Normalización de tabla anidada
+### Nested table normalization
 
-Cuando el bloque se autora como una **tabla anidada** cuya celda de nombre no es la primera, EDS deja el `<table>` crudo dentro del bloque. En ese caso el JS reconstruye la estructura esperada de `div`/celdas:
+When the block is authored as a **nested table** whose name cell is not the first, EDS leaves the raw `<table>` inside the block. In that case the JS rebuilds the expected `div`/cell structure:
 
-- Un encabezado (`h1`/`h2`/`h3`) autorado **fuera** de la tabla se **extrae** y se coloca **antes** del bloque, envuelto en `.study-results-title`, para que renderice como título de sección (no dentro de la caja).
-- Cada `<tr>` (excepto el que dice `study-results`) se convierte en una fila `div` con celdas `div` que preservan el `innerHTML` de cada `<td>`.
-- Tras reconstruir, se ejecuta `classify()`.
+- A heading (`h1`/`h2`/`h3`) authored **outside** the table is **extracted** and placed **before** the block, wrapped in `.study-results-title`, so it renders as a section title (not inside the box).
+- Each `<tr>` (except the one that says `study-results`) is converted into a `div` row with `div` cells that preserve the `innerHTML` of each `<td>`.
+- After rebuilding, `classify()` is run.
 
-## 2. Variante Odd
+## 2. Odd Variant
 
-El CSS soporta un contexto `.study-results-odd` (aplicado en la sección/página, no por el JS) que invierte los colores del texto de impacto:
+The CSS supports a `.study-results-odd` context (applied on the section/page, not by the JS) that inverts the colors of the impact text:
 
 ```text
-.study-results-odd  →  h2 en #333, strong en teal #046183 (en vez de coral)
+.study-results-odd  →  h2 in #333, strong in teal #046183 (instead of coral)
 ```
 
 ## 3. Accessibility
 
-- El bloque no añade roles ni ARIA; se apoya en la semántica de los encabezados autorados (`h1`/`h2`/`h3`/`h4`), que preservan el outline del documento.
-- Las imágenes conservan su `alt` autorado.
+- The block does not add roles or ARIA; it relies on the semantics of the authored headings (`h1`/`h2`/`h3`/`h4`), which preserve the document outline.
+- Images keep their authored `alt`.
 
 ## 4. CSS Customization
 
-`study-results.css` no declara `--custom-properties` propias; consume `--body-font-family` y `--heading-font-family`. Colores fijos de marca:
+`study-results.css` does not declare its own `--custom-properties`; it consumes `--body-font-family` and `--heading-font-family`. Fixed brand colors:
 
 ```css
-#046183  /* teal: título, labels de stats, heading de seguridad */
-#c02c57  /* coral: strong en el texto de impacto */
-#333     /* texto base */
-gradiente #e8f3f5 → #fff  /* fondo degradado de la caja */
+#046183  /* teal: title, stat labels, safety heading */
+#c02c57  /* coral: strong in the impact text */
+#333     /* base text */
+gradient #e8f3f5 → #fff  /* gradient background of the box */
 ```
 
-Detalles: caja con `border-radius: 23px 23px 0 0`, ancho máximo 1140px. La imagen de impacto se recorta en círculo (`border-radius: 50%`, 250px). El banner de seguridad usa un icono de ~116px. Layout responsivo: stacks en columna en móvil, fila de 3 stats y fila de impacto lado a lado en ≥700px/≥900px.
+Details: box with `border-radius: 23px 23px 0 0`, maximum width 1140px. The impact image is cropped into a circle (`border-radius: 50%`, 250px). The safety banner uses an icon of ~116px. Responsive layout: stacks into a column on mobile, with the 3-stat row and the impact row side by side at ≥700px/≥900px.
 
 ## 5. Performance Notes
 
-- No hay peticiones de red ni dependencias: toda la clasificación se realiza con DOM APIs en la decoración.
+- There are no network requests or dependencies: all classification is done with DOM APIs during decoration.

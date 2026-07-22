@@ -1,43 +1,43 @@
 # Fragment Block
 
-Bloque estándar de AEM Edge Delivery ([block-collection/fragment](https://www.aem.live/developer/block-collection/fragment)) que incluye el contenido de otra página del sitio en línea, como un fragmento reutilizable. Útil para contenido compartido entre páginas (avisos, banners legales, secciones comunes).
+Standard AEM Edge Delivery block ([block-collection/fragment](https://www.aem.live/developer/block-collection/fragment)) that includes the content of another page of the site inline, as a reusable fragment. Useful for content shared across pages (notices, legal banners, common sections).
 
 ## 1. Authoring Contract
 
-El bloque contiene la **ruta al fragmento**. Puede escribirse de dos formas (el JS acepta ambas):
+The block contains the **path to the fragment**. It can be written in two ways (the JS accepts both):
 
-- Un **enlace** (`a`) cuyo `href` apunta a la ruta del fragmento.
-- O el **texto plano** de la ruta dentro del bloque.
+- A **link** (`a`) whose `href` points to the fragment path.
+- Or the **plain text** of the path inside the block.
 
-La ruta debe ser una ruta interna absoluta que empiece con `/` (no se aceptan URLs con `//`).
+The path must be an absolute internal path starting with `/` (URLs with `//` are not accepted).
 
-### Estructura Conceptual
+### Conceptual Structure
 
 ```text
 | fragment | |
 | [/fragments/shared/footer-note](/fragments/shared/footer-note) |
 ```
 
-o simplemente:
+or simply:
 
 ```text
 | fragment | |
 | /fragments/shared/footer-note |
 ```
 
-### Comportamiento
+### Behavior
 
-- El JS hace `fetch` de `{path}.plain.html`, decora el contenido con `decorateMain` y lo carga con `loadSections`.
-- Reescribe las rutas base de medios (`img[src^="./media_"]` y `source[srcset^="./media_"]`) para resolverlas relativas al path del fragmento.
-- Reemplaza el contenido del bloque con los nodos del fragmento cargado.
-- **Fail-open**: si algo falla, se asegura de que la sección padre no quede oculta (marca `sectionStatus = 'loaded'` y limpia `display`). Los errores se registran con `console.error`.
+- The JS does a `fetch` of `{path}.plain.html`, decorates the content with `decorateMain`, and loads it with `loadSections`.
+- It rewrites the base media paths (`img[src^="./media_"]` and `source[srcset^="./media_"]`) to resolve them relative to the fragment path.
+- It replaces the block's content with the nodes of the loaded fragment.
+- **Fail-open**: if something fails, it ensures the parent section is not left hidden (it sets `sectionStatus = 'loaded'` and clears `display`). Errors are logged with `console.error`.
 
-`loadFragment(path)` se exporta y puede reutilizarse desde otros blocks (p. ej. header/footer).
+`loadFragment(path)` is exported and can be reused from other blocks (e.g. header/footer).
 
 ## CSS Customization
 
-`fragment.css` está intencionalmente vacío (solo un comentario `stylelint-disable`). El fragmento hereda el estilo de las secciones y blocks que contiene.
+`fragment.css` is intentionally empty (only a `stylelint-disable` comment). The fragment inherits the styling of the sections and blocks it contains.
 
 ## Performance Notes
 
-- El fragmento se carga vía `fetch` en tiempo de ejecución, lo que añade una petición de red adicional y decoración/carga de sus propias secciones.
+- The fragment is loaded via `fetch` at runtime, which adds an additional network request and decoration/loading of its own sections.

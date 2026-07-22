@@ -1,38 +1,38 @@
 # Widget Block
 
-Cargador dinámico de "widgets". Toma un enlace a un archivo bajo `/widgets/` y carga en línea sus recursos: el HTML se inyecta en el bloque, y su CSS y JS asociados se cargan y ejecutan. Permite empaquetar mini-componentes autónomos (HTML + CSS + JS) fuera del sistema estándar de blocks.
+Dynamic "widget" loader. It takes a link to a file under `/widgets/` and loads its resources inline: the HTML is injected into the block, and its associated CSS and JS are loaded and executed. It allows packaging self-contained mini-components (HTML + CSS + JS) outside the standard block system.
 
 ## 1. Authoring Contract
 
-El bloque contiene un **enlace** (`a[href]`) que apunta a un widget dentro de `/widgets/`. El nombre del widget se deriva del último segmento del path (sin extensión); el resto de segmentos forman la carpeta del widget.
+The block contains a **link** (`a[href]`) that points to a widget inside `/widgets/`. The widget name is derived from the last segment of the path (without the extension); the remaining segments form the widget's folder.
 
-### Estructura Conceptual
+### Conceptual Structure
 
 ```text
 | widget | |
 | [my-widget](/widgets/path1/my-widget.html) |
 ```
 
-A partir de ese enlace, el JS resuelve y carga tres recursos hermanos usando `window.hlx.codeBasePath`:
+From that link, the JS resolves and loads three sibling resources using `window.hlx.codeBasePath`:
 
-- `/widgets/{path}/{name}.html` -> se inyecta como `innerHTML` del bloque (vía `fetch`).
-- `/widgets/{path}/{name}.css` -> se carga con `loadCSS`.
-- `/widgets/{path}/{name}.js` -> se importa dinámicamente; si exporta un `default`, se invoca con el elemento del widget.
+- `/widgets/{path}/{name}.html` -> injected as the block's `innerHTML` (via `fetch`).
+- `/widgets/{path}/{name}.css` -> loaded with `loadCSS`.
+- `/widgets/{path}/{name}.js` -> dynamically imported; if it exports a `default`, it is invoked with the widget element.
 
-### Clases y datos aplicados tras cargar
+### Classes and data applied after loading
 
-- Se añade al bloque la clase `{name}` (nombre del widget) y se elimina `block`.
-- `widget.dataset.source` = href original del enlace.
-- Cada parámetro de query del href se copia a `widget.dataset[key]`.
-- El `.widget-wrapper` contenedor pasa a `{name}-wrapper` y el `.widget-container` pasa a `{name}-container`.
+- The `{name}` class (widget name) is added to the block and `block` is removed.
+- `widget.dataset.source` = original href of the link.
+- Each query parameter of the href is copied to `widget.dataset[key]`.
+- The `.widget-wrapper` container becomes `{name}-wrapper` and the `.widget-container` becomes `{name}-container`.
 
-Si la carga falla, el error se registra en consola (`console.error`) y el bloque queda sin decorar.
+If loading fails, the error is logged to the console (`console.error`) and the block is left undecorated.
 
 ## CSS Customization
 
-`widget.css` solo declara `display: block` para el bloque; no define custom properties. El estilo visual de cada widget lo aporta su propio `{name}.css` cargado dinámicamente.
+`widget.css` only declares `display: block` for the block; it does not define custom properties. The visual styling of each widget is provided by its own `{name}.css` loaded dynamically.
 
 ## Performance Notes
 
-- Carga bajo demanda: HTML, CSS y JS del widget se solicitan en tiempo de ejecución (`fetch` + `import()` dinámico + `loadCSS`), lo que añade peticiones de red adicionales.
-- El CSS y la decoración JS se esperan en paralelo con `Promise.all`.
+- On-demand loading: the widget's HTML, CSS, and JS are requested at runtime (`fetch` + dynamic `import()` + `loadCSS`), which adds additional network requests.
+- The CSS and JS decoration are awaited in parallel with `Promise.all`.

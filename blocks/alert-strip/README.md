@@ -1,51 +1,51 @@
 # Alert Strip Block
 
-Franja de aviso (alert strip) a ancho completo, pensada para colocarse justo debajo del hero. Muestra un icono opcional y un mensaje corto (por ejemplo, un teléfono de contacto). Se anuncia a lectores de pantalla como una nota.
+Full-width alert strip, intended to sit just below the hero. It displays an optional icon and a short message (for example, a contact phone number). It is announced to screen readers as a note.
 
 ## 1. Authoring Contract
 
-El bloque usa **una sola fila** con hasta **dos celdas**:
+The block uses **a single row** with up to **two cells**:
 
-- **Celda 1 (opcional)**: solo un icono. Se marca como `alert-strip-icon` y se trata como decorativa.
-- **Celda 2 (o única celda)**: el texto del mensaje. Se marca como `alert-strip-text`.
+- **Cell 1 (optional)**: an icon only. It is marked as `alert-strip-icon` and treated as decorative.
+- **Cell 2 (or single cell)**: the message text. It is marked as `alert-strip-text`.
 
-La clasificación es dinámica: una celda que contiene un `.icon` y **no tiene texto** se considera icono (`alert-strip-icon`); cualquier otra celda se considera texto (`alert-strip-text`). Por eso una sola celda con texto también funciona.
+The classification is dynamic: a cell that contains an `.icon` and **has no text** is considered an icon (`alert-strip-icon`); any other cell is considered text (`alert-strip-text`). This is why a single cell with text also works.
 
-### Estructura Conceptual
+### Conceptual Structure
 
 ```text
 | alert-strip | |
-| :icon:      | **¿Necesitas ayuda para comenzar? Llama [833-4-VYEPTI](tel:8334893784) (833-489-3784).** |
+| :icon:      | **Need help getting started? Call [833-4-VYEPTI](tel:8334893784) (833-489-3784).** |
 ```
 
-Versión solo texto (sin icono):
+Text-only version (no icon):
 
 ```text
 | alert-strip |
-| **¿Necesitas ayuda para comenzar? Llama al 833-489-3784.** |
+| **Need help getting started? Call 833-489-3784.** |
 ```
 
 ## 2. Accessibility
 
-Comportamiento real presente en `alert-strip.js`:
+Actual behavior present in `alert-strip.js`:
 
-- El bloque recibe `role="note"`.
-- Una celda que es solo icono recibe `aria-hidden="true"` (decorativa, se oculta a lectores de pantalla).
+- The block receives `role="note"`.
+- A cell that is icon-only receives `aria-hidden="true"` (decorative, hidden from screen readers).
 
 ## 3. CSS Customization
 
-`alert-strip.css` no define variables CSS propias. Consume variables globales:
+`alert-strip.css` does not define its own CSS variables. It consumes global variables:
 
 ```css
---light-color         /* Fondo de la franja */
---body-font-size-s    /* Tamaño del texto */
---link-color          /* Color de los links */
---link-hover-color    /* Color de los links en hover */
+--light-color         /* Strip background */
+--body-font-size-s    /* Text size */
+--link-color          /* Link color */
+--link-hover-color    /* Link color on hover */
 ```
 
-Detalles de layout:
+Layout details:
 
-- La franja sangra a ancho completo del viewport (`max-width: none`, `padding: 0` en el wrapper) y elimina el margen superior de la sección para quedar pegada al hero.
-- El contenido interno se centra con `flex` y se limita a `max-width: 1200px`.
-- El icono mide 40x40px en móvil y 48x48px en desktop (`width >= 900px`).
-- Los links se muestran subrayados y con `white-space: nowrap`.
+- The strip bleeds to the full width of the viewport (`max-width: none`, `padding: 0` on the wrapper) and removes the section's top margin so it sits flush against the hero.
+- The inner content is centered with `flex` and limited to `max-width: 1200px`.
+- The icon measures 40x40px on mobile and 48x48px on desktop (`width >= 900px`).
+- Links are shown underlined and with `white-space: nowrap`.

@@ -1,84 +1,84 @@
-# Footer Block — Pie de Página Global
+# Footer Block — Global Footer
 
-El footer renderiza el pie de página global del sitio a partir de un fragmento compartido. Replica el pie de vyepti.com: una franja teal de enlaces legales, un bloque de copy legal con el botón magenta "For assistance, call" (llamada telefónica), y una fila de iconos sociales + logo de Lundbeck alineada a la derecha.
+The footer renders the site-wide footer from a shared fragment. It replicates the vyepti.com footer: a teal strip of legal links, a legal copy block with the magenta "For assistance, call" button (phone call), and a row of social icons + Lundbeck logo aligned to the right.
 
-`decorate(block)` carga el fragmento del footer con `loadFragment()`, vacía el bloque, y reparte las secciones autoradas del fragmento en tres bandas (`legal`, `info`, `brand`) según su orden.
+`decorate(block)` loads the footer fragment with `loadFragment()`, empties the block, and distributes the fragment's authored sections into three bands (`legal`, `info`, `brand`) based on their order.
 
 ---
 
 ## 1. Authoring Contract
 
-El footer se autora **una sola vez**, en el documento del fragmento en el content drive. La ruta se resuelve así:
+The footer is authored **only once**, in the fragment document in the content drive. The path is resolved as follows:
 
-1. Si la página define el metadato `footer`, se usa esa ruta (resuelta contra el origen actual).
-2. Si no, se usa la ruta por defecto **`/fragments/footer`**.
+1. If the page defines the `footer` metadata, that path is used (resolved against the current origin).
+2. Otherwise, the default path **`/fragments/footer`** is used.
 
-El fragmento debe contener **tres secciones**, separadas por reglas horizontales (`---`), en este orden exacto. El JS asigna las clases según la posición (`footer.children[0..2]`):
+The fragment must contain **three sections**, separated by horizontal rules (`---`), in this exact order. The JS assigns the classes based on position (`footer.children[0..2]`):
 
 ```text
-footer.children[0]  →  .footer-legal   (franja teal de enlaces legales)
-footer.children[1]  →  .footer-info    (copy legal + botón de llamada)
-footer.children[2]  →  .footer-brand   (iconos sociales + logo Lundbeck)
+footer.children[0]  →  .footer-legal   (teal strip of legal links)
+footer.children[1]  →  .footer-info    (legal copy + call button)
+footer.children[2]  →  .footer-brand   (social icons + Lundbeck logo)
 ```
 
-### Sección 1 — Enlaces legales (franja teal)
+### Section 1 — Legal links (teal strip)
 
-Una lista de enlaces (Privacy Policy, Terms of Use, etc.). Se renderizan centrados, en blanco sobre fondo teal (`--link-color`), con wrap automático.
+A list of links (Privacy Policy, Terms of Use, etc.). They render centered, white on a teal background (`--link-color`), with automatic wrapping.
 
-### Sección 2 — Copy legal + llamada de asistencia
+### Section 2 — Legal copy + assistance call
 
-- Uno o más párrafos de copy legal.
-- Un enlace telefónico `tel:` precedido por un párrafo de etiqueta (p. ej. *For assistance, call*).
+- One or more paragraphs of legal copy.
+- A `tel:` phone link preceded by a label paragraph (e.g. *For assistance, call*).
 
-El JS (`decorateCallToAction`) localiza el enlace `a[href^="tel:"]`, lo convierte en el botón magenta (`.button.primary.footer-call`), y lo agrupa con el párrafo de etiqueta que lo precede dentro de un `.footer-cta`. Este grupo se antepone al inicio de la sección info.
+The JS (`decorateCallToAction`) locates the `a[href^="tel:"]` link, turns it into the magenta button (`.button.primary.footer-call`), and groups it with the preceding label paragraph inside a `.footer-cta`. This group is prepended to the start of the info section.
 
-Detalles de robustez del parseo:
+Parsing robustness details:
 
-- `stripBoldMarkers` elimina marcadores literales `**` que un autor haya escrito en lugar de usar el formato negrita del editor.
-- Se desenvuelve cualquier `<strong>`/`<em>` que envuelva el enlace, de modo que el propio enlace sea el botón (no depende de la auto-buttonization).
+- `stripBoldMarkers` removes literal `**` markers that an author may have typed instead of using the editor's bold formatting.
+- Any `<strong>`/`<em>` wrapping the link is unwrapped, so that the link itself is the button (it does not rely on auto-buttonization).
 
-### Sección 3 — Sociales + logo
+### Section 3 — Social + logo
 
-Una fila de enlaces con iconos (redes sociales) y el logo de Lundbeck. `decorateIconLinks` oculta visualmente el texto de los enlaces con icono (envolviéndolo en `<span class="visually-hidden">`) para que quede solo el icono en pantalla, pero disponible para lectores de pantalla.
+A row of icon links (social networks) and the Lundbeck logo. `decorateIconLinks` visually hides the text of the icon links (wrapping it in `<span class="visually-hidden">`) so that only the icon appears on screen, while remaining available to screen readers.
 
 ```text
 | footer |
 ```
 
-(El bloque en la página está vacío; todo el contenido vive en el fragmento.)
+(The block on the page is empty; all content lives in the fragment.)
 
 ---
 
 ## 2. Accessibility
 
-- Los enlaces solo-icono (sociales, logo Lundbeck) conservan su texto para lectores de pantalla mediante `span.visually-hidden`; visualmente se muestra solo el icono.
-- El botón de llamada es un enlace `tel:` real, navegable por teclado, con estados `:hover` y `:focus-visible`.
+- Icon-only links (social, Lundbeck logo) retain their text for screen readers via `span.visually-hidden`; only the icon is shown visually.
+- The call button is a real `tel:` link, keyboard-navigable, with `:hover` and `:focus-visible` states.
 
 ---
 
 ## 3. CSS Customization
 
-`footer.css` no declara `--custom-properties` propias; consume variables globales del sitio:
+`footer.css` does not declare its own `--custom-properties`; it consumes the site's global variables:
 
 ```css
---background-color   /* fondo del footer y texto sobre la franja teal */
---body-font-size-xs  /* tamaño base del pie */
---link-color         /* fondo teal de la franja legal */
---light-color        /* color de enlaces legales en hover */
---dark-color         /* color del texto de la sección info */
---text-color         /* color de la etiqueta "For assistance, call" */
---accent-color       /* fondo del botón magenta de llamada */
---accent-hover-color /* fondo del botón en hover/focus */
+--background-color   /* footer background and text over the teal strip */
+--body-font-size-xs  /* base footer size */
+--link-color         /* teal background of the legal strip */
+--light-color        /* color of legal links on hover */
+--dark-color         /* text color of the info section */
+--text-color         /* color of the "For assistance, call" label */
+--accent-color       /* background of the magenta call button */
+--accent-hover-color /* button background on hover/focus */
 ```
 
-### Iconos esperados
+### Expected icons
 
-- **`../../icons/call.svg`** — icono de teléfono dibujado con `::before` sobre el botón `a.footer-call` (16×19px). NOTA: este archivo **no existe** actualmente en `/icons/`, por lo que el pseudo-elemento producirá un 404; agregar `call.svg` para que se muestre el icono.
-- **`.icon-lundbeck`** — logo de Lundbeck (160px de ancho móvil, 27px los iconos sociales en desktop), provisto como icono en el fragmento.
+- **`../../icons/call.svg`** — phone icon drawn with `::before` on the `a.footer-call` button (16×19px). NOTE: this file **does not currently exist** in `/icons/`, so the pseudo-element will produce a 404; add `call.svg` for the icon to be displayed.
+- **`.icon-lundbeck`** — Lundbeck logo (160px wide on mobile, 27px for the social icons on desktop), provided as an icon in the fragment.
 
 ---
 
 ## 4. Performance Notes
 
-- El footer se carga como fragmento en la fase lazy vía `loadFragment()`, fuera del camino crítico de LCP.
-- Editar y publicar el documento del fragmento actualiza el pie en todas las páginas de inmediato.
+- The footer is loaded as a fragment in the lazy phase via `loadFragment()`, outside the critical LCP path.
+- Editing and publishing the fragment document updates the footer on all pages immediately.

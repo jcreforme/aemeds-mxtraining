@@ -1,69 +1,69 @@
 # Hero Two Columns Block
 
-Hero de una sola columna de contenido superpuesto sobre una **imagen de fondo responsive**. El bloque combina una o varias imágenes autoradas en un único `<picture>` con `<source media>` por breakpoint y coloca los encabezados centrados encima. Incluye un descargo "Actor portrayal" opcional en la esquina inferior.
+Single-column hero of content overlaid on a **responsive background image**. The block combines one or several authored images into a single `<picture>` with a `<source media>` per breakpoint and places the headings centered on top. It includes an optional "Actor portrayal" disclaimer in the bottom corner.
 
 ## 1. Authoring Contract
 
-`decorate` recorre **todas las filas** del bloque y clasifica cada una leyendo su **primera celda**:
+`decorate` iterates over **all rows** of the block and classifies each one by reading its **first cell**:
 
-- **Filas solo-imagen** (celda con `picture` y **sin encabezado**): aportan las imágenes de fondo responsive. Se acumulan en orden para generar las `<source>`.
-- **Fila de contenido** (celda con encabezado `h1`/`h2`/`h3`/`h4`): es el texto superpuesto. Si no se encuentra ninguna, se usa la última fila.
+- **Image-only rows** (cell with a `picture` and **no heading**): provide the responsive background images. They are accumulated in order to generate the `<source>` elements.
+- **Content row** (cell with an `h1`/`h2`/`h3`/`h4` heading): is the overlaid text. If none is found, the last row is used.
 
-El orden de las filas de imagen mapea a estas media queries (mayor primero):
+The order of the image rows maps to these media queries (largest first):
 
 ```text
-1ª fila de imagen  → (min-width: 1200px)
-2ª fila de imagen  → (min-width: 768px)
-3ª fila de imagen  → (min-width: 375px)  + <img> fallback
+1st image row  → (min-width: 1200px)
+2nd image row  → (min-width: 768px)
+3rd image row  → (min-width: 375px)  + <img> fallback
 ```
 
 ```text
 | hero-two-columns | |
-| [imagen desktop 1200px] |
-| [imagen tablet 768px]   |
-| [imagen móvil 375px]    |
-| ### Subtítulo (H3)      |
-| # Título principal (H1) |
+| [desktop image 1200px]  |
+| [tablet image 768px]    |
+| [mobile image 375px]    |
+| ### Subheading (H3)     |
+| # Main title (H1)       |
 | *Actor portrayal*       |
 ```
 
-Del contenido de la fila de texto:
+From the content of the text row:
 
-- Todos los encabezados (`h1`..`h4`) se mueven a un contenedor `hero-two-columns-content`.
-- El **descargo** es el `<p>` que contiene un `<em>` y **no** contiene imagen; se marca como `hero-two-columns-caption` y se posiciona abajo a la derecha.
+- All headings (`h1`..`h4`) are moved to a `hero-two-columns-content` container.
+- The **disclaimer** is the `<p>` that contains an `<em>` and does **not** contain an image; it is marked as `hero-two-columns-caption` and positioned at the bottom right.
 
-### Compatibilidad hacia atrás (legacy)
+### Backward compatibility (legacy)
 
-Si no hay filas de imagen dedicadas, el bloque busca un `picture` dentro de la fila de contenido y lo usa como fondo único.
+If there are no dedicated image rows, the block looks for a `picture` inside the content row and uses it as the single background.
 
-### Variante financial-assistance
+### financial-assistance variant
 
-La sección puede llevar la clase `hero-banner-financial-assistance` (aplicada al contenedor de sección), que ajusta el padding del contenido y el ancho máximo del `h1` en móvil, tablet y desktop.
+The section can carry the `hero-banner-financial-assistance` class (applied to the section container), which adjusts the content padding and the maximum width of the `h1` on mobile, tablet, and desktop.
 
 ## Accessibility
 
-- El `<img>` fallback conserva el `alt` de la imagen móvil autorada.
-- La imagen de fondo se carga con `loading="eager"` (es LCP).
-- Se preservan los encabezados autorados (`h1`/`h3`), manteniendo la jerarquía del documento.
-- El descargo se mantiene como texto (`<p><em>`), sin sustituir el `alt` de la imagen.
+- The `<img>` fallback retains the `alt` of the authored mobile image.
+- The background image is loaded with `loading="eager"` (it is the LCP).
+- The authored headings (`h1`/`h3`) are preserved, maintaining the document hierarchy.
+- The disclaimer is kept as text (`<p><em>`), without replacing the image's `alt`.
 
-> Nota: el bloque no añade `role`/`aria-*` explícitos.
+> Note: the block does not add explicit `role`/`aria-*`.
 
 ## CSS Customization
 
-`hero-two-columns.css` **no define variables `--custom-property`**; usa valores literales. Puntos de personalización habituales:
+`hero-two-columns.css` **does not define `--custom-property` variables**; it uses literal values. Common customization points:
 
-- Gradiente de fondo móvil: `linear-gradient(120deg, #cdeef7 0%, #e8f6fb 60%, #f3fafd 100%)` en `.hero-two-columns` (se desactiva en >= 768px, donde manda la imagen).
-- Color del subtítulo (`h3`): `#333`.
-- Color del título (`h1`): `#046183` (teal de marca).
-- Fuente: `proxima-nova, arial, sans-serif`.
-- `object-position: 70% center` en la imagen de fondo (>= 768px).
+- Mobile background gradient: `linear-gradient(120deg, #cdeef7 0%, #e8f6fb 60%, #f3fafd 100%)` in `.hero-two-columns` (disabled at >= 768px, where the image takes over).
+- Subtitle color (`h3`): `#333`.
+- Title color (`h1`): `#046183` (brand teal).
+- Font: `proxima-nova, arial, sans-serif`.
+- `object-position: 70% center` on the background image (>= 768px).
 
-Breakpoints: 600px, 768px, 1200px y 1900px.
+Breakpoints: 600px, 768px, 1200px, and 1900px.
 
 ## Performance Notes
 
-- **`<picture>` responsive único**: una sola imagen sirve las tres resoluciones vía `<source media>`, evitando descargar assets innecesarios.
-- La imagen de fondo usa `loading="eager"` por ser el LCP del hero.
-- Sin JavaScript de interacción ni observers; la decoración es síncrona.
-- En móvil el fondo se sustituye por un gradiente CSS ligero; la imagen a sangre completa solo aparece desde 768px.
+- **Single responsive `<picture>`**: one image serves the three resolutions via `<source media>`, avoiding downloading unnecessary assets.
+- The background image uses `loading="eager"` because it is the hero's LCP.
+- No interaction JavaScript or observers; decoration is synchronous.
+- On mobile the background is replaced by a lightweight CSS gradient; the full-bleed image only appears from 768px.

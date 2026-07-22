@@ -1,33 +1,33 @@
-# Side Effects Block — Imagen + Contenido
+# Side Effects Block — Image + Content
 
-Bloque de dos columnas (imagen + contenido) sobre fondo teal degradado, usado para destacar resultados de eficacia/seguridad. Soporta una imagen de fondo de desktop opcional, una caption superpuesta sobre la imagen (p. ej. "Actor portrayal"), y de-énfasis automático de paréntesis finales en los encabezados.
+Two-column block (image + content) on a teal gradient background, used to highlight efficacy/safety results. It supports an optional desktop background image, a caption overlaid on the image (e.g. "Actor portrayal"), and automatic de-emphasis of trailing parentheses in headings.
 
 ## 1. Authoring Contract
 
-El bloque lee sus filas (`block.children`) así:
+The block reads its rows (`block.children`) as follows:
 
-### Fila de fondo (opcional)
+### Background row (optional)
 
-Si hay más de una fila y la **primera** fila tiene **una sola celda con una imagen**, esa imagen se usa como **fondo de desktop**: su `src` se expone en la custom property `--side-effects-bg` sobre el bloque, y la fila se elimina para que no se renderice como contenido. El fondo solo se aplica en ≥1200px.
+If there is more than one row and the **first** row has **a single cell with an image**, that image is used as the **desktop background**: its `src` is exposed in the `--side-effects-bg` custom property on the block, and the row is removed so it is not rendered as content. The background is only applied at ≥1200px.
 
-### Fila de contenido (obligatoria)
+### Content row (required)
 
-La fila de contenido tiene **dos celdas**:
+The content row has **two cells**:
 
-- **Celda 1 — Imagen** → `.side-effects-image`. La imagen (`<picture>`) se envuelve en un `.side-effects-figure`. Cualquier texto restante en la celda (fuera del `picture`/`img`) se captura como **caption** y se renderiza en `<span class="side-effects-caption">`, superpuesta sobre la imagen (p. ej. "Actor portrayal"). La caption puede ser un `<p>` propio, texto inline en el `<p>` de la imagen, o un nodo de texto suelto.
-- **Celda 2 — Contenido** → `.side-effects-content`. Texto, encabezados (`h1`/`h2`/`h3`), párrafos.
+- **Cell 1 — Image** → `.side-effects-image`. The image (`<picture>`) is wrapped in a `.side-effects-figure`. Any remaining text in the cell (outside the `picture`/`img`) is captured as a **caption** and rendered in `<span class="side-effects-caption">`, overlaid on the image (e.g. "Actor portrayal"). The caption can be its own `<p>`, inline text in the image's `<p>`, or a loose text node.
+- **Cell 2 — Content** → `.side-effects-content`. Text, headings (`h1`/`h2`/`h3`), paragraphs.
 
-### Estructura Conceptual
+### Conceptual Structure
 
 ```text
 | side-effects |                          |
-| ![](bg-desktop.png) |                    |   ← fila de fondo opcional (1 celda con imagen)
+| ![](bg-desktop.png) |                    |   ← optional background row (1 cell with image)
 | ![](woman.png) Actor portrayal | ## Up to 40% saw
 |                          | # zero migraine days
 |                          | ...copy... |
 ```
 
-O sin fondo:
+Or without background:
 
 ```text
 | side-effects |                          |
@@ -35,34 +35,34 @@ O sin fondo:
 |                          | # zero migraine days |
 ```
 
-### De-énfasis de paréntesis en encabezados
+### De-emphasis of parentheses in headings
 
-En la celda de contenido, para cada `h1`/`h2`/`h3` cuyo texto termine en un paréntesis (p. ej. *"for a month or more (any 28 days in a row)"*), el paréntesis final se envuelve en `<span class="side-effects-light">` y se renderiza con peso normal (usando la fuente body, porque la fuente de encabezado solo trae peso 700). Solo aplica si el encabezado no tiene elementos hijos.
+In the content cell, for each `h1`/`h2`/`h3` whose text ends in a parenthetical (e.g. *"for a month or more (any 28 days in a row)"*), the trailing parenthetical is wrapped in `<span class="side-effects-light">` and rendered with normal weight (using the body font, because the heading font only ships with weight 700). It only applies if the heading has no child elements.
 
 ## 2. Accessibility
 
-- La imagen conserva su `alt` autorado (el bloque no lo modifica).
-- Los encabezados mantienen su nivel semántico (`h1`/`h2`/`h3`), preservando el outline del documento.
+- The image keeps its authored `alt` (the block does not modify it).
+- The headings keep their semantic level (`h1`/`h2`/`h3`), preserving the document outline.
 
 ## 3. CSS Customization
 
-`side-effects.css` define la siguiente custom property (fijada por el JS):
+`side-effects.css` defines the following custom property (set by the JS):
 
 ```css
---side-effects-bg  /* url() de la imagen de fondo de desktop (≥1200px); fallback: gradiente teal */
+--side-effects-bg  /* url() of the desktop background image (≥1200px); fallback: teal gradient */
 ```
 
-También consume `--body-font-family` para el paréntesis de-enfatizado. Colores fijos de marca:
+It also consumes `--body-font-family` for the de-emphasized parenthetical. Fixed brand colors:
 
 ```css
-#eff6f9 / gradiente #d6eef7→#f2f9fc  /* fondo teal claro */
-#046183  /* encabezados teal (h2/h3) */
-#c02c57  /* headline principal (h1), p. ej. "zero migraine days" */
-#333     /* texto y strong */
+#eff6f9 / gradient #d6eef7→#f2f9fc  /* light teal background */
+#046183  /* teal headings (h2/h3) */
+#c02c57  /* main headline (h1), e.g. "zero migraine days" */
+#333     /* text and strong */
 ```
 
-Layout: columna invertida en móvil (imagen abajo), fila 50/50 en desktop (≥900px). La caption se posiciona absoluta a la derecha/abajo de la imagen con `text-shadow` blanco.
+Layout: reversed column on mobile (image at the bottom), 50/50 row on desktop (≥900px). The caption is positioned absolute at the right/bottom of the image with a white `text-shadow`.
 
 ## 4. Performance Notes
 
-- El fondo de desktop se aplica solo en ≥1200px vía media query, evitando descargarlo en pantallas pequeñas.
+- The desktop background is applied only at ≥1200px via a media query, avoiding downloading it on small screens.

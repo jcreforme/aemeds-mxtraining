@@ -1,41 +1,41 @@
 # CTA Gradient 2 Cols Block
 
-Rejilla de tarjetas de llamada a la acción. En móvil se apilan en una sola columna; en desktop (>= 900px) se muestran en dos columnas. Cada tarjeta tiene una barra de acento con gradiente (teal -> coral -> magenta) anclada al pie.
+Grid of call-to-action cards. On mobile they stack into a single column; on desktop (>= 900px) they display in two columns. Each card has a gradient accent bar (teal -> coral -> magenta) anchored to the bottom.
 
 ## 1. Authoring Contract
 
-Cada **fila** del bloque es una tarjeta. El JS recorre `block.children` (cada fila = una tarjeta) y:
+Each **row** of the block is a card. The JS iterates over `block.children` (each row = one card) and:
 
-- Añade la clase `cta-card` a cada fila.
-- Añade la clase `cta-card-body` a su primer hijo (la celda de contenido).
+- Adds the `cta-card` class to each row.
+- Adds the `cta-card-body` class to its first child (the content cell).
 
-### Estructura Conceptual
+### Conceptual Structure
 
 ```text
 | cta-gradient-2-cols | |
-| #### Eyebrow ← H4 (teal) ## Título ← H2/H3 (magenta) Texto de apoyo. [Learn More](/link) ← botón |
-| #### Eyebrow ## Otro título Más texto. [Get Started](/start) |
+| #### Eyebrow ← H4 (teal) ## Title ← H2/H3 (magenta) Supporting text. [Learn More](/link) ← button |
+| #### Eyebrow ## Another title More text. [Get Started](/start) |
 ```
 
-Cada fila (tarjeta) contiene una celda con eyebrow, encabezado, párrafo y un enlace botón. Con dos filas se obtiene el layout de dos columnas en desktop.
+Each row (card) contains a cell with an eyebrow, heading, paragraph, and a button link. With two rows you get the two-column layout on desktop.
 
-Convenciones tipográficas aplicadas vía CSS:
+Typographic conventions applied via CSS:
 
-- `h4` -> eyebrow en teal (#046183).
-- `h2` / `h3` -> encabezado en magenta (#c02c57).
-- `p` -> texto de cuerpo en gris (#333).
-- `a.button` (dentro de `p.button-wrapper`) -> botón redondeado teal con flecha.
+- `h4` -> eyebrow in teal (#046183).
+- `h2` / `h3` -> heading in magenta (#c02c57).
+- `p` -> body text in gray (#333).
+- `a.button` (inside `p.button-wrapper`) -> rounded teal button with arrow.
 
-## Iconos
+## Icons
 
-El botón CTA añade una flecha vía background de la celda `::after`:
+The CTA button adds an arrow via the background of the `::after` cell:
 
 - `/icons/cta-button-arrow-20-global-white.svg`
 
 ## CSS Customization
 
-`cta-gradient-2-cols.css` no define custom properties propias; los colores están codificados directamente (teal `#046183`, hover `#035270`, magenta `#c02c57`). El contenedor usa `display: grid` con `max-width: 1140px` y `gap: 24px`.
+`cta-gradient-2-cols.css` does not define its own custom properties; the colors are hardcoded directly (teal `#046183`, hover `#035270`, magenta `#c02c57`). The container uses `display: grid` with `max-width: 1140px` and `gap: 24px`.
 
 ## Performance Notes
 
-Decoración síncrona muy ligera (solo asigna clases), sin dependencias ni fetch.
+Very lightweight synchronous decoration (it only assigns classes), with no dependencies or fetch.

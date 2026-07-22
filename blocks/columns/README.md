@@ -1,39 +1,39 @@
 # Columns Block
 
-Columns block del boilerplate de AEM EDS. Distribuye el contenido de cada fila en columnas lado a lado en desktop y apiladas en móvil. Detecta automáticamente las columnas que solo contienen una imagen para reordenarlas.
+The columns block from the AEM EDS boilerplate. It distributes the content of each row into columns side by side on desktop and stacked on mobile. It automatically detects columns that only contain an image in order to reorder them.
 
 ## 1. Authoring Contract
 
-Cada **fila** del bloque es un grupo de columnas; cada **celda** de la fila es una columna.
+Each **row** of the block is a group of columns; each **cell** of the row is a column.
 
-- El número de columnas se toma de la **primera fila** (`block.firstElementChild.children`) y se añade la clase `columns-{N}-cols` al bloque (ej. `columns-2-cols`).
-- Si una columna contiene **únicamente** una imagen (un `picture` como único hijo de su `div`), se marca con la clase `columns-img-col`.
+- The number of columns is taken from the **first row** (`block.firstElementChild.children`) and the class `columns-{N}-cols` is added to the block (e.g. `columns-2-cols`).
+- If a column contains **only** an image (a `picture` as the sole child of its `div`), it is marked with the class `columns-img-col`.
 
-### Estructura Conceptual
+### Conceptual Structure
 
 ```text
 | columns | |
-| ## Título de la columna         | [imagen] |
-| Texto de la columna con un link |          |
+| ## Column title                 | [image] |
+| Column text with a link         |         |
 ```
 
-En este ejemplo la primera fila tiene 2 celdas → el bloque recibe la clase `columns-2-cols`, y la segunda celda (solo imagen) recibe `columns-img-col`.
+In this example the first row has 2 cells → the block receives the class `columns-2-cols`, and the second cell (image only) receives `columns-img-col`.
 
-### Comportamiento de Layout
+### Layout Behavior
 
-- **Móvil** (por defecto): las columnas se apilan verticalmente (`flex-direction: column`). Las columnas de imagen (`columns-img-col`) se colocan primero (`order: 0`), el resto después (`order: 1`).
-- **Desktop** (`width >= 900px`): las columnas se muestran en fila, centradas verticalmente, con `gap: 24px` y reparto equitativo (`flex: 1`).
-- Las imágenes se limitan a un `30%` de ancho y se centran.
+- **Mobile** (default): the columns stack vertically (`flex-direction: column`). Image columns (`columns-img-col`) are placed first (`order: 0`), the rest afterwards (`order: 1`).
+- **Desktop** (`width >= 900px`): the columns are shown in a row, vertically centered, with `gap: 24px` and equal distribution (`flex: 1`).
+- Images are limited to `30%` width and centered.
 
 ## 2. CSS Customization
 
-`columns.css` no define variables CSS propias. Aplica estilos fijos al contenido:
+`columns.css` does not define its own CSS variables. It applies fixed styles to the content:
 
-- Títulos `h2` en color `#046183`, centrados, 25px.
-- Párrafos `p` centrados.
-- Los links `a` se renderizan como botones tipo "pill" (borde `2px solid #046183`, `border-radius: 999px`, bold).
-- Regla especial para `.columns .icon-arrow2 img` (icono de flecha en línea, 80x10px).
+- `h2` titles in color `#046183`, centered, 25px.
+- `p` paragraphs centered.
+- `a` links are rendered as "pill"-style buttons (`2px solid #046183` border, `border-radius: 999px`, bold).
+- Special rule for `.columns .icon-arrow2 img` (inline arrow icon, 80x10px).
 
-## 3. Notas
+## 3. Notes
 
-- El número de columnas debe ser consistente entre filas; el conteo se calcula solo a partir de la primera fila.
+- The number of columns should be consistent across rows; the count is calculated only from the first row.

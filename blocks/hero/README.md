@@ -1,36 +1,36 @@
 # Hero Block
 
-Hero block para AEM EDS con dos variantes. La variante **por defecto** (`hero`) replica el banner de portada de vyepti.com: una imagen a sangre completa con encabezado, copy, CTA y un descargo "Actor portrayal" superpuestos. La variante **split** (`hero (split)`) replica el banner dividido de la portada (`.teaser.homeBanner`): dos paneles de imagen lado a lado en desktop, apilados en móvil, cada uno con su copy centrado.
+Hero block for AEM EDS with two variants. The **default** variant (`hero`) replicates the vyepti.com homepage banner: a full-bleed image with a heading, copy, CTA, and an "Actor portrayal" disclaimer overlaid. The **split** variant (`hero (split)`) replicates the homepage's split banner (`.teaser.homeBanner`): two image panels side by side on desktop, stacked on mobile, each with its centered copy.
 
 ## 1. Authoring Contract
 
-El decorador elige la variante según la clase del bloque: si tiene la clase `split` ejecuta `decorateSplit`, de lo contrario `decorateSingle`.
+The decorator chooses the variant based on the block's class: if it has the `split` class it runs `decorateSplit`, otherwise `decorateSingle`.
 
-### Variante por Defecto (single-panel)
+### Default Variant (single-panel)
 
-`decorateSingle` toma la **primera fila** del bloque y lee sus **dos primeras columnas**: la columna 1 es la imagen (media), la columna 2 es el contenido (encabezado, copy, CTA y descargo).
+`decorateSingle` takes the **first row** of the block and reads its **first two columns**: column 1 is the image (media), column 2 is the content (heading, copy, CTA, and disclaimer).
 
-- **Columna 1**: `picture` (la imagen a sangre completa que define la altura del hero).
-- **Columna 2**: contenido superpuesto.
-  - El primer encabezado (`h1`) es el título.
-  - Los párrafos son el copy.
-  - Un link (`<a>`) se convierte en el CTA (pill rosa con flecha blanca).
-  - El **último párrafo** que sea solo itálica (`em`/`i`) y sin link se marca como descargo `hero-disclaimer` ("Actor portrayal"). También se detecta un descargo previo con clases del sitio origen (`.cmp-teaser__description__secondary`, `.actor-portrayl-text-shadow`, `.actor-portrayal-text-shadow`).
+- **Column 1**: `picture` (the full-bleed image that defines the hero's height).
+- **Column 2**: overlaid content.
+  - The first heading (`h1`) is the title.
+  - The paragraphs are the copy.
+  - A link (`<a>`) is turned into the CTA (pink pill with a white arrow).
+  - The **last paragraph** that is italic-only (`em`/`i`) and has no link is marked as the `hero-disclaimer` ("Actor portrayal"). A prior disclaimer with source-site classes is also detected (`.cmp-teaser__description__secondary`, `.actor-portrayl-text-shadow`, `.actor-portrayal-text-shadow`).
 
 ```text
 | hero | |
-| [imagen a sangre completa] | # say yep to VYEPTI            |
+| [full-bleed image]         | # say yep to VYEPTI            |
 |                            | Migraine prevention that's proven… |
 |                            | [Check out study results](/…)  |
 |                            | *Actor portrayal*              |
 ```
 
-Notas de layout:
+Layout notes:
 
-- Móvil: la imagen va debajo y el copy sobre un panel teal encima (la columna se invierte con `flex-direction: column-reverse`). La imagen se recorta a `aspect-ratio: 4 / 5`.
-- Desktop (>= 900px): el contenido se superpone y centra sobre la imagen; `h1` ocupa 64% del ancho y el copy 60%.
+- Mobile: the image goes below and the copy on a teal panel above (the column is reversed with `flex-direction: column-reverse`). The image is cropped to `aspect-ratio: 4 / 5`.
+- Desktop (>= 900px): the content is overlaid and centered over the image; `h1` takes up 64% of the width and the copy 60%.
 
-Clases opcionales de punto focal (autorables en el bloque) que ajustan `object-position` de la imagen:
+Optional focal-point classes (authorable on the block) that adjust the image's `object-position`:
 
 ```text
 | hero (focus-left)   | ...  |
@@ -38,63 +38,63 @@ Clases opcionales de punto focal (autorables en el bloque) que ajustan `object-p
 | hero (focus-right)  | ...  |
 ```
 
-### Variante Split
+### Split Variant
 
-`decorateSplit` recorre **cada fila** del bloque; cada fila es un panel. Dentro de la fila las celdas son **order-agnostic**: la celda que contiene un `picture` es el media, la otra es el contenido.
+`decorateSplit` iterates over **each row** of the block; each row is a panel. Within the row the cells are **order-agnostic**: the cell that contains a `picture` is the media, the other is the content.
 
 ```text
 | hero (split) | |
-| [imagen izquierda] | When a showstopping migraine…       |
+| [left image]       | When a showstopping migraine…       |
 |                    | # nope                              |
 |                    | *Actor portrayal*                   |
-| [imagen derecha]   | It may be time to                   |
+| [right image]      | It may be time to                   |
 |                    | # say **yep** to **VYEPTI**         |
 |                    | Migraine prevention that's proven…  |
 |                    | [Check out study results](/…)       |
 |                    | *Actor portrayal*                   |
 ```
 
-`decoratePanelContent` clasifica cada celda de contenido:
+`decoratePanelContent` classifies each content cell:
 
-- Encabezados (`h1`/`h2`/`h3`) → texto display (`hero-display`). Las palabras en **negrita** dentro del display se pintan en rojo de marca (`--hero-accent`).
-- El párrafo inmediatamente después de un encabezado (sin link y que no sea descargo) → subtexto (`hero-subtext`).
-- Un link (`<a>`) → CTA pill (`hero-cta`); si viene envuelto en `strong`/`em` se desenvuelve para que el propio link sea el botón.
-- El **último párrafo** solo itálica y sin link → descargo (`hero-disclaimer`).
+- Headings (`h1`/`h2`/`h3`) → display text (`hero-display`). **Bold** words within the display are painted in the brand red (`--hero-accent`).
+- The paragraph immediately after a heading (with no link and that is not a disclaimer) → subtext (`hero-subtext`).
+- A link (`<a>`) → CTA pill (`hero-cta`); if it comes wrapped in `strong`/`em` it is unwrapped so that the link itself is the button.
+- The **last paragraph** that is italic-only and has no link → disclaimer (`hero-disclaimer`).
 
-Estilos por panel:
+Per-panel styles:
 
-- **Panel 1** (`hero-panel-1`): copy blanco sobre la foto oscura.
-- **Panel 2** (`hero-panel-2`): copy teal, acentos rojos y CTA.
-- Móvil: los paneles se apilan (`grid-template-columns: 1fr`); desktop (>= 900px): lado a lado (`1fr 1fr`).
+- **Panel 1** (`hero-panel-1`): white copy over the dark photo.
+- **Panel 2** (`hero-panel-2`): teal copy, red accents, and CTA.
+- Mobile: the panels stack (`grid-template-columns: 1fr`); desktop (>= 900px): side by side (`1fr 1fr`).
 
 ## Accessibility
 
-- El CTA es un link nativo (`<a>`); cuando el link viene envuelto en `strong`/`em`, se desenvuelve para preservar semántica limpia.
-- Los encabezados autorados (`h1`) se conservan como encabezados reales, manteniendo la jerarquía del documento.
-- El descargo se mantiene como texto (no reemplaza texto alternativo de imagen).
-- Respeta `prefers-reduced-motion`: desactiva la transición del CTA.
+- The CTA is a native link (`<a>`); when the link comes wrapped in `strong`/`em`, it is unwrapped to preserve clean semantics.
+- The authored headings (`h1`) are kept as real headings, maintaining the document hierarchy.
+- The disclaimer is kept as text (it does not replace the image's alt text).
+- Respects `prefers-reduced-motion`: it disables the CTA transition.
 
-> Nota: el bloque no añade `role`/`aria-*` explícitos; se apoya en el markup semántico de encabezados y links.
+> Note: the block does not add explicit `role`/`aria-*`; it relies on the semantic markup of headings and links.
 
 ## CSS Customization
 
-Variables CSS (design tokens) definidas en `:root` dentro de `hero.css`:
+CSS variables (design tokens) defined in `:root` inside `hero.css`:
 
 ```css
---hero-accent         /* Rosa/rojo de marca del CTA y negritas (#c02c57) */
---hero-accent-hover   /* Hover del CTA (var(--accent-hover-color, #9a2346)) */
---hero-teal           /* Teal del copy en panel split (var(--link-color, #046183)) */
---hero-display-font   /* Fuente del texto display (nunito, …) */
---hero-text           /* Color de texto por defecto (#fff) */
---hero-overlay-pad    /* Padding del overlay en split (30px) */
---hero-transition     /* Transición del CTA (0.2s ease-in-out) */
---hero-mobile-bg      /* Gradiente teal del panel de copy en móvil */
+--hero-accent         /* Brand pink/red for the CTA and bold text (#c02c57) */
+--hero-accent-hover   /* CTA hover (var(--accent-hover-color, #9a2346)) */
+--hero-teal           /* Teal of the copy in the split panel (var(--link-color, #046183)) */
+--hero-display-font   /* Display text font (nunito, …) */
+--hero-text           /* Default text color (#fff) */
+--hero-overlay-pad    /* Overlay padding in split (30px) */
+--hero-transition     /* CTA transition (0.2s ease-in-out) */
+--hero-mobile-bg      /* Teal gradient of the copy panel on mobile */
 ```
 
 ## Performance Notes
 
-- **Sin dependencias ni observers**: la decoración es síncrona y solo manipula DOM.
-- La imagen del hero define la altura; en móvil se recorta con `aspect-ratio` y `object-fit: cover` para evitar reflow.
-- El icono de flecha del CTA es un SVG inline vía `background` (data URI), sin peticiones extra.
-- Breakpoints: 900px (ambas variantes) y 1440px (ajuste de tamaño display en split).
-- Respeta `prefers-reduced-motion`.
+- **No dependencies or observers**: decoration is synchronous and only manipulates the DOM.
+- The hero image defines the height; on mobile it is cropped with `aspect-ratio` and `object-fit: cover` to avoid reflow.
+- The CTA arrow icon is an inline SVG via `background` (data URI), with no extra requests.
+- Breakpoints: 900px (both variants) and 1440px (display size adjustment in split).
+- Respects `prefers-reduced-motion`.

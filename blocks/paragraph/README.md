@@ -1,43 +1,43 @@
 # Paragraph Block
 
-Bloque de tipografía para bloques de texto enriquecido (títulos, párrafos y links) con estilos de marca. El JavaScript es mínimo: solo añade la clase `paragraph-block` al bloque; todo el estilo vive en el CSS.
+Typography block for rich text blocks (headings, paragraphs, and links) with brand styling. The JavaScript is minimal: it only adds the `paragraph-block` class to the block; all styling lives in the CSS.
 
 ## 1. Authoring Contract
 
-El bloque no impone una estructura de tabla especial. Se escribe como contenido enriquecido normal (headings, párrafos, links) y el CSS lo estiliza.
+The block does not impose a special table structure. It is authored as normal rich content (headings, paragraphs, links) and the CSS styles it.
 
-### Estructura Conceptual
+### Conceptual Structure
 
 ```text
 | paragraph |
-| ## Título de sección          |
-| Texto del párrafo con un link. |
-| ### Subtítulo                 |
-| Más texto.                    |
+| ## Section title              |
+| Paragraph text with a link.   |
+| ### Subheading                |
+| More text.                    |
 ```
 
-## 2. Variantes
+## 2. Variants
 
-El CSS reconoce, además de `.paragraph-block` (aplicada por el JS), la clase `.paragraph-center`. Esta clase **no** la añade el JavaScript, por lo que debe autorearse como variante del bloque (ej. `paragraph (center)`) para obtener el layout centrado.
+In addition to `.paragraph-block` (applied by the JS), the CSS recognizes the `.paragraph-center` class. This class is **not** added by the JavaScript, so it must be authored as a block variant (e.g. `paragraph (center)`) to get the centered layout.
 
 ```text
 | paragraph (center) |
-| ## Título centrado |
-| Texto centrado en negrita. |
+| ## Centered title |
+| Centered text in bold. |
 ```
 
-Diferencias de `.paragraph-center`:
+Differences of `.paragraph-center`:
 
-- Alinea todo el contenido al centro (`text-align: center`).
-- `h2` a 32px en color `#046183`.
-- Párrafos en negrita, 16px, con padding vertical.
+- Aligns all content to the center (`text-align: center`).
+- `h2` at 32px in color `#046183`.
+- Paragraphs in bold, 16px, with vertical padding.
 
 ## 3. CSS Customization
 
-`paragraph.css` no define variables CSS propias. Usa colores fijos:
+`paragraph.css` does not define its own CSS variables. It uses fixed colors:
 
 - `h2` / `h3`: color `#1a4a5c` (h2 700/1.75rem, h3 600/1.35rem).
 - `h4` / `h5`: color `#046183`.
-- Párrafos: 16px, `line-height: 1.6`, color `#333`.
+- Paragraphs: 16px, `line-height: 1.6`, color `#333`.
 - Links `a`: color `#046183`.
-- Ancho máximo `1140px`; padding lateral reducido bajo 900px y eliminado bajo 450px.
+- Maximum width `1140px`; reduced side padding below 900px and removed below 450px.

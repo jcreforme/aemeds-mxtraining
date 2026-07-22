@@ -1,74 +1,74 @@
 # Carousel Quote Block
 
-Carrusel de slides tipo "cita" con imagen y contenido lado a lado. Cada slide combina una imagen a la derecha (a sangre completa en la celda) y contenido a la izquierda: un icono de comillas, un encabezado con línea roja de acento, texto y un link opcional. Incluye indicadores (dots), flechas de navegación previa/siguiente y detección de slide activo por scroll.
+A carousel of "quote"-style slides with an image and content side by side. Each slide combines an image on the right (full bleed within the cell) and content on the left: a quotation-marks icon, a heading with a red accent line, text and an optional link. It includes indicators (dots), previous/next navigation arrows and active-slide detection by scroll.
 
 ## 1. Authoring Contract
 
-`decorate` toma **cada fila** del bloque (`:scope > div`) como un slide. Dentro de cada fila, las columnas (`:scope > div`) se clasifican por posición:
+`decorate` takes **each row** of the block (`:scope > div`) as a slide. Within each row, the columns (`:scope > div`) are classified by position:
 
-- **Columna 1** → imagen del slide (`carousel-quote-slide-image`): un `picture`.
-- **Columna 2..N** → contenido del slide (`carousel-quote-slide-content`).
+- **Column 1** → slide image (`carousel-quote-slide-image`): a `picture`.
+- **Columns 2..N** → slide content (`carousel-quote-slide-content`).
 
 ```text
 | carousel-quote | |
-| [imagen slide 1] | :icono-comillas:                 |
-|                  | ## Cita o titular del slide      |
-|                  | Texto de apoyo del slide…        |
-|                  | [Enlace opcional](/…)            |
-| [imagen slide 2] | :icono-comillas:                 |
-|                  | ## Segundo titular               |
-|                  | Más texto…                       |
+| [slide 1 image]  | :quotation-icon:                 |
+|                  | ## Slide quote or headline       |
+|                  | Slide supporting text…           |
+|                  | [Optional link](/…)              |
+| [slide 2 image]  | :quotation-icon:                 |
+|                  | ## Second headline               |
+|                  | More text…                       |
 ```
 
-En la columna de contenido, el decorador:
+In the content column, the decorator:
 
-- Marca como `quotation` el `<p>` que contiene un `.icon` (icono de comillas), aplicándole un tamaño/escala especiales.
-- Inserta un `<hr class="red-short-line">` (línea roja de acento) **después del primer encabezado** (`h1`..`h6`).
-- Usa el `id` del encabezado del slide para enlazar `aria-labelledby` en el slide.
+- Marks as `quotation` the `<p>` that contains an `.icon` (quotation-marks icon), applying a special size/scale to it.
+- Inserts an `<hr class="red-short-line">` (red accent line) **after the first heading** (`h1`..`h6`).
+- Uses the slide heading's `id` to link `aria-labelledby` on the slide.
 
-### Slide único vs. múltiples
+### Single slide vs. multiple
 
-Si el bloque tiene **una sola fila** (`rows.length < 2`), es un carrusel de un solo slide: **no** se generan indicadores, botones de navegación ni listeners. Con dos o más filas se añaden dots, flechas y la lógica de interacción completa.
+If the block has **a single row** (`rows.length < 2`), it is a single-slide carousel: indicators, navigation buttons and listeners are **not** generated. With two or more rows, dots, arrows and the full interaction logic are added.
 
 ## Accessibility
 
-El bloque construye markup accesible de carrusel:
+The block builds accessible carousel markup:
 
-- El bloque recibe `role="region"` y `aria-roledescription="Carousel"`.
-- Cada slide obtiene un `id` (`carousel-quote-{n}-slide-{i}`) y, si tiene encabezado, `aria-labelledby` apuntando a ese encabezado.
-- Los slides no activos se marcan con `aria-hidden="true"` y sus links reciben `tabindex="-1"` (se quitan del orden de tabulación); el slide activo restaura los links.
-- La navegación de dots va dentro de un `<nav aria-label="Carousel Slide Controls">`; cada dot es un `<button>` con `aria-label` "Show Slide {i} of {total}". El dot del slide activo se marca con `disabled`.
-- Las flechas son `<button type="button">` con `aria-label` "Previous Slide" / "Next Slide" (`slide-prev` / `slide-next`).
+- The block receives `role="region"` and `aria-roledescription="Carousel"`.
+- Each slide gets an `id` (`carousel-quote-{n}-slide-{i}`) and, if it has a heading, `aria-labelledby` pointing to that heading.
+- Inactive slides are marked with `aria-hidden="true"` and their links receive `tabindex="-1"` (removed from the tab order); the active slide restores the links.
+- The dot navigation goes inside a `<nav aria-label="Carousel Slide Controls">`; each dot is a `<button>` with an `aria-label` of "Show Slide {i} of {total}". The active slide's dot is marked with `disabled`.
+- The arrows are `<button type="button">` with `aria-label` "Previous Slide" / "Next Slide" (`slide-prev` / `slide-next`).
 
-> Los textos accesibles se toman de un objeto `placeholders` con valores por defecto en inglés (`'Carousel'`, `'Previous Slide'`, etc.).
+> The accessible texts are taken from a `placeholders` object with default values in English (`'Carousel'`, `'Previous Slide'`, etc.).
 
-### Interacción
+### Interaction
 
-- **Dots**: al hacer click, `showSlide` desplaza al slide destino (`dataset.targetSlide`).
-- **Flechas**: prev/next calculan el índice a partir de `block.dataset.activeSlide`; el desplazamiento hace wrap-around (antes del primero → último; después del último → primero).
-- **Scroll / snap**: los slides usan `scroll-snap-type: x mandatory`; un `IntersectionObserver` (threshold 0.5) marca el slide activo cuando entra en vista y sincroniza `aria-hidden`, `tabindex` y el estado de los dots.
+- **Dots**: on click, `showSlide` scrolls to the target slide (`dataset.targetSlide`).
+- **Arrows**: prev/next compute the index from `block.dataset.activeSlide`; the scroll wraps around (before the first → last; after the last → first).
+- **Scroll / snap**: the slides use `scroll-snap-type: x mandatory`; an `IntersectionObserver` (threshold 0.5) marks the active slide when it comes into view and synchronizes `aria-hidden`, `tabindex` and the state of the dots.
 
 ## CSS Customization
 
-Variables CSS definidas en `.carousel-quote` dentro de `carousel-quote.css`:
+CSS variables defined on `.carousel-quote` within `carousel-quote.css`:
 
 ```css
---cq-bg        /* Fondo de cada slide (#eaf4f8) */
---cq-text      /* Color de texto/encabezado teal (#005b84) */
---cq-accent    /* Rosa de acento: línea roja e indicadores (#d62b70) */
---cq-arrow-bg  /* Fondo de los botones de flecha (rgb(255 255 255 / 88%)) */
+--cq-bg        /* Background of each slide (#eaf4f8) */
+--cq-text      /* Teal text/heading color (#005b84) */
+--cq-accent    /* Accent pink: red line and indicators (#d62b70) */
+--cq-arrow-bg  /* Background of the arrow buttons (rgb(255 255 255 / 88%)) */
 ```
 
-Otros detalles de estilo:
+Other styling details:
 
-- Las flechas de navegación son botones circulares con un chevron dibujado con `border` (sin imágenes).
-- La línea de acento bajo el encabezado (`.red-short-line`) mide 60x3px.
-- El icono de comillas (`.quotation img`) se muestra escalado (`transform: scale(3.0)`).
+- The navigation arrows are circular buttons with a chevron drawn using `border` (no images).
+- The accent line under the heading (`.red-short-line`) measures 60x3px.
+- The quotation-marks icon (`.quotation img`) is displayed scaled (`transform: scale(3.0)`).
 
 ## Performance Notes
 
-- **Sin autoplay**: el carrusel avanza solo por interacción del usuario (dots, flechas, scroll). No hay temporizadores.
-- **IntersectionObserver** (threshold 0.5) para detectar el slide activo, más eficiente que escuchar `scroll`.
-- Scroll nativo con `scroll-snap` y `scroll-behavior: smooth`; sin librerías externas.
-- El slide único omite toda la lógica de interacción y observers.
-- Breakpoint móvil: <= 767px (imagen arriba, contenido abajo, una sola columna).
+- **No autoplay**: the carousel advances only through user interaction (dots, arrows, scroll). There are no timers.
+- **IntersectionObserver** (threshold 0.5) to detect the active slide, more efficient than listening to `scroll`.
+- Native scroll with `scroll-snap` and `scroll-behavior: smooth`; no external libraries.
+- The single slide skips all interaction logic and observers.
+- Mobile breakpoint: <= 767px (image on top, content below, a single column).

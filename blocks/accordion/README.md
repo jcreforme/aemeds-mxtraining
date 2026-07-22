@@ -1,110 +1,110 @@
 # Accordion Block
 
-Accordion block para AEM EDS con soporte de contenido anidado (incluyendo otros blocks como `columns`, `cards`, etc.). Soporta tres variantes: **exclusive** (un panel abierto), **multi-open** (múltiples paneles abiertos simultáneamente) y **faq** (diseño de tarjetas de la página [vyepti.com/vyepti-faq](https://www.vyepti.com/vyepti-faq)).
+Accordion block for AEM EDS with support for nested content (including other blocks such as `columns`, `cards`, etc.). It supports three variants: **exclusive** (one open panel), **multi-open** (multiple panels open simultaneously), and **faq** (card layout from the [vyepti.com/vyepti-faq](https://www.vyepti.com/vyepti-faq) page).
 
 ## 1. Authoring Contract
 
-Cada fila del bloque representa un item del acordeón.
+Each block row represents an accordion item.
 
-- **Columna 1**: Título del item (trigger)
-- **Columna 2..N**: Contenido del panel (texto, links, blocks anidados)
+- **Column 1**: Item title (trigger)
+- **Column 2..N**: Panel content (text, links, nested blocks)
 
-### Estructura Conceptual
+### Conceptual Structure
 
 ```text
 | accordion | |
-| Getting Started | [contenido del panel] |
-| Support         | [contenido del panel] |
+| Getting Started | [panel content] |
+| Support         | [panel content] |
 ```
 
-### Comportamiento por Defecto (Single-Open / Exclusive)
+### Default Behavior (Single-Open / Exclusive)
 
-- El primer item inicia abierto.
-- Al abrir un item, los demás se cierran automáticamente.
-- Animación suave en apertura y cierre (220ms).
+- The first item starts open.
+- Opening an item automatically closes the others.
+- Smooth animation on open and close (220ms).
 
-### Variante Multi-Open
+### Multi-Open Variant
 
-Para permitir múltiples paneles abiertos simultáneamente, agregar clase `multi-open` al bloque:
+To allow multiple panels to be open simultaneously, add the `multi-open` class to the block:
 
 ```text
 | accordion (multi-open) | |
-| Before Treatment   | [contenido] |
-| During Treatment   | [contenido] |
-| After Treatment    | [contenido] |
+| Before Treatment   | [content] |
+| During Treatment   | [content] |
+| After Treatment    | [content] |
 ```
 
-En esta variante:
+In this variant:
 
-- Todos los paneles pueden estar abiertos a la vez.
-- El primer item inicia abierto; los demás cerrados.
-- Cada click alterna el estado del panel clickeado independientemente.
+- All panels can be open at once.
+- The first item starts open; the rest start closed.
+- Each click toggles the state of the clicked panel independently.
 
-### Variante FAQ
+### FAQ Variant
 
-Réplica del diseño de la página de FAQs del sitio en vivo. Agregar la clase `faq` al bloque:
+Replica of the design of the live site's FAQ page. Add the `faq` class to the block:
 
 ```text
 | accordion (faq) | |
-| About VYEPTI                | [preguntas y respuestas] |
-| Treatment with VYEPTI       | [preguntas y respuestas] |
-| Access and Support          | [preguntas y respuestas] |
+| About VYEPTI                | [questions and answers] |
+| Treatment with VYEPTI       | [questions and answers] |
+| Access and Support          | [questions and answers] |
 ```
 
-Diferencias con el accordion estándar:
+Differences from the standard accordion:
 
-- **Todos los items inician cerrados** (en el estándar el primero inicia abierto).
-- Cada categoría se renderiza como **tarjeta redondeada** (fondo `#eff6f9`, radio 10px, sombra suave, separación de 24px).
-- Título en gris oscuro semi-bold (24px móvil / 28px desktop), chevron teal a la derecha.
-- Comportamiento exclusive: abrir una categoría cierra las demás (combinable con `multi-open` si se requiere).
+- **All items start closed** (in the standard variant the first one starts open).
+- Each category renders as a **rounded card** (background `#eff6f9`, radius 10px, soft shadow, 24px spacing).
+- Title in dark gray semi-bold (24px mobile / 28px desktop), teal chevron on the right.
+- Exclusive behavior: opening a category closes the others (combinable with `multi-open` if needed).
 
-**Contenido del panel (contrato de autoría):**
+**Panel content (authoring contract):**
 
-- Cada **pregunta** se escribe como **Heading 3** (o Heading 4) dentro de la celda de contenido.
-- La **respuesta** son los párrafos/listas que siguen a cada pregunta.
-- A partir de la segunda pregunta se agrega automáticamente una línea divisoria gris (`#a4a4a4`) arriba de la pregunta.
-- Los links se renderizan en teal, bold y subrayados (como en el sitio en vivo).
+- Each **question** is written as a **Heading 3** (or Heading 4) within the content cell.
+- The **answer** is the paragraphs/lists that follow each question.
+- Starting from the second question, a gray divider line (`#a4a4a4`) is automatically added above the question.
+- Links render in teal, bold, and underlined (as on the live site).
 
 ```text
 | accordion (faq) | |
-| About VYEPTI | ### What is VYEPTI?              ← pregunta (H3)
-|              | VYEPTI is a prescription medicine…  ← respuesta
-|              | ### How does VYEPTI work?        ← pregunta (H3)
-|              | VYEPTI is an aCGRP…                 ← respuesta |
+| About VYEPTI | ### What is VYEPTI?              ← question (H3)
+|              | VYEPTI is a prescription medicine…  ← answer
+|              | ### How does VYEPTI work?        ← question (H3)
+|              | VYEPTI is an aCGRP…                 ← answer |
 ```
 
-Página de prueba: `drafts/faq-test.html` (`http://localhost:3000/drafts/faq-test`).
+Test page: `drafts/faq-test.html` (`http://localhost:3000/drafts/faq-test`).
 
-### Contenido Anidado
+### Nested Content
 
-Si un panel contiene blocks anidados (`columns`, `cards`, `hero`, etc.):
+If a panel contains nested blocks (`columns`, `cards`, `hero`, etc.):
 
-- Se detectan automáticamente en el contenido del panel.
-- Se decoran y cargan **solo al expandir el panel** (lazy loading).
-- Esto optimiza rendimiento evitando cargar blocks innecesarios.
+- They are detected automatically in the panel content.
+- They are decorated and loaded **only when the panel is expanded** (lazy loading).
+- This optimizes performance by avoiding loading unnecessary blocks.
 
 ## 2. Accessibility
 
-- Cada trigger es un `<button>` envuelto en un `<h3 class="accordion-header">`, igual que el sitio en vivo — los títulos del accordion forman parte del outline del documento.
-- Cada `<button>` expone `aria-expanded` (indica si el panel está abierto).
-- Cada panel usa `role="region"` y `aria-labelledby` (enlaza con su título).
-- Soporte completo para navegación por teclado: Tab, Space/Enter para activar.
-- Respeta `prefers-reduced-motion`: desactiva animaciones si el usuario lo prefiere.
+- Each trigger is a `<button>` wrapped in an `<h3 class="accordion-header">`, just like the live site — the accordion titles are part of the document outline.
+- Each `<button>` exposes `aria-expanded` (indicates whether the panel is open).
+- Each panel uses `role="region"` and `aria-labelledby` (links to its title).
+- Full keyboard navigation support: Tab, Space/Enter to activate.
+- Respects `prefers-reduced-motion`: disables animations if the user prefers.
 
 ## 3. Test Cases
 
-Usar `drafts/accordion-test.html` para validar (ejecutado con `npm run lint` antes de commit):
+Use `drafts/accordion-test.html` to validate (run with `npm run lint` before commit):
 
 ### Single-Open (Exclusive)
 
-1. **Contenido de texto**: 3 items básicos, solo uno abierto a la vez ✅
-2. **Con block anidado (columns)**: Columns se decora al expandir ✅
-3. **Contenido multi-celda + block anidado (cards)**: Cards se carga correctamente ✅
+1. **Text content**: 3 basic items, only one open at a time ✅
+2. **With nested block (columns)**: Columns is decorated on expand ✅
+3. **Multi-cell content + nested block (cards)**: Cards loads correctly ✅
 
 ### Multi-Open
 
-4. **Multi-open básico**: 3 items, todos pueden estar abiertos, cada click alterna independientemente ✅
-5. **Multi-open con nested columns**: 2 items con columns anidado, funciona correctamente ✅
+4. **Basic multi-open**: 3 items, all can be open, each click toggles independently ✅
+5. **Multi-open with nested columns**: 2 items with nested columns, works correctly ✅
 
 ## 4. Local Testing
 
@@ -112,52 +112,52 @@ Usar `drafts/accordion-test.html` para validar (ejecutado con `npm run lint` ant
 npx -y @adobe/aem-cli up --no-open --html-folder drafts
 ```
 
-Luego abrir: `http://localhost:3000/drafts/accordion-test`
+Then open: `http://localhost:3000/drafts/accordion-test`
 
-Verifica:
+Verify:
 
-- ✅ Navegación y toggle de paneles
-- ✅ Animaciones suaves
-- ✅ Blocks anidados se decoran correctamente
-- ✅ Comportamiento exclusive vs multi-open según clase
+- ✅ Navigation and panel toggling
+- ✅ Smooth animations
+- ✅ Nested blocks are decorated correctly
+- ✅ Exclusive vs multi-open behavior according to class
 
 ## 5. CSS Customization
 
-Variables CSS disponibles en `accordion.css`:
+CSS variables available in `accordion.css`:
 
 ```css
---accordion-border-color      /* Borde de los items */
---accordion-header-bg         /* Background del trigger */
+--accordion-border-color      /* Border of the items */
+--accordion-header-bg         /* Background of the trigger */
 --accordion-header-bg-hover   /* Background on hover */
---accordion-header-text       /* Color del texto */
---accordion-body-bg           /* Background del panel */
---accordion-icon-color        /* Color del chevron icon */
+--accordion-header-text       /* Text color */
+--accordion-body-bg           /* Background of the panel */
+--accordion-icon-color        /* Chevron icon color */
 ```
 
-Variables adicionales de la variante FAQ:
+Additional variables for the FAQ variant:
 
 ```css
---accordion-faq-card-bg        /* Fondo de la tarjeta (#eff6f9) */
---accordion-faq-title-color    /* Color del título y preguntas (#484848) */
---accordion-faq-divider-color  /* Línea divisoria entre preguntas (#a4a4a4) */
+--accordion-faq-card-bg        /* Card background (#eff6f9) */
+--accordion-faq-title-color    /* Title and questions color (#484848) */
+--accordion-faq-divider-color  /* Divider line between questions (#a4a4a4) */
 ```
 
 ## 6. Performance Notes
 
-- **Lazy loading de blocks**: Blocks anidados solo se cargan al expandir → mejor LCP
-- **Animaciones optimizadas**: Usa `will-change` y transforms para renderizado eficiente
-- **Reduced motion**: Respeta preferencia del usuario (no anima si está activado)
+- **Lazy loading of blocks**: Nested blocks are only loaded on expand → better LCP
+- **Optimized animations**: Uses `will-change` and transforms for efficient rendering
+- **Reduced motion**: Respects the user's preference (does not animate if enabled)
 
 ## 7. PR Checklist
 
-Antes de hacer commit:
+Before committing:
 
 ```sh
-npm run lint        # Valida JS y CSS
-npm run lint:fix    # Auto-fix problemas menores
+npm run lint        # Validate JS and CSS
+npm run lint:fix    # Auto-fix minor issues
 ```
 
-Luego:
+Then:
 
 ```sh
 git checkout -b feature/accordion-multi-open
@@ -165,4 +165,4 @@ git add blocks/accordion/ drafts/accordion-test.html
 git commit -m "feat(accordion): add multi-open variant with nested block support"
 ```
 
-En la PR, incluir link de preview: `https://{branch}--{repo}--{owner}.aem.page/drafts/accordion-test`
+In the PR, include a preview link: `https://{branch}--{repo}--{owner}.aem.page/drafts/accordion-test`

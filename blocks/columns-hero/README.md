@@ -1,34 +1,34 @@
 # Columns Hero Block
 
-Variante del columns block orientada a secciones hero. Comparte la lógica de decoración de `columns` pero con estilos pensados para imágenes a ancho completo. Distribuye el contenido de cada fila en columnas lado a lado en desktop y apiladas en móvil.
+A variant of the columns block geared toward hero sections. It shares the decoration logic of `columns` but with styles intended for full-width images. It distributes the content of each row into columns side by side on desktop and stacked on mobile.
 
 ## 1. Authoring Contract
 
-Cada **fila** del bloque es un grupo de columnas; cada **celda** de la fila es una columna.
+Each **row** of the block is a group of columns; each **cell** of the row is a column.
 
-- El número de columnas se toma de la **primera fila** (`block.firstElementChild.children`) y se añade la clase `columns-hero-{N}-cols` al bloque (ej. `columns-hero-2-cols`).
-- Si una columna contiene **únicamente** una imagen (un `picture` como único hijo de su `div`), se marca con la clase `columns-hero-img-col`.
+- The number of columns is taken from the **first row** (`block.firstElementChild.children`) and the class `columns-hero-{N}-cols` is added to the block (e.g. `columns-hero-2-cols`).
+- If a column contains **only** an image (a `picture` as the sole child of its `div`), it is marked with the class `columns-hero-img-col`.
 
-### Estructura Conceptual
+### Conceptual Structure
 
 ```text
 | columns-hero | |
-| # Título hero                | [imagen] |
-| Subtítulo y llamado a acción |          |
+| # Hero title                 | [image] |
+| Subheading and call to action |         |
 ```
 
-En este ejemplo la primera fila tiene 2 celdas → el bloque recibe la clase `columns-hero-2-cols`, y la segunda celda (solo imagen) recibe `columns-hero-img-col`.
+In this example the first row has 2 cells → the block receives the class `columns-hero-2-cols`, and the second cell (image only) receives `columns-hero-img-col`.
 
-### Comportamiento de Layout
+### Layout Behavior
 
-- **Móvil** (por defecto): las columnas se apilan verticalmente (`flex-direction: column`). Las columnas de imagen (`columns-hero-img-col`) se colocan primero (`order: 0`), el resto después (`order: 1`).
-- **Desktop** (`width >= 900px`): las columnas se muestran en fila, centradas verticalmente, con `gap: 24px` y reparto equitativo (`flex: 1`).
-- A diferencia de `columns`, las imágenes ocupan `width: 100%` (ancho completo de su columna).
+- **Mobile** (default): the columns stack vertically (`flex-direction: column`). Image columns (`columns-hero-img-col`) are placed first (`order: 0`), the rest afterwards (`order: 1`).
+- **Desktop** (`width >= 900px`): the columns are shown in a row, vertically centered, with `gap: 24px` and equal distribution (`flex: 1`).
+- Unlike `columns`, images occupy `width: 100%` (the full width of their column).
 
 ## 2. CSS Customization
 
-`columns-hero.css` no define variables CSS propias. Aplica estilos de layout (flex, orden de columnas e imágenes a ancho completo).
+`columns-hero.css` does not define its own CSS variables. It applies layout styles (flex, column order and full-width images).
 
-## 3. Notas
+## 3. Notes
 
-- El número de columnas debe ser consistente entre filas; el conteo se calcula solo a partir de la primera fila.
+- The number of columns should be consistent across rows; the count is calculated only from the first row.
