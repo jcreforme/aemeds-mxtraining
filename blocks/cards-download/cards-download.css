@@ -1,0 +1,110 @@
+/*
+ * cards-download — download-tile grid variant of the cards block.
+ *
+ * Used inside accordion panels on /downloadable-resources. Each card is a
+ * "download tile": illustration image + heading + description + two action
+ * links (a "Download" PDF link and an "Email" link that opens the share modal).
+ *
+ * Content model (one row per tile):
+ *   cell 1 → picture/img (illustration)      → .cards-download-card-image
+ *   cell 2 → h3 heading + description + two   → .cards-download-card-body
+ *            links (Download, Email)
+ *
+ * Two tiles per row on desktop, single column on mobile. Mobile-first.
+ */
+
+.cards-download > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.cards-download > ul > li {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border: 1px solid #dadada;
+  border-radius: 8px;
+  padding: 24px;
+  background-color: var(--background-color, #fff);
+}
+
+.cards-download .cards-download-card-image {
+  line-height: 0;
+}
+
+.cards-download .cards-download-card-image img {
+  width: 100%;
+  max-width: 160px;
+  height: auto;
+  object-fit: contain;
+}
+
+.cards-download .cards-download-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cards-download .cards-download-card-body h3 {
+  margin: 0;
+  color: var(--link-color, #046183);
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+.cards-download .cards-download-card-body p {
+  margin: 0;
+}
+
+/* the two action links (Download / Email) render as buttons */
+.cards-download .cards-download-card-body p:last-of-type,
+.cards-download .cards-download-card-body .button-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.cards-download .cards-download-card-body a.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 140px;
+  padding: 12px 20px;
+  border-radius: 100px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* primary "Download" action */
+.cards-download .cards-download-card-body a.button:first-child {
+  background-color: var(--link-color, #046183);
+  color: #fff;
+}
+
+/* secondary "Email" action */
+.cards-download .cards-download-card-body a.button.secondary,
+.cards-download .cards-download-card-body a.button:last-child {
+  background-color: transparent;
+  color: var(--link-color, #046183);
+  border: 2px solid var(--link-color, #046183);
+}
+
+@media (width >= 900px) {
+  .cards-download > ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cards-download > ul > li {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .cards-download .cards-download-card-image {
+    flex: 0 0 160px;
+  }
+}

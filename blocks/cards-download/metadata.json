@@ -1,0 +1,39 @@
+{
+  "variantName": "cards-download",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-07-22T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.vyepti.com/downloadable-resources",
+    "originPage": "Downloadable Resources",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "wide",
+    "purpose": "download-tile",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "image + heading + description + Download link + Email link",
+    "buttonCount": 2,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "download resource tiles (illustration + heading + description + Download/Email actions)",
+      "2-up resource grids nested inside accordion panels",
+      "image + heading + text + dual-CTA card grids"
+    ],
+    "notSuitableFor": [
+      "single-CTA icon feature grids (use cards-feature)",
+      "photographic promo cards without action pairs",
+      "single side-by-side comparison layouts (use columns/teaser)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/downloadable-resources"],
+    "reuseCount": 1,
+    "lastUsed": "2026-07-22T00:00:00.000Z"
+  }
+}

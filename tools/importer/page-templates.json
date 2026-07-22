@@ -1,0 +1,74 @@
+{
+  "metadata": {
+    "projectType": "da"
+  },
+  "templates": [
+    {
+      "name": "downloadable-resources",
+      "urls": [
+        "https://www.vyepti.com/downloadable-resources"
+      ],
+      "description": "Resource library page: intro paragraph, category accordion with download-tile / image-text content, and ISI.",
+      "blocks": [
+        {
+          "name": "accordion",
+          "instances": [
+            ".resource-accordions .cmp-accordion",
+            ".resource-accordions .accordion.panelcontainer .cmp-accordion"
+          ]
+        },
+        {
+          "name": "cards-download",
+          "instances": [
+            ".downloadresourcetile .resource-tile.resource-large-tile",
+            ".resourcetile .resource-tile",
+            ".imagetext .image-text-comp"
+          ]
+        },
+        {
+          "name": "isi",
+          "instances": [
+            ".cmp-experiencefragment--isi .isi",
+            ".safetyInfo#isiFixedBottom"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-2-intro",
+          "name": "Intro paragraph",
+          "selector": ".columncontainer .section-padding .rte .rteComponent",
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            ".columncontainer .section-padding .rte .rteComponent"
+          ]
+        },
+        {
+          "id": "section-3-accordion",
+          "name": "Resource category accordion",
+          "selector": ".resource-accordions .cmp-accordion",
+          "style": null,
+          "blocks": [
+            "accordion",
+            "cards-download"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-4-isi",
+          "name": "Important Safety Information (ISI)",
+          "selector": [
+            ".cmp-experiencefragment--isi .isi",
+            ".safetyInfo#isiFixedBottom"
+          ],
+          "style": null,
+          "blocks": [
+            "isi"
+          ],
+          "defaultContent": []
+        }
+      ]
+    }
+  ]
+}
