@@ -61,6 +61,30 @@
   text-decoration: underline;
 }
 
+/*
+ * Community-resource cards author the org name as a button-primary link at the
+ * bottom. Move it to the top of the card and render it as a blue underlined
+ * title link instead of a pill button.
+ */
+.cards-download .cards-download-card-body .button-wrapper {
+  order: -1;
+  margin: 0;
+}
+
+.cards-download .cards-download-card-body a.button.primary {
+  order: -1;
+  display: inline;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: #046183;
+  font-size: 20px;
+  line-height: 1.3;
+  text-decoration: underline;
+}
+
 .cards-download .cards-download-card-body p {
   margin: 0;
   font-size: 16px;
