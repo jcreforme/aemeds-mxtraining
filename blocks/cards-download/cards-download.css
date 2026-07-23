@@ -23,7 +23,7 @@
 
 .cards-download-container {
     max-width: 1140px;
-    margin: 0 auto;
+    margin: 0 auto !important;
 }
 
 .cards-download {
