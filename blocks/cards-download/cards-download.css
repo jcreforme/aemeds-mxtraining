@@ -82,12 +82,12 @@
   text-decoration: none;
 }
 
-/* inline links within the description text (e.g. "Doctor Discussion Guide") */
-.cards-download .cards-download-card-body p:not(.action-links):not(:last-of-type) a {
+.cards-download .cards-download-card-body a:hover {
   text-decoration: underline;
 }
 
-.cards-download .cards-download-card-body a:hover {
+/* inline links within the description text (e.g. "Doctor Discussion Guide") */
+.cards-download .cards-download-card-body p:not(.action-links, :last-of-type) a {
   text-decoration: underline;
 }
 
