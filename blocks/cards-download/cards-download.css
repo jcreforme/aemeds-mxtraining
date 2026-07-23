@@ -61,37 +61,45 @@
 }
 
 /*
- * Action links (Download / Email) render as buttons. Authors mark them up with
- * the project button convention: bold the Download link (**Download**) → primary,
- * italicize the Email link (_Email_) → secondary. decorateButtons() in
- * scripts.js then adds .button.primary / .button.secondary.
+ * Action links (Download / Email) render as plain teal text links with a
+ * trailing icon, sitting side by side on one row. Authors put both links in a
+ * single paragraph, each with its icon (:download-18: for Download, :email:
+ * for Email), e.g.  [Download :download-18:](url) [Email :email:](#tile-modal)
  */
-.cards-download .cards-download-card-body .button-wrapper {
-  margin: 4px 0 0;
+.cards-download .cards-download-card-body .action-links,
+.cards-download .cards-download-card-body p:last-of-type {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 28px;
+  margin-top: 8px;
 }
 
-.cards-download .cards-download-card-body a.button {
+.cards-download .cards-download-card-body a {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  min-width: 140px;
-  padding: 12px 20px;
-  border-radius: 100px;
+  gap: 8px;
+  color: var(--link-color, #046183);
   font-weight: 700;
   text-decoration: none;
 }
 
-/* primary "Download" action */
-.cards-download .cards-download-card-body a.button.primary {
-  background-color: var(--link-color, #046183);
-  color: #fff;
+.cards-download .cards-download-card-body a:hover {
+  text-decoration: underline;
 }
 
-/* secondary "Email" action */
-.cards-download .cards-download-card-body a.button.secondary {
-  background-color: transparent;
-  color: var(--link-color, #046183);
-  border: 2px solid var(--link-color, #046183);
+.cards-download .cards-download-card-body a .icon {
+  display: inline-flex;
+  align-items: center;
+}
+
+.cards-download .cards-download-card-body a .icon img {
+  width: 18px;
+  height: 18px;
+}
+
+.cards-download .cards-download-card-body a .icon.icon-email img {
+  width: 22px;
 }
 
 @media (width >= 900px) {
