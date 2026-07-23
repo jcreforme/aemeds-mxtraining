@@ -90,13 +90,13 @@
   text-decoration: none;
 }
 
-.cards-download .cards-download-card-body a:hover {
-  text-decoration: underline;
-}
-
 /* a linked title (community-resource org name) stays teal and underlined */
 .cards-download .cards-download-card-body h3 a {
   color: #046183;
+  text-decoration: underline;
+}
+
+.cards-download .cards-download-card-body a:hover {
   text-decoration: underline;
 }
 
