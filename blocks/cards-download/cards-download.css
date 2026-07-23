@@ -21,6 +21,11 @@
     padding: 45px 0 16px 0;
 }
 
+.cards-download-container {
+    max-width: 1140px;
+    margin: 0 auto;
+}
+
 .cards-download {
   /* max-width: 1140px; */
   margin: 0 auto !important;
