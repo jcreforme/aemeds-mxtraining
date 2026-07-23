@@ -276,6 +276,13 @@ export default async function decorate(block) {
 
   block.replaceChildren(...items);
 
+  // Convert any nested block tables in every panel up front so the structure is
+  // correct regardless of open state (the block JS/CSS still loads lazily on open).
+  items.forEach((item) => {
+    const panel = item.querySelector(':scope > .accordion-panel');
+    if (panel) convertNestedBlockTables(panel);
+  });
+
   items.forEach((item) => {
     const trigger = item.querySelector(':scope > .accordion-header > .accordion-trigger');
     if (!trigger) return;
