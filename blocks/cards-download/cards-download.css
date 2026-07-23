@@ -24,7 +24,8 @@
   padding: 0;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 24px;
+
+  /* gap: 24px; */
 }
 
 .cards-download > ul > li {
