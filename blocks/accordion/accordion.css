@@ -8,7 +8,7 @@
 }
 
 .accordion .accordion-item {
-    border: 1px solid var(--accordion-border-color);
+    border: 0;
     margin-bottom: 10px;
 }
 
