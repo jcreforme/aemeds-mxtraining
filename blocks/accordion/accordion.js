@@ -7,6 +7,7 @@ const NESTED_BLOCK_SELECTORS = [
   '.alert-strip',
   '.cards',
   '.cards-callout',
+  '.cards-download',
   '.cards-feature',
   '.carousel-quote',
   '.columns',
