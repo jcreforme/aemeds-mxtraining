@@ -112,6 +112,11 @@
   width: 22px;
 }
 
+.cards-download .cards-download-card-body a .icon.icon-arrow img {
+  width: 24px;
+  height: 24px;
+}
+
 @media (width >= 900px) {
   .cards-download > ul {
     grid-template-columns: repeat(2, 1fr);
