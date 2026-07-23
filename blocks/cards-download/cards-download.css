@@ -117,6 +117,11 @@
   height: 24px;
 }
 
+.cards-download .cards-download-card-body a .icon.icon-external-link img {
+  width: 20px;
+  height: 20px;
+}
+
 @media (width >= 900px) {
   .cards-download > ul {
     grid-template-columns: repeat(2, 1fr);
