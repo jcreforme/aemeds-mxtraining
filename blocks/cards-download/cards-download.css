@@ -98,6 +98,11 @@
   text-decoration: underline;
 }
 
+/* iconless action links (community-resource org links) render underlined */
+.cards-download .cards-download-card-body p:last-of-type a:not(:has(.icon)) {
+  text-decoration: underline;
+}
+
 .cards-download .cards-download-card-body a .icon {
   display: inline-flex;
   align-items: center;
