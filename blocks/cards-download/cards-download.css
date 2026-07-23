@@ -13,6 +13,11 @@
  * Two tiles per row on desktop, single column on mobile. Mobile-first.
  */
 
+.cards-download-container {
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
 .cards-download > ul {
   list-style: none;
   margin: 0;
