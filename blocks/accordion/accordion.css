@@ -8,7 +8,7 @@
 }
 
 .accordion .accordion-item {
-    border: 0;
+    border: 1px solid var(--accordion-border-color);
     margin-bottom: 10px;
 }
 
@@ -26,12 +26,12 @@
     border-radius: 0;
     margin: 0;
     background: var(--accordion-header-bg);
-    color: #046183 !important;
-    padding: 7px 0 6px 14px;
+    color: var(--accordion-header-text);
+    padding: 14px 52px 14px 16px;
     text-align: left;
-    font-size: 20px;
-    font-weight: 800;
-    line-height: 24px;
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.2;
     position: relative;
     cursor: pointer;
     transition:
@@ -70,7 +70,6 @@
     background: var(--accordion-body-bg);
     transform-origin: top center;
     will-change: height, opacity, transform;
-    text-align: center;
 }
 
 .accordion .accordion-panel-content {
@@ -92,16 +91,18 @@
 }
 
 @media (width >= 600px) {
+    .accordion .accordion-trigger {
+        padding-left: 18px;
+        padding-right: 56px;
+        font-size: 2rem;
+    }
+
     .accordion .accordion-panel-content {
-        padding: 24px 0;
+        padding: 24px 18px 30px;
     }
 }
 
 @media (width >= 900px) {
-    .accordion .accordion-panel {
-        text-align: left;
-    }
-
     .accordion .accordion-panel-content.accordion-panel-content-multi {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         align-items: start;
@@ -347,11 +348,33 @@
  * two action links (Download PDF, Email). Decorated inline by accordion.js
  * into a ul/li grid — two tiles per row on desktop, single column on mobile.
  *
+ * The base accordion rules above are left untouched. The frame, trigger and
+ * panel tweaks the download page needs are scoped to
+ * .accordion:has(.accordion-download) so they apply only to a download
+ * accordion instead of leaking into every accordion.
+ *
  * These block-scoped selectors are lower specificity than the .faq/.insurance
  * variant rules above; ordering by specificity is not meaningful here.
  */
 
 /* stylelint-disable no-descending-specificity */
+
+/* --- frame / trigger / panel overrides (kept out of the shared base) --- */
+.accordion:has(.accordion-download) .accordion-item {
+    border: 0;
+}
+
+.accordion:has(.accordion-download) .accordion-trigger {
+    color: #046183 !important;
+    padding: 7px 0 6px 14px;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 24px;
+}
+
+.accordion:has(.accordion-download) .accordion-panel {
+    text-align: center;
+}
 
 /* centered page subtitle above a download accordion (downloadable-resources) */
 .section:has(.accordion .accordion-download) .default-content-wrapper h4 {
@@ -505,7 +528,23 @@
     height: 20px;
 }
 
+@media (width >= 600px) {
+    /* download triggers keep their compact mobile padding/size */
+    .accordion:has(.accordion-download) .accordion-trigger {
+        padding: 7px 0 6px 14px;
+        font-size: 20px;
+    }
+
+    .accordion:has(.accordion-download) .accordion-panel-content {
+        padding: 24px 0;
+    }
+}
+
 @media (width >= 900px) {
+    .accordion:has(.accordion-download) .accordion-panel {
+        text-align: left;
+    }
+
     .section:has(.accordion .accordion-download) .default-content-wrapper h4 {
         font-size: 24px;
         line-height: 36px;
