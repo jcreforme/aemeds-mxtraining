@@ -15,10 +15,11 @@
 
 
 .default-content-wrapper h4 {
-    font-size: 24px;
-    line-height: 36px;
-    text-align: left;
-    padding: 45px 0 16px;
+  font-size: 24px;
+  line-height: 28px;
+  text-align: center;
+  padding: 32px 16px 16px 13px;
+  font-weight: normal;
 }
 
 .cards-download-container {
@@ -175,6 +176,14 @@
 }
 
 @media (width >= 900px) {
+  .default-content-wrapper h4 {
+    font-size: 24px;
+    line-height: 36px;
+    text-align: left;
+    padding: 45px 0 16px;
+    font-weight: normal;
+  }
+
   .cards-download > ul {
     grid-template-columns: repeat(2, 1fr);
   }
