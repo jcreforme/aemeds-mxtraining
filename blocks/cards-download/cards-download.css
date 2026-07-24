@@ -188,6 +188,10 @@
     font-weight: normal;
   }
 
+  .hero-two-columns .hero-two-columns-content {
+    padding: 24px 15px 8px;
+  }
+
   .cards-download > ul {
     grid-template-columns: repeat(2, 1fr);
   }
