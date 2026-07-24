@@ -26,12 +26,12 @@
     border-radius: 0;
     margin: 0;
     background: var(--accordion-header-bg);
-    color: var(--accordion-header-text);
-    padding: 14px 52px 14px 16px;
+    color: #046183 !important;
+    padding: 7px 0 6px 14px;
     text-align: left;
-    font-size: 1.75rem;
-    font-weight: 700;
-    line-height: 1.2;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 24px;
     position: relative;
     cursor: pointer;
     transition:
@@ -92,14 +92,6 @@
 }
 
 @media (width >= 600px) {
-    .accordion .accordion-trigger {
-        color: #046183 !important;
-        font-size: 20px;
-        font-weight: 800;
-        padding: 7px 0 6px 14px;
-        line-height: 24px;
-    }
-
     .accordion .accordion-panel-content {
         padding: 24px 0;
     }
