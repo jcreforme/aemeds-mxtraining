@@ -44,9 +44,11 @@
 .cards-download > ul > li {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 16px;
   padding: 20px 0;
   background-color: var(--background-color, #fff);
+  text-align: center;
 }
 
 .cards-download .cards-download-card-image {
@@ -114,6 +116,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
   gap: 28px;
   margin-top: 8px;
 }
@@ -179,9 +182,15 @@
   .cards-download > ul > li {
     flex-direction: row;
     align-items: flex-start;
+    text-align: left;
   }
 
   .cards-download .cards-download-card-image {
     flex: 0 0 160px;
+  }
+
+  .cards-download .cards-download-card-body .action-links,
+  .cards-download .cards-download-card-body p:last-of-type {
+    justify-content: flex-start;
   }
 }
