@@ -70,6 +70,7 @@
     background: var(--accordion-body-bg);
     transform-origin: top center;
     will-change: height, opacity, transform;
+    text-align: center;
 }
 
 .accordion .accordion-panel-content {
@@ -105,6 +106,10 @@
 }
 
 @media (width >= 900px) {
+    .accordion .accordion-panel {
+        text-align: left;
+    }
+
     .accordion .accordion-panel-content.accordion-panel-content-multi {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         align-items: start;
