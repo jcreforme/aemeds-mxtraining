@@ -22,6 +22,10 @@
   font-weight: normal;
 }
 
+.hero-two-columns .hero-two-columns-content {
+  padding: 20% 15px 8px;
+}
+
 .cards-download-container {
     max-width: 1140px;
     margin: 0 auto !important;
