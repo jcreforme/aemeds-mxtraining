@@ -1,13 +1,13 @@
 /*
- * cards-download — download-tile grid variant of the cards block.
+ * accordion-download — download-tile grid variant of the accordion block.
  *
  * Used inside accordion panels on /downloadable-resources. Each card is a
  * "download tile": illustration image + heading + description + two action
  * links (a "Download" PDF link and an "Email" link that opens the share modal).
  *
  * Content model (one row per tile):
- *   cell 1 → picture/img (illustration)      → .cards-download-card-image
- *   cell 2 → h3 heading + description + two   → .cards-download-card-body
+ *   cell 1 → picture/img (illustration)      → .accordion-download-card-image
+ *   cell 2 → h3 heading + description + two   → .accordion-download-card-body
  *            links (Download, Email)
  *
  * Two tiles per row on desktop, single column on mobile. Mobile-first.
@@ -26,17 +26,17 @@
   padding: 20% 15px 8px;
 }
 
-.cards-download-container {
+.accordion-download-container {
     max-width: 1140px;
     margin: 0 auto !important;
 }
 
-.cards-download {
+.accordion-download {
   /* max-width: 1140px; */
   margin: 0 auto !important;
 }
 
-.cards-download > ul {
+.accordion-download > ul {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -46,7 +46,7 @@
   /* gap: 24px; */
 }
 
-.cards-download > ul > li {
+.accordion-download > ul > li {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -56,24 +56,24 @@
   text-align: center;
 }
 
-.cards-download .cards-download-card-image {
+.accordion-download .accordion-download-card-image {
   line-height: 0;
 }
 
-.cards-download .cards-download-card-image img {
+.accordion-download .accordion-download-card-image img {
   width: 100%;
   max-width: 160px;
   height: auto;
   object-fit: contain;
 }
 
-.cards-download .cards-download-card-body {
+.accordion-download .accordion-download-card-body {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.cards-download .cards-download-card-body h3 {
+.accordion-download .accordion-download-card-body h3 {
   margin: 0;
   color: #046183;
   font-size: 20px;
@@ -86,12 +86,12 @@
  * bottom. Move it to the top of the card and render it as a blue underlined
  * title link instead of a pill button.
  */
-.cards-download .cards-download-card-body .button-wrapper {
+.accordion-download .accordion-download-card-body .button-wrapper {
   order: -1;
   margin: 0;
 }
 
-.cards-download .cards-download-card-body a.button.primary {
+.accordion-download .accordion-download-card-body a.button.primary {
   order: -1;
   display: inline;
   min-width: 0;
@@ -105,7 +105,7 @@
   text-decoration: underline;
 }
 
-.cards-download .cards-download-card-body p {
+.accordion-download .accordion-download-card-body p {
   margin: 0;
   font-size: 16px;
 }
@@ -116,8 +116,8 @@
  * single paragraph, each with its icon (:download-18: for Download, :email:
  * for Email), e.g.  [Download :download-18:](url) [Email :email:](#tile-modal)
  */
-.cards-download .cards-download-card-body .action-links,
-.cards-download .cards-download-card-body p:last-of-type {
+.accordion-download .accordion-download-card-body .action-links,
+.accordion-download .accordion-download-card-body p:last-of-type {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -126,7 +126,7 @@
   margin-top: 8px;
 }
 
-.cards-download .cards-download-card-body a {
+.accordion-download .accordion-download-card-body a {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -136,45 +136,45 @@
 }
 
 /* a linked title (community-resource org name) stays teal and underlined */
-.cards-download .cards-download-card-body h3 a {
+.accordion-download .accordion-download-card-body h3 a {
   color: #046183;
   text-decoration: underline !important;
 }
 
-.cards-download .cards-download-card-body a:hover {
+.accordion-download .accordion-download-card-body a:hover {
   text-decoration: underline;
 }
 
 /* inline links within the description text (e.g. "Doctor Discussion Guide") */
-.cards-download .cards-download-card-body p:not(.action-links, :last-of-type) a {
+.accordion-download .accordion-download-card-body p:not(.action-links, :last-of-type) a {
   text-decoration: underline;
 }
 
 /* iconless action links (community-resource org links) render underlined */
-.cards-download .cards-download-card-body p:last-of-type a:not(:has(.icon)) {
+.accordion-download .accordion-download-card-body p:last-of-type a:not(:has(.icon)) {
   text-decoration: underline;
 }
 
-.cards-download .cards-download-card-body a .icon {
+.accordion-download .accordion-download-card-body a .icon {
   display: inline-flex;
   align-items: center;
 }
 
-.cards-download .cards-download-card-body a .icon img {
+.accordion-download .accordion-download-card-body a .icon img {
   width: 18px;
   height: 18px;
 }
 
-.cards-download .cards-download-card-body a .icon.icon-email img {
+.accordion-download .accordion-download-card-body a .icon.icon-email img {
   width: 22px;
 }
 
-.cards-download .cards-download-card-body a .icon.icon-arrow img {
+.accordion-download .accordion-download-card-body a .icon.icon-arrow img {
   width: 24px;
   height: 24px;
 }
 
-.cards-download .cards-download-card-body a .icon.icon-external-link img {
+.accordion-download .accordion-download-card-body a .icon.icon-external-link img {
   width: 20px;
   height: 20px;
 }
@@ -192,22 +192,22 @@
     padding: 24px 15px 8px;
   }
 
-  .cards-download > ul {
+  .accordion-download > ul {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .cards-download > ul > li {
+  .accordion-download > ul > li {
     flex-direction: row;
     align-items: flex-start;
     text-align: left;
   }
 
-  .cards-download .cards-download-card-image {
+  .accordion-download .accordion-download-card-image {
     flex: 0 0 160px;
   }
 
-  .cards-download .cards-download-card-body .action-links,
-  .cards-download .cards-download-card-body p:last-of-type {
+  .accordion-download .accordion-download-card-body .action-links,
+  .accordion-download .accordion-download-card-body p:last-of-type {
     justify-content: flex-start;
   }
 }

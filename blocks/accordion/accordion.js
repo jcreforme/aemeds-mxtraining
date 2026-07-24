@@ -4,10 +4,10 @@ const ANIMATION_DURATION_MS = 220;
 const ANIMATION_EASING = 'cubic-bezier(0.25, 0.46, 0.45, 0.94)';
 
 const NESTED_BLOCK_SELECTORS = [
+  '.accordion-download',
   '.alert-strip',
   '.cards',
   '.cards-callout',
-  '.cards-download',
   '.cards-feature',
   '.carousel-quote',
   '.columns',

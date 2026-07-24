@@ -1,6 +1,6 @@
-# Cards Download Block
+# Accordion Download Block
 
-A download-tile grid, based on the `cards` block. Each card is a "download tile":
+A download-tile grid, a variant of the `accordion` block. Each card is a "download tile":
 an illustration image, a heading, a short description, and one or two action links
 — a **Download** link and an **Email** link. Two cards per row on desktop, single
 column on mobile.
@@ -15,7 +15,7 @@ Each block row is one card, with two cells:
 ### Conceptual Structure
 
 ```text
-| cards-download |                                                        |
+| accordion-download |                                                    |
 | [image]        | ### VYEPTI Brochure                                    |
 |                | Everybody has to start somewhere…                      |
 |                | [Download :download-18:](/path.pdf) [Email :email:](#tile-modal) |
@@ -42,5 +42,5 @@ Icons resolve to `/icons/download-18.svg` and `/icons/email.svg` (both teal,
 - Images are authored as normal content images; they are constrained to a max
   width of 160px and contained within the card.
 - This block is commonly nested inside `accordion` panels. When authored inside a
-  panel, the accordion converts the nested table into a `cards-download` block at
+  panel, the accordion converts the nested table into an `accordion-download` block at
   runtime.

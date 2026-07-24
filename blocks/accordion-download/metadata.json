@@ -1,6 +1,6 @@
 {
-  "variantName": "cards-download",
-  "baseBlock": "cards",
+  "variantName": "accordion-download",
+  "baseBlock": "accordion",
   "version": "1.0.0",
   "created": "2026-07-22T00:00:00.000Z",
   "sourceContext": {
