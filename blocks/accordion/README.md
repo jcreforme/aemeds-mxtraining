@@ -1,6 +1,6 @@
 # Accordion Block
 
-Accordion block for AEM EDS with support for nested content (including other blocks such as `columns`, `cards`, etc.). It supports three variants: **exclusive** (one open panel), **multi-open** (multiple panels open simultaneously), and **faq** (card layout from the [vyepti.com/vyepti-faq](https://www.vyepti.com/vyepti-faq) page).
+Accordion block for AEM EDS with support for nested content (including other blocks such as `columns`, `cards`, etc.). It supports these variants: **exclusive** (one open panel), **multi-open** (multiple panels open simultaneously), **faq** (card layout from the [vyepti.com/vyepti-faq](https://www.vyepti.com/vyepti-faq) page), **insurance** (coverage picker), and **download** (a download-tile grid authored inside a panel).
 
 ## 1. Authoring Contract
 
@@ -74,6 +74,35 @@ Differences from the standard accordion:
 ```
 
 Test page: `drafts/faq-test.html` (`http://localhost:3000/drafts/faq-test`).
+
+### Download Variant (download-tile grid)
+
+A grid of "download tiles" authored **inside an accordion panel** as a nested
+`Accordion Download` block. Used on [vyepti.com/downloadable-resources](https://www.vyepti.com/downloadable-resources).
+Each tile is an illustration image + heading + short description + one or two
+action links (a **Download** PDF link and an **Email** link). Two tiles per row
+on desktop, single column on mobile.
+
+Unlike other nested blocks, this variant has no separate block module — the
+accordion decorates it inline into a `ul`/`li` grid on panel expand.
+
+```text
+| accordion | |
+| Getting Started | Accordion Download                                    |
+|                 | [image] | ### VYEPTI Brochure                         |
+|                 |         | Everybody has to start somewhere…           |
+|                 |         | [Download :download-18:](/path.pdf) [Email :email:](#tile-modal) |
+```
+
+Content model per tile row (inside the nested `Accordion Download` table):
+
+- **Column 1**: the illustration image → `.accordion-download-card-image`
+- **Column 2**: heading + description + action links → `.accordion-download-card-body`
+
+Action links render as plain teal text links with a trailing icon, side by side
+on one row. Put both links in a single paragraph, each followed by its icon token
+(`:download-18:` for Download, `:email:` for Email). A tile may carry just one
+link. Icons resolve to `/icons/download-18.svg` and `/icons/email.svg`.
 
 ### Nested Content
 

@@ -1,10 +1,11 @@
-import { buildBlock, decorateBlock, loadBlock } from '../../scripts/aem.js';
+import {
+  buildBlock, createOptimizedPicture, decorateBlock, loadBlock,
+} from '../../scripts/aem.js';
 
 const ANIMATION_DURATION_MS = 220;
 const ANIMATION_EASING = 'cubic-bezier(0.25, 0.46, 0.45, 0.94)';
 
 const NESTED_BLOCK_SELECTORS = [
-  '.accordion-download',
   '.alert-strip',
   '.cards',
   '.cards-callout',
@@ -195,8 +196,34 @@ function convertNestedBlockTables(panel) {
   });
 }
 
+// The "download" variant renders its tiles inline (no separate block module):
+// each row becomes an <li> with an image cell and a body cell (heading, text,
+// action links). Styling lives in accordion.css under .accordion .download.
+function decorateDownloadGrid(grid) {
+  const ul = document.createElement('ul');
+  [...grid.children].forEach((row) => {
+    const li = document.createElement('li');
+    while (row.firstElementChild) li.append(row.firstElementChild);
+    [...li.children].forEach((div) => {
+      if (div.children.length === 1 && div.querySelector('picture')) div.className = 'accordion-download-card-image';
+      else div.className = 'accordion-download-card-body';
+    });
+    ul.append(li);
+  });
+  ul.querySelectorAll('picture > img').forEach((img) => img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])));
+  grid.replaceChildren(ul);
+}
+
 async function loadNestedBlocks(panel) {
   convertNestedBlockTables(panel);
+
+  [...panel.querySelectorAll('.accordion-download')]
+    .filter((grid) => grid.closest('.accordion-panel') === panel)
+    .filter((grid) => !grid.dataset.decorated)
+    .forEach((grid) => {
+      decorateDownloadGrid(grid);
+      grid.dataset.decorated = 'true';
+    });
 
   const nestedBlocks = [...panel.querySelectorAll(NESTED_BLOCK_SELECTORS)]
     .filter((candidate) => candidate.closest('.accordion-panel') === panel)
