@@ -18,7 +18,7 @@
   font-size: 24px;
   line-height: 28px;
   text-align: center;
-  padding: 32px 16px 16px 13px;
+  padding: 0 16px 16px 13px;
   font-weight: normal;
 }
 
@@ -184,7 +184,7 @@
     font-size: 24px;
     line-height: 36px;
     text-align: left;
-    padding: 45px 0 16px;
+    padding: 0 0 16px;
     font-weight: normal;
   }
 
@@ -209,5 +209,14 @@
   .cards-download .cards-download-card-body .action-links,
   .cards-download .cards-download-card-body p:last-of-type {
     justify-content: flex-start;
+  }
+}
+
+@media (width >= 1200px) {
+  .hero-two-columns .hero-two-columns-content h1 {
+    font-size: 46px;
+    line-height: 60px;
+    max-width: 445px;
+    margin-left: 30px;
   }
 }
