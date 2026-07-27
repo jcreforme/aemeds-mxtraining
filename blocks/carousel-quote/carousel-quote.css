@@ -5,6 +5,12 @@
   --cq-arrow-bg: rgb(255 255 255 / 88%);
 }
 
+/* dark variant: dark teal slide, white text (e.g. nurse-support) */
+.carousel-quote.dark {
+  --cq-bg: #046183;
+  --cq-text: #fff;
+}
+
 .carousel-quote .carousel-quote-slides-container {
   position: relative;
   max-width: 1200px;
@@ -229,10 +235,25 @@
   transition: background-color 0.2s;
 }
 
+/* dark variant navigation arrow overrides (same specificity as indicator button, kept after it) */
+.carousel-quote.dark .carousel-quote-navigation-buttons button {
+  border-color: rgb(255 255 255 / 40%);
+  background-color: transparent;
+}
+
 .carousel-quote .carousel-quote-slide-indicators .carousel-quote-slide-indicator button:hover,
 .carousel-quote .carousel-quote-slide-indicators .carousel-quote-slide-indicator button:focus-visible,
 .carousel-quote .carousel-quote-slide-indicators .carousel-quote-slide-indicator button:disabled {
   background-color: var(--cq-accent);
+}
+
+.carousel-quote.dark .carousel-quote-navigation-buttons button:hover,
+.carousel-quote.dark .carousel-quote-navigation-buttons button:focus-visible {
+  background-color: rgb(255 255 255 / 15%);
+}
+
+.carousel-quote.dark .carousel-quote-navigation-buttons button::after {
+  border-color: #fff;
 }
 
 @media (width <= 767px) {
@@ -255,4 +276,11 @@
   .carousel-quote .carousel-quote-navigation-buttons {
     inset: 40% 10px auto;
   }
+}
+
+/* dark variant content color overrides */
+.carousel-quote.dark .carousel-quote-slide .carousel-quote-slide-content p,
+.carousel-quote.dark .carousel-quote-slide .carousel-quote-slide-content strong,
+.carousel-quote.dark .carousel-quote-slide .carousel-quote-slide-content a {
+  color: #fff;
 }
