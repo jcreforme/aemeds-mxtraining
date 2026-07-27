@@ -16,7 +16,7 @@
   display: none;
 }
 
-.form:not(.form-success) .form-field:has(input[type="checkbox"]) {
+.form:not(.form-success) .form-field-checkbox {
   flex-direction: row;
   align-items: flex-start;
   gap: 10px;
@@ -27,7 +27,14 @@
   font-weight: 500;
 }
 
-.form .form-field input:not([type="checkbox"]),
+.form .form-field-optional > label::after,
+.form .form-field-optional legend::after {
+  content: " (optional)";
+  font-weight: 400;
+  color: #666;
+}
+
+.form .form-field input:not([type="checkbox"], [type="radio"]),
 .form .form-field select,
 .form .form-field textarea {
   box-sizing: border-box;
@@ -44,6 +51,45 @@
   outline: 2px solid var(--vyepti-teal, #00a3a1);
   outline-offset: 1px;
   border-color: var(--vyepti-teal, #00a3a1);
+}
+
+.form .form-field-checkbox label {
+  font-weight: 400;
+  font-size: var(--body-font-size-s);
+}
+
+.form .form-field-checkbox label a {
+  color: var(--vyepti-teal, #00a3a1);
+  text-decoration: underline;
+}
+
+.form .form-field-radio fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.form .form-field-radio legend {
+  padding: 0;
+  margin-bottom: 8px;
+  font-size: var(--body-font-size-s);
+  font-weight: 500;
+}
+
+.form .radio-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.form .radio-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form .radio-option label {
+  font-weight: 400;
 }
 
 .form .lead-form button[type="submit"] {

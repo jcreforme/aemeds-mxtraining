@@ -1,26 +1,51 @@
-const FIELD_TYPES = ['text', 'email', 'tel', 'textarea', 'select', 'checkbox', 'submit'];
+const FIELD_TYPES = ['text', 'email', 'tel', 'date', 'textarea', 'select', 'radio', 'checkbox', 'submit'];
 
 /**
- * Parses field config from second column: "email" or "select:Option A,Option B".
+ * Parses the type/config cell into a structured config.
+ * Supported values:
+ *   text | email | tel | date | textarea | checkbox | submit
+ *   select: Option A, Option B
+ *   radio: Yes, No
+ * A standalone "optional" keyword before the colon marks the field as not required.
  * @param {string} raw
- * @returns {{ type: string, options?: string[] }}
+ * @returns {{ type: string, options?: string[], required: boolean }}
  */
 function parseFieldConfig(raw) {
-  const value = (raw || 'text').trim().toLowerCase();
-  if (value.startsWith('select:')) {
+  let value = (raw || 'text').trim();
+  const colonIdx = value.indexOf(':');
+  let prefix = colonIdx >= 0 ? value.slice(0, colonIdx) : value;
+  const rest = colonIdx >= 0 ? value.slice(colonIdx + 1) : '';
+
+  let required = true;
+  if (/\boptional\b/i.test(prefix)) {
+    required = false;
+    prefix = prefix.replace(/\boptional\b/i, '').trim();
+  }
+
+  const type = prefix.toLowerCase().trim() || 'text';
+  value = colonIdx >= 0 ? `${type}:${rest}` : type;
+
+  if (type === 'select' || type === 'radio') {
     return {
-      type: 'select',
-      options: value.slice(7).split(',').map((o) => o.trim()).filter(Boolean),
+      type,
+      required,
+      options: rest.split(',').map((o) => o.trim()).filter(Boolean),
     };
   }
-  if (FIELD_TYPES.includes(value)) return { type: value };
-  return { type: 'text' };
+  if (FIELD_TYPES.includes(type)) return { type, required };
+  return { type: 'text', required };
+}
+
+function slugify(text) {
+  return text.replace(/\s+/g, '-').replace(/[^a-z0-9-]/gi, '').toLowerCase();
 }
 
 /**
- * Lead capture form block.
- * Each row: col1 = label, col2 = field type (text|email|tel|textarea|select:a,b|checkbox|submit).
- * Submit row: col1 = button label (e.g. "Sign Up"), col2 = "submit".
+ * Lead capture / sign-up form block.
+ * Each row: col1 = label (may contain links for consent text), col2 = field config.
+ * Field config: text | email | tel | date | textarea | checkbox | submit,
+ *   select: A, B | radio: Yes, No. Prefix "optional" makes the field not required.
+ * Legacy support: type "select" with options in a third column.
  * @param {Element} block
  */
 export default function decorate(block) {
@@ -31,16 +56,17 @@ export default function decorate(block) {
   const rows = [...block.children];
   rows.forEach((row) => {
     const cells = [...row.children];
-    const labelText = cells[0]?.textContent?.trim();
+    const labelCell = cells[0];
+    const labelText = labelCell?.textContent?.trim();
     let typeRaw = cells[1]?.textContent?.trim() || '';
-    const selectOptions = cells[2]?.textContent?.trim();
-    if (typeRaw === 'select' && selectOptions) {
-      typeRaw = `select:${selectOptions}`;
+    const extraCol = cells[2]?.textContent?.trim();
+    if ((typeRaw === 'select' || typeRaw === 'radio') && extraCol) {
+      typeRaw = `${typeRaw}:${extraCol}`;
     }
-    const config = parseFieldConfig(typeRaw);
     if (!labelText) return;
 
-    const fieldId = `form-${labelText.replace(/\s+/g, '-').toLowerCase()}`;
+    const config = parseFieldConfig(typeRaw);
+    const fieldId = `form-${slugify(labelText).slice(0, 40)}`;
 
     if (config.type === 'submit') {
       const submit = document.createElement('button');
@@ -55,15 +81,44 @@ export default function decorate(block) {
     fieldWrap.className = 'form-field';
 
     if (config.type === 'checkbox') {
+      fieldWrap.classList.add('form-field-checkbox');
       const input = document.createElement('input');
       input.type = 'checkbox';
       input.id = fieldId;
       input.name = fieldId;
-      input.required = true;
+      input.required = config.required;
       const label = document.createElement('label');
       label.htmlFor = fieldId;
-      label.textContent = labelText;
+      // preserve any links (Terms of Use / Privacy Policy) in the consent text
+      const source = labelCell.querySelector('p') || labelCell;
+      label.innerHTML = source.innerHTML;
       fieldWrap.append(input, label);
+    } else if (config.type === 'radio') {
+      fieldWrap.classList.add('form-field-radio');
+      const fieldset = document.createElement('fieldset');
+      const legend = document.createElement('legend');
+      legend.textContent = labelText;
+      fieldset.append(legend);
+      const optionsWrap = document.createElement('div');
+      optionsWrap.className = 'radio-options';
+      (config.options || []).forEach((opt, i) => {
+        const optId = `${fieldId}-${slugify(opt) || i}`;
+        const optWrap = document.createElement('div');
+        optWrap.className = 'radio-option';
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.id = optId;
+        input.name = fieldId;
+        input.value = opt;
+        input.required = config.required;
+        const label = document.createElement('label');
+        label.htmlFor = optId;
+        label.textContent = opt;
+        optWrap.append(input, label);
+        optionsWrap.append(optWrap);
+      });
+      fieldset.append(optionsWrap);
+      fieldWrap.append(fieldset);
     } else {
       const label = document.createElement('label');
       label.htmlFor = fieldId;
@@ -96,10 +151,11 @@ export default function decorate(block) {
       input.name = fieldId;
       if (config.type === 'email') input.autocomplete = 'email';
       if (config.type === 'tel') input.autocomplete = 'tel';
-      if (config.type !== 'select') input.required = true;
+      input.required = config.required;
       fieldWrap.append(input);
     }
 
+    if (!config.required) fieldWrap.classList.add('form-field-optional');
     form.append(fieldWrap);
   });
 
