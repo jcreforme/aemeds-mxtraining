@@ -68,6 +68,56 @@ function bindEvents(block) {
   });
 }
 
+// Picks the best available source URL from an authored <picture> or <img>.
+function bestSrc(graphic) {
+  if (graphic.tagName === 'PICTURE') {
+    const source = graphic.querySelector('source[type="image/webp"][media]')
+      || graphic.querySelector('source[type="image/webp"]')
+      || graphic.querySelector('source');
+    if (source && source.getAttribute('srcset')) return source.getAttribute('srcset');
+  }
+  const img = graphic.tagName === 'IMG' ? graphic : graphic.querySelector('img');
+  return img ? img.getAttribute('src') : '';
+}
+
+// Combines authored desktop/tablet/mobile graphics into one responsive <picture>
+// that swaps at 900px (desktop) and 600px (tablet), falling back to mobile.
+// Authored order is desktop, tablet, mobile; a missing size is simply skipped.
+function buildResponsiveImage(column) {
+  const graphics = [...column.querySelectorAll('picture, img')]
+    .filter((el) => !(el.tagName === 'IMG' && el.closest('picture')));
+  if (graphics.length < 2) return;
+
+  const [desktop, tablet, mobile] = graphics;
+  const smallest = mobile || tablet;
+  const out = document.createElement('picture');
+
+  const addSource = (graphic, media) => {
+    if (!graphic) return;
+    const source = document.createElement('source');
+    source.media = media;
+    source.srcset = bestSrc(graphic);
+    out.append(source);
+  };
+
+  addSource(desktop, '(min-width: 900px)');
+  addSource(mobile ? tablet : null, '(min-width: 600px)');
+
+  const altSource = graphics.find((g) => {
+    const el = g.tagName === 'IMG' ? g : g.querySelector('img');
+    return el && el.getAttribute('alt');
+  }) || smallest;
+  const altImg = altSource.tagName === 'IMG' ? altSource : altSource.querySelector('img');
+  const img = document.createElement('img');
+  img.src = bestSrc(smallest);
+  img.alt = altImg ? altImg.getAttribute('alt') || '' : '';
+  img.loading = 'lazy';
+  out.append(img);
+
+  graphics.forEach((g) => (g.closest('p') || g).remove());
+  column.prepend(out);
+}
+
 function createSlide(row, slideIndex, carouselId) {
   const slide = document.createElement('li');
   slide.dataset.slideIndex = slideIndex;
@@ -76,7 +126,9 @@ function createSlide(row, slideIndex, carouselId) {
 
   row.querySelectorAll(':scope > div').forEach((column, colIdx) => {
     column.classList.add(`carousel-quote-slide-${colIdx === 0 ? 'image' : 'content'}`);
-    if (colIdx !== 0) {
+    if (colIdx === 0) {
+      buildResponsiveImage(column);
+    } else {
       const iconInPara = column.querySelector('p .icon');
       if (iconInPara) iconInPara.closest('p').classList.add('quotation');
 
