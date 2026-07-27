@@ -57,6 +57,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  box-sizing: border-box;
   width: 100%;
   margin: 0;
   padding: 48px 44px 44px 84px;
@@ -270,6 +271,7 @@
 
   .carousel-quote .carousel-quote-slide .carousel-quote-slide-content {
     order: 2;
+    min-width: 0;
     padding: 28px 24px 32px;
   }
 
@@ -289,4 +291,34 @@
    when a tall quote makes the slide taller than the image's aspect ratio */
 .carousel-quote.dark .carousel-quote-slide .carousel-quote-slide-image picture > img {
   object-position: right top;
+}
+
+/* dark variant: match the source layout (1140px card, ~329px tall, fixed 24px
+   quote) so the image is not upscaled/cropped and the slide stays compact */
+.carousel-quote.dark .carousel-quote-slides-container {
+  max-width: 1140px;
+}
+
+.carousel-quote.dark .carousel-quote-slide .carousel-quote-slide-content .quotation {
+  margin-bottom: 10px;
+}
+
+.carousel-quote.dark .carousel-quote-slide .carousel-quote-slide-content h2 {
+  max-width: 460px;
+  font-size: 24px;
+  line-height: 29px;
+}
+
+@media (width >= 900px) {
+  .carousel-quote.dark .carousel-quote-slide {
+    min-height: 329px;
+  }
+
+  .carousel-quote.dark .carousel-quote-slide .carousel-quote-slide-image {
+    min-height: 329px;
+  }
+
+  .carousel-quote.dark .carousel-quote-slide .carousel-quote-slide-content {
+    padding: 24px 40px 24px 64px;
+  }
 }
