@@ -278,6 +278,29 @@
   .carousel-quote .carousel-quote-navigation-buttons {
     inset: 40% 10px auto;
   }
+
+  /* dark variant: source stacks content on top, image at the bottom */
+  .carousel-quote.dark .carousel-quote-slide .carousel-quote-slide-content {
+    order: 1;
+  }
+
+  .carousel-quote.dark .carousel-quote-slide .carousel-quote-slide-image {
+    order: 2;
+    min-height: 0;
+  }
+
+  /* let the picture flow so the column takes the image's height */
+  .carousel-quote.dark .carousel-quote-slide .carousel-quote-slide-image picture {
+    position: static;
+    height: auto;
+  }
+
+  /* show the whole portrait (no crop) */
+  .carousel-quote.dark .carousel-quote-slide .carousel-quote-slide-image picture > img {
+    position: static;
+    height: auto;
+    object-fit: contain;
+  }
 }
 
 /* dark variant content color overrides */
