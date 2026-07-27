@@ -310,12 +310,22 @@
 }
 
 @media (width >= 900px) {
+  /* Source layout: fixed 329px-tall card, image column ~475px. The portrait
+     shows at its natural size (390x329) anchored bottom-right, with the teal
+     background filling the headroom instead of upscaling/cropping the figure. */
   .carousel-quote.dark .carousel-quote-slide {
+    grid-template-columns: minmax(0, 1fr) 475px;
     min-height: 329px;
+    height: 329px;
   }
 
   .carousel-quote.dark .carousel-quote-slide .carousel-quote-slide-image {
     min-height: 329px;
+  }
+
+  .carousel-quote.dark .carousel-quote-slide .carousel-quote-slide-image picture > img {
+    object-fit: contain;
+    object-position: right bottom;
   }
 
   .carousel-quote.dark .carousel-quote-slide .carousel-quote-slide-content {
