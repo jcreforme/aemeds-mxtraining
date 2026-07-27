@@ -47,7 +47,12 @@
   padding: 24px;
 }
 
-/* nurse-support variant: lighter callout tint */
+/* nurse-support variant: constrained width + lighter callout tint */
+.columns-content.nurse-support {
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
 .columns-content.nurse-support .columns-content-callout {
   background-color: #eff6f9;
 }
