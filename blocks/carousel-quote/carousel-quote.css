@@ -284,3 +284,9 @@
 .carousel-quote.dark .carousel-quote-slide .carousel-quote-slide-content a {
   color: #fff;
 }
+
+/* dark variant: anchor the portrait to the top so the face stays visible
+   when a tall quote makes the slide taller than the image's aspect ratio */
+.carousel-quote.dark .carousel-quote-slide .carousel-quote-slide-image picture > img {
+  object-position: right top;
+}
