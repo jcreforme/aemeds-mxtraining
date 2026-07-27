@@ -43,8 +43,13 @@
   display: block;
   margin-top: 18px;
   border-radius: 16px;
-  background-color: #eff6f9;
+  background-color: #d9e1e7;
   padding: 24px;
+}
+
+/* nurse-support variant: lighter callout tint */
+.columns-content.nurse-support .columns-content-callout {
+  background-color: #eff6f9;
 }
 
 .columns-content-callout.has-icon {
