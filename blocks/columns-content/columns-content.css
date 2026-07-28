@@ -552,6 +552,11 @@ main > .section.copay-dark .default-content-wrapper:last-of-type p {
   display: block;
 }
 
+/* left column: centered on mobile/tablet (desktop restores left align below) */
+.columns-content.prepare-steps .prepare-steps-content {
+  text-align: center;
+}
+
 /* left column */
 /* stylelint-disable-next-line no-descending-specificity */
 .columns-content.prepare-steps .prepare-steps-content h2 {
@@ -579,6 +584,7 @@ main > .section.copay-dark .default-content-wrapper:last-of-type p {
 .columns-content.prepare-steps .prepare-steps-content ul {
   margin: 0 0 1em;
   padding-left: 20px;
+  text-align: left;
 }
 
 /* stylelint-disable-next-line no-descending-specificity */
@@ -598,12 +604,13 @@ main > .section.copay-dark .default-content-wrapper:last-of-type p {
   line-height: 18px;
 }
 
-/* 4-across location icon row */
+/* location icons: 2x2 on mobile/tablet, 4-across on desktop */
 .columns-content.prepare-steps .prepare-steps-locations {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin: 20px 0 28px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px 16px;
+  max-width: 360px;
+  margin: 20px auto 28px;
 }
 
 .columns-content.prepare-steps .prepare-steps-locations > div {
@@ -781,6 +788,18 @@ main > .section.copay-dark .default-content-wrapper:last-of-type p {
     grid-template-columns: minmax(0, 1fr) 525px;
     gap: 56px;
     align-items: start;
+  }
+
+  /* desktop: text back to left-aligned */
+  .columns-content.prepare-steps .prepare-steps-content {
+    text-align: left;
+  }
+
+  /* desktop: icons back to a single 4-across row */
+  .columns-content.prepare-steps .prepare-steps-locations {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: none;
+    margin: 20px 0 28px;
   }
 }
 
