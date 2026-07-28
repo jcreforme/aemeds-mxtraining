@@ -41,6 +41,7 @@ let blockCount = 0;
 function getVideoKind(url) {
   if (/(^|\.)youtube(-nocookie)?\.com$/.test(url.hostname) || url.hostname === 'youtu.be') return 'youtube';
   if (/(^|\.)vimeo\.com$/.test(url.hostname)) return 'vimeo';
+  if (/(^|\.)brightcove\.net$/.test(url.hostname)) return 'brightcove';
   if (/\.(mp4|webm|m3u8)$/i.test(url.pathname)) return 'file';
   return null;
 }
@@ -83,6 +84,13 @@ function buildPlayer(url, title, autoplay) {
     const id = url.pathname.split('/').filter(Boolean)[0];
     if (!id) return null;
     return createIframe(`https://player.vimeo.com/video/${id}?dnt=1${autoplay ? '&autoplay=1' : ''}`, title);
+  }
+  if (kind === 'brightcove') {
+    // authored as the standard player URL:
+    // players.brightcove.net/{account}/{player}_default/index.html?videoId={id}
+    const embed = new URL(url.href);
+    if (autoplay) embed.searchParams.set('autoplay', 'true');
+    return createIframe(embed.href, title);
   }
   if (kind === 'file') {
     const video = document.createElement('video');
