@@ -583,3 +583,51 @@
   font-weight: 700;
   text-decoration: underline;
 }
+
+/* ── Media variant (heading + copy above a nested video block) ────────────
+   Centered title/description stacked over the reused `video` block. */
+
+/* neutralize base hero chrome (teal bg + white text) for this content variant */
+.hero.media {
+  max-width: 970px;
+  margin: 0 auto;
+  color: inherit;
+  background: none;
+}
+
+.hero.media .hero-media-text {
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+.hero.media .hero-media-text h1,
+.hero.media .hero-media-text h2,
+.hero.media .hero-media-text h3 {
+  margin: 0 0 0.4em;
+  color: #046183;
+  font-size: 28px;
+  line-height: 32px;
+  font-weight: 800;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.hero.media .hero-media-text p {
+  margin: 0 auto 8px;
+  max-width: 760px;
+  color: #333;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.hero.media .hero-media-text p em {
+  font-style: italic;
+}
+
+@media (width >= 900px) {
+  .hero.media .hero-media-text h1,
+  .hero.media .hero-media-text h2,
+  .hero.media .hero-media-text h3 {
+    font-size: 32px;
+    line-height: 36px;
+  }
+}

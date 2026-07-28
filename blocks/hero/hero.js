@@ -1,7 +1,10 @@
+import { buildBlock, decorateBlock, loadBlock } from '../../scripts/aem.js';
+
 /**
  * Hero Block
  *
- * Two variants:
+ * Variants: DEFAULT, SPLIT, PREPARE (tabbed card), and MEDIA (heading + copy
+ * above a nested `video` block). The details below cover DEFAULT and SPLIT:
  *
  * 1. DEFAULT — single-panel interior-page hero: full-bleed image with
  *    overlaid heading, copy, CTA, and optional "Actor portrayal" disclaimer.
@@ -275,12 +278,57 @@ function decoratePrepare(block) {
   if (tabs.length) activate(tabs.length - 1);
 }
 
+/* ─── Media variant (heading + copy above a nested video block) ─────────── */
+
+/**
+ * Build a "media" hero: a centered heading + copy stacked above the existing
+ * `video` block (poster, source URL, optional transcript). The video rows are
+ * gathered and rebuilt into a real `video` block so all of its behavior
+ * (Brightcove/YouTube embed, play overlay, transcript drawer) is reused
+ * rather than duplicated.
+ * @param {Element} block
+ */
+async function decorateMedia(block) {
+  const rows = [...block.children];
+
+  // classify each row: the one with a heading (and no media) is the text; rows
+  // holding a poster image, a video URL, or transcript copy feed the video.
+  const text = document.createElement('div');
+  text.className = 'hero-media-text';
+  const videoContent = [];
+
+  rows.forEach((row) => {
+    const cell = row.querySelector(':scope > div') || row.firstElementChild;
+    if (!cell) return;
+    const hasMedia = cell.querySelector('picture, img');
+    const hasHeading = cell.querySelector('h1, h2, h3, h4, h5, h6');
+    const link = cell.querySelector('a[href]');
+    const isVideoUrl = !!link || /brightcove\.net|youtu\.?be|vimeo\.com|\.(mp4|webm|m3u8)/i.test(cell.textContent);
+
+    if (hasHeading && !hasMedia && !isVideoUrl) {
+      while (cell.firstChild) text.append(cell.firstChild);
+    } else {
+      videoContent.push({ elems: [...cell.childNodes] });
+    }
+  });
+
+  const nestedVideo = buildBlock('video', videoContent.map((c) => [c]));
+
+  block.replaceChildren(text, nestedVideo);
+
+  decorateBlock(nestedVideo);
+  await loadBlock(nestedVideo);
+}
+
 /* ─── Block entry point ─────────────────────────────────────────────────── */
 
 /**
  * @param {Element} block The hero block element
  */
 export default function decorate(block) {
+  if (block.classList.contains('media')) {
+    return decorateMedia(block);
+  }
   if (block.classList.contains('prepare')) {
     decoratePrepare(block);
   } else if (block.classList.contains('split')) {
@@ -288,4 +336,5 @@ export default function decorate(block) {
   } else {
     decorateSingle(block);
   }
+  return undefined;
 }
