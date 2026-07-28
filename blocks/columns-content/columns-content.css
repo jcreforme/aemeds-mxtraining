@@ -700,10 +700,10 @@ main > .section.copay-dark .default-content-wrapper:last-of-type p {
 }
 
 .columns-content.prepare-steps .prepare-steps-tab-label {
-  width: 100%;
+  width: 88px;
   border: 1px solid #7ebcc6;
   border-radius: 6px;
-  padding: 8px 4px;
+  padding: 4px 0;
   background-color: rgb(4 97 131 / 3%);
   color: #046183;
   font-size: 16px;
