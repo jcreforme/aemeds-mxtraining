@@ -138,7 +138,7 @@
 }
 
 .video .video-transcript-toggle:hover {
-  color: var(--video-accent-hover);
+  color: #046183;
 }
 
 .video .video-transcript-toggle:focus-visible {
