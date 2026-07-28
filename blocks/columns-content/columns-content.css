@@ -53,6 +53,14 @@
   margin: 0 auto;
 }
 
+/* nurse-support: 1140px wide with no left/right padding or margin from the
+   section wrapper (overrides the global "main > .section > div" gutters) */
+main > .section > .columns-content-wrapper:has(.columns-content.nurse-support) {
+  max-width: 1140px;
+  padding-left: 0;
+  padding-right: 0;
+}
+
 .columns-content.nurse-support .columns-content-callout {
   background-color: #eff6f9;
 }
@@ -442,6 +450,7 @@ main > .section.copay-dark {
 }
 
 /* mobile: constrain and center the content wrappers */
+/* stylelint-disable-next-line no-descending-specificity */
 main > .section.copay-dark .columns-content-wrapper,
 main > .section.copay-dark .default-content-wrapper {
   box-sizing: border-box;
