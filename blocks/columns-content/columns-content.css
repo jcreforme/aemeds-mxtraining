@@ -631,8 +631,6 @@ main > .section.copay-dark .default-content-wrapper:last-of-type p {
 /* stylelint-disable-next-line no-descending-specificity */
 .columns-content.prepare-steps .prepare-steps-locations p {
   margin: 0;
-  width: 73%;
-  color: #046183;
   font-size: 15px;
   line-height: 18px;
   font-weight: 700;
