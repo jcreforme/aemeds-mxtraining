@@ -629,6 +629,28 @@
   margin: 0 auto;
 }
 
+/* transcript toggle: solid teal circle with a white +/−, fixed #046183 label
+   (only inside the media hero — the base video block keeps its own style) */
+.hero.media .video .video-transcript-toggle,
+.hero.media .video .video-transcript-toggle:hover {
+  color: #046183;
+}
+
+.hero.media .video .video-transcript-toggle::before {
+  border: 0;
+  background:
+    linear-gradient(#fff, #fff) center / 10px 2px no-repeat,
+    linear-gradient(#fff, #fff) center / 2px 10px no-repeat,
+    #046183;
+}
+
+.hero.media .video .video-transcript-toggle[aria-expanded="true"]::before {
+  background:
+    linear-gradient(#fff, #fff) center / 10px 2px no-repeat,
+    linear-gradient(#fff, #fff) center / 2px 0 no-repeat,
+    #046183;
+}
+
 @media (width >= 900px) {
   .hero.media .hero-media-text {
     text-align: left;
