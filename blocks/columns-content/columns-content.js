@@ -168,6 +168,63 @@ function groupAdjacentButtons(block) {
   });
 }
 
+// prepare-steps variant: wire the icon tabs to their content panels. Each tab
+// (in .prepare-tabs) maps by index to a panel (in .prepare-panels); clicking or
+// keyboard-activating a tab shows its panel and hides the rest.
+function decoratePrepareTabs(block) {
+  const tablist = block.querySelector('.prepare-tabs');
+  const panelWrap = block.querySelector('.prepare-panels');
+  if (!tablist || !panelWrap) return;
+
+  const tabs = [...tablist.querySelectorAll('.prepare-tab')];
+  const panels = [...panelWrap.querySelectorAll('.prepare-panel')];
+  if (tabs.length === 0 || tabs.length !== panels.length) return;
+
+  tablist.setAttribute('role', 'tablist');
+
+  const activate = (index, setFocus = false) => {
+    tabs.forEach((tab, i) => {
+      const selected = i === index;
+      tab.classList.toggle('is-active', selected);
+      tab.setAttribute('aria-selected', selected ? 'true' : 'false');
+      tab.setAttribute('tabindex', selected ? '0' : '-1');
+      panels[i].hidden = !selected;
+      if (selected && setFocus) tab.focus();
+    });
+  };
+
+  tabs.forEach((tab, i) => {
+    const panelId = `prepare-panel-${i}`;
+    const tabId = `prepare-tab-${i}`;
+    tab.id = tabId;
+    tab.setAttribute('role', 'tab');
+    panels[i].id = panelId;
+    panels[i].setAttribute('role', 'tabpanel');
+    panels[i].setAttribute('aria-labelledby', tabId);
+    tab.setAttribute('aria-controls', panelId);
+
+    tab.addEventListener('click', () => activate(i));
+    tab.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        activate((i + 1) % tabs.length, true);
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        activate((i - 1 + tabs.length) % tabs.length, true);
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        activate(0, true);
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        activate(tabs.length - 1, true);
+      }
+    });
+  });
+
+  const initial = tabs.findIndex((tab) => tab.classList.contains('is-active'));
+  activate(initial === -1 ? 0 : initial);
+}
+
 /**
  * Decorates 2-column layout with optional callout.
  * Configured via block variant: "Columns Content (callout-both)", "Columns Content (callout-left)"
@@ -175,6 +232,11 @@ function groupAdjacentButtons(block) {
  * @param {Element} block
  */
 export default function decorate(block) {
+  if (block.classList.contains('prepare-steps')) {
+    decoratePrepareTabs(block);
+    return;
+  }
+
   const variantCallout = ['both', 'left', 'right'].find((v) => block.classList.contains(`callout-${v}`));
   const calloutConfig = (variantCallout || block.dataset.callout || 'right').toLowerCase();
   const shouldDecorateLeft = calloutConfig === 'left' || calloutConfig === 'both';
