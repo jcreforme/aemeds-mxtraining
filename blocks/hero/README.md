@@ -1,10 +1,15 @@
 # Hero Block
 
-Hero block for AEM EDS with two variants. The **default** variant (`hero`) replicates the vyepti.com homepage banner: a full-bleed image with a heading, copy, CTA, and an "Actor portrayal" disclaimer overlaid. The **split** variant (`hero (split)`) replicates the homepage's split banner (`.teaser.homeBanner`): two image panels side by side on desktop, stacked on mobile, each with its centered copy.
+Hero block for AEM EDS with four variants:
+
+- **default** (`hero`) — replicates the vyepti.com homepage banner: a full-bleed image with a heading, copy, CTA, and an "Actor portrayal" disclaimer overlaid.
+- **split** (`hero (split)`) — the homepage's split banner (`.teaser.homeBanner`): two image panels side by side on desktop, stacked on mobile.
+- **prepare** (`hero (prepare)`) — an interactive "Prepare for each step" tabbed card (see below).
+- **media** (`hero (media)`) — a centered heading + copy stacked above a nested `video` block (see below).
 
 ## 1. Authoring Contract
 
-The decorator chooses the variant based on the block's class: if it has the `split` class it runs `decorateSplit`, otherwise `decorateSingle`.
+The decorator chooses the variant based on the block's class: `prepare` → `decoratePrepare`, `media` → `decorateMedia`, `split` → `decorateSplit`, otherwise `decorateSingle`.
 
 ### Default Variant (single-panel)
 
@@ -66,6 +71,42 @@ Per-panel styles:
 - **Panel 1** (`hero-panel-1`): white copy over the dark photo.
 - **Panel 2** (`hero-panel-2`): teal copy, red accents, and CTA.
 - Mobile: the panels stack (`grid-template-columns: 1fr`); desktop (>= 900px): side by side (`1fr 1fr`).
+
+### Prepare Variant (`hero (prepare)`)
+
+An interactive "Prepare for each step" tabbed card, built from a flat table:
+
+- **Row 1** (single cell): the card title (e.g. `Prepare for each step`).
+- **Rows 2+** (two cells each): one tab per row — `[:icon: + label]` | `[that tab's panel content]`. The **last** tab starts selected.
+
+```text
+| hero (prepare) | |
+| Prepare for each step | |
+| :step-before: Before infusion | ##### Getting ready…\n- Confirm your infusion location… |
+| :step-during: During infusion | ##### Given by a provider… |
+| :step-after: After infusion  | ##### Make your next appointment… |
+```
+
+Tabs are interactive (click + arrow/Home/End keys, full `tablist`/`tab`/`tabpanel` ARIA). This is the same card as `columns-content (prepare-steps)` but standalone for use inside a hero.
+
+### Media Variant (`hero (media)`)
+
+A centered heading + copy stacked above a **nested `video` block**. The video rows are rebuilt into a real `video` block (via `buildBlock`/`decorateBlock`/`loadBlock`), so all video behavior — Brightcove/YouTube/Vimeo/MP4 embed, poster + play overlay, transcript drawer — is reused, not duplicated.
+
+- **Row 1**: the text — heading + description/disclaimer paragraphs (rendered centered above the video; left-aligned on desktop).
+- **Row 2**: the poster image.
+- **Row 3**: the video URL (Brightcove/YouTube/Vimeo/MP4).
+- **Row 4** *(optional)*: the transcript — start it with a `Transcript:` line.
+
+```text
+| hero (media) | |
+| # Lealani's infusion experience\nLealani talks about…\n*Individual results may vary.* | |
+| [poster image] | |
+| https://players.brightcove.net/…/index.html?videoId=… | |
+| Transcript:\n0:08 … | |
+```
+
+The block and the nested video are capped at 760px. The transcript toggle inside a media hero uses a solid teal `#046183` circle with a white +/− (scoped to `.hero.media .video`; the base video block keeps its outlined-circle style).
 
 ## Accessibility
 

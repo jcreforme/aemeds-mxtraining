@@ -15,7 +15,9 @@ Third-party players (YouTube/Vimeo) are heavy, so the block never loads one at p
 
 An inline embed was chosen over a modal: the source site plays in place, it needs no focus-trap machinery, and it keeps the transcript visible directly under the playing video.
 
-URL classification lives in `getVideoKind()` — YouTube (`youtube.com`, `youtu.be`, `youtube-nocookie.com`), Vimeo, and file URLs ending `.mp4`/`.webm`/`.m3u8`. YouTube embeds use the privacy-enhanced `youtube-nocookie.com` host with `rel=0`; Vimeo gets `dnt=1`. MP4s render in a native `<video controls playsinline>` element.
+URL classification lives in `getVideoKind()` — YouTube (`youtube.com`, `youtu.be`, `youtube-nocookie.com`), Vimeo, Brightcove (`*.brightcove.net`), and file URLs ending `.mp4`/`.webm`/`.m3u8`. YouTube embeds use the privacy-enhanced `youtube-nocookie.com` host with `rel=0`; Vimeo gets `dnt=1`; Brightcove uses the authored player URL as-is (adding `autoplay=true` after the play click). MP4s render in a native `<video controls playsinline>` element.
+
+Brightcove player URLs look like `https://players.brightcove.net/{account}/{player}_default/index.html?videoId={id}` — paste that URL (copy it from the Brightcove publish/embed dialog) as the video URL.
 
 ### Transcript drawer
 
@@ -53,7 +55,8 @@ Create a one-column table named **Video**. Rows can be in any order — the bloc
 - **Poster image** *(optional, recommended)* — pasted directly into the cell. It becomes the video thumbnail with a play button; the video itself only loads when the visitor clicks, which keeps pages fast. Give the image meaningful alt text.
 - **Video URL** *(required)* — a link or plain URL to:
   - a YouTube video (`youtube.com/watch?v=…`, `youtu.be/…`, or an embed/Shorts URL),
-  - a Vimeo video (`vimeo.com/…`), or
+  - a Vimeo video (`vimeo.com/…`),
+  - a Brightcove player URL (`players.brightcove.net/{account}/{player}_default/index.html?videoId=…`), or
   - an MP4/WebM file hosted on this site or a CDN.
 - **Transcript** *(optional)* — everything else in the table becomes the drawer content. A leading line saying only "Transcript:" is removed automatically (the toggle button already says it). Use one paragraph per caption, optionally starting with a timestamp (`0:08 …`), matching the source site's format. Bold, links, and lists are preserved.
 
