@@ -783,3 +783,91 @@ main > .section.copay-dark .default-content-wrapper:last-of-type p {
     align-items: start;
   }
 }
+
+/* ==========================================================================
+   Variant: stat-highlight (what-to-expect "88% ... was easy")
+   Tinted full-bleed band, circular graphic left + two-color stat headline
+   and supporting copy right. Built by decorateStatHighlight() in the JS.
+   ========================================================================== */
+
+/* full-bleed tinted band via the section wrapper */
+main > .section:has(.columns-content.stat-highlight) {
+  background-color: #e1f0f6;
+  margin: 0;
+  padding: 57px 0 48px;
+}
+
+.columns-content.stat-highlight {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  max-width: 1140px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* reset the base ".columns-content > div" grid so the text stacks */
+/* stylelint-disable-next-line no-descending-specificity */
+.columns-content.stat-highlight > div {
+  display: block;
+}
+
+.columns-content.stat-highlight .stat-highlight-graphic {
+  flex-shrink: 0;
+}
+
+.columns-content.stat-highlight .stat-highlight-graphic img {
+  display: block;
+  width: 200px;
+  height: auto;
+}
+
+.columns-content.stat-highlight .stat-highlight-text h3 {
+  margin: 0 0 16px;
+  color: #046183;
+  font-size: 28px;
+  line-height: 32px;
+  font-weight: 800;
+}
+
+/* bold spans in the headline render in brand magenta */
+.columns-content.stat-highlight .stat-highlight-text h3 strong {
+  color: #c02c57;
+  font-weight: 800;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.columns-content.stat-highlight .stat-highlight-text p {
+  margin: 0 0 8px;
+  color: #484848;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.columns-content.stat-highlight .stat-highlight-text .stat-highlight-disclaimer {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.columns-content.stat-highlight .stat-highlight-text .stat-highlight-disclaimer em {
+  font-style: italic;
+}
+
+@media (width >= 900px) {
+  .columns-content.stat-highlight {
+    flex-direction: row;
+    align-items: center;
+    gap: 56px;
+    text-align: left;
+  }
+
+  .columns-content.stat-highlight .stat-highlight-graphic img {
+    width: 260px;
+  }
+
+  .columns-content.stat-highlight .stat-highlight-text h3 {
+    font-size: 32px;
+    line-height: 36px;
+  }
+}

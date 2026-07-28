@@ -324,6 +324,37 @@ function decoratePrepareSteps(block) {
   if (tabs.length) activate(tabs.length - 1);
 }
 
+// stat-highlight variant: a tinted full-bleed band with a circular graphic on
+// the left and a large two-color stat headline + supporting copy on the right.
+// Authored as a flat table: the cell holding an image is the graphic, the cell
+// holding a heading is the text. Cells are order-agnostic.
+function decorateStatHighlight(block) {
+  const cells = [...block.querySelectorAll(':scope > div > div')];
+  const mediaCell = cells.find((c) => c.querySelector('picture, img'));
+  const textCell = cells.find((c) => c !== mediaCell && c.querySelector('h1, h2, h3, h4, h5, h6, p'));
+
+  const graphic = document.createElement('div');
+  graphic.className = 'stat-highlight-graphic';
+  if (mediaCell) {
+    const pic = mediaCell.querySelector('picture') || mediaCell.querySelector('img');
+    if (pic) graphic.append(pic);
+  }
+
+  const text = document.createElement('div');
+  text.className = 'stat-highlight-text';
+  if (textCell) {
+    while (textCell.firstChild) text.append(textCell.firstChild);
+    // the last italic-only paragraph is a disclaimer (smaller type)
+    const paras = [...text.querySelectorAll('p')];
+    const last = paras[paras.length - 1];
+    if (last && !last.querySelector('a') && last.querySelector('em, i')) {
+      last.classList.add('stat-highlight-disclaimer');
+    }
+  }
+
+  block.replaceChildren(graphic, text);
+}
+
 /**
  * Decorates 2-column layout with optional callout.
  * Configured via block variant: "Columns Content (callout-both)", "Columns Content (callout-left)"
@@ -333,6 +364,11 @@ function decoratePrepareSteps(block) {
 export default function decorate(block) {
   if (block.classList.contains('prepare-steps')) {
     decoratePrepareSteps(block);
+    return;
+  }
+
+  if (block.classList.contains('stat-highlight')) {
+    decorateStatHighlight(block);
     return;
   }
 
