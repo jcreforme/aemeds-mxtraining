@@ -1,0 +1,128 @@
+/*
+ * Cards Download — standalone resource-card grid.
+ * Image/logo left, heading + copy + Download/Email action links right.
+ * Two cards per row on desktop, single column on mobile.
+ */
+
+.cards-download {
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+.cards-download ul {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cards-download > ul > li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.cards-download-card-image {
+  line-height: 0;
+}
+
+.cards-download-card-image img {
+  width: 100%;
+  max-width: 160px;
+  height: auto;
+  object-fit: contain;
+}
+
+.cards-download-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cards-download-card-body h3 {
+  margin: 0;
+  color: #046183;
+  font-size: 24px;
+  line-height: 1.2;
+  font-weight: 800;
+}
+
+.cards-download-card-body p {
+  margin: 0;
+  color: #333;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+/* inline links within the description text */
+.cards-download-card-body p a {
+  color: #046183;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* action links (Download / Email): plain teal links with a trailing icon */
+.cards-download-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  margin-top: 8px;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.cards-download-actions a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #046183;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.cards-download-actions a:hover,
+.cards-download-actions a:focus-visible {
+  text-decoration: underline;
+}
+
+.cards-download-actions a .icon {
+  display: inline-flex;
+  align-items: center;
+}
+
+.cards-download-actions a .icon img {
+  width: 18px;
+  height: 18px;
+}
+
+.cards-download-actions a .icon.icon-email img {
+  width: 22px;
+}
+
+@media (width >= 900px) {
+  .cards-download > ul {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 48px;
+  }
+
+  .cards-download > ul > li {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 24px;
+    text-align: left;
+  }
+
+  .cards-download-card-image {
+    flex: 0 0 160px;
+  }
+
+  .cards-download-actions {
+    justify-content: flex-start;
+  }
+}
