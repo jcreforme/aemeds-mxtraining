@@ -589,7 +589,7 @@
 
 /* neutralize base hero chrome (teal bg + white text) for this content variant */
 .hero.media {
-  max-width: 970px;
+  max-width: 760px;
   margin: 0 auto;
   color: inherit;
   background: none;
