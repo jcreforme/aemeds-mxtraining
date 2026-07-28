@@ -536,6 +536,13 @@ main > .section.copay-dark .default-content-wrapper:last-of-type p {
   color: #333;
 }
 
+/* reset the base ".columns-content > div" grid: this variant's direct children
+   are the left content column and the card, not a two-cell row */
+/* stylelint-disable-next-line no-descending-specificity */
+.columns-content.prepare-steps > div {
+  display: block;
+}
+
 /* left column */
 /* stylelint-disable-next-line no-descending-specificity */
 .columns-content.prepare-steps .prepare-steps-content h2 {

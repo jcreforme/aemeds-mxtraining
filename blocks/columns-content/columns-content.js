@@ -175,11 +175,13 @@ function groupAdjacentButtons(block) {
 //   - a two-cell row  -> one tab: [icon + label] | [that tab's panel content]
 
 // A bulleted list whose every item leads with an icon becomes the 4-across
-// location grid (icon stacked above its label).
+// location grid (icon stacked above its label). The authoring pipeline may wrap
+// the leading icon in inline formatting (e.g. <em>), so match the first .icon
+// descendant rather than a direct child.
 function buildLocationGrid(container) {
   const list = [...container.querySelectorAll('ul')].find((ul) => {
     const items = [...ul.children];
-    return items.length > 0 && items.every((li) => li.querySelector(':scope > .icon'));
+    return items.length > 0 && items.every((li) => li.querySelector('.icon'));
   });
   if (!list) return;
 
@@ -188,10 +190,13 @@ function buildLocationGrid(container) {
 
   [...list.children].forEach((li) => {
     const cell = document.createElement('div');
-    const icon = li.querySelector(':scope > .icon');
+    const icon = li.querySelector('.icon');
     if (icon) {
       icon.classList.add('prepare-steps-location-icon');
+      // unwrap any inline formatting the pipeline added around the icon
+      const wrapper = icon.closest('em, strong, i, b');
       cell.append(icon);
+      if (wrapper && wrapper.parentElement && !wrapper.textContent.trim()) wrapper.remove();
     }
     const label = document.createElement('p');
     label.textContent = li.textContent.trim();
