@@ -671,6 +671,8 @@ main > .section.copay-dark .default-content-wrapper:last-of-type p {
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  justify-self: center;
+  width: 88px;
   border: 0;
   background: none;
   padding: 0;
