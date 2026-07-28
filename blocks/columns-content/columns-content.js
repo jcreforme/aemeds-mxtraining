@@ -326,17 +326,18 @@ function decoratePrepareSteps(block) {
 
 // stat-highlight variant: a tinted full-bleed band with a circular graphic on
 // the left and a large two-color stat headline + supporting copy on the right.
-// Authored as a flat table: the cell holding an image is the graphic, the cell
-// holding a heading is the text. Cells are order-agnostic.
+// Authored as a flat table: the cell holding the graphic (an :icon: token or an
+// image) is the media, the cell holding a heading is the text. Cells are
+// order-agnostic.
 function decorateStatHighlight(block) {
   const cells = [...block.querySelectorAll(':scope > div > div')];
-  const mediaCell = cells.find((c) => c.querySelector('picture, img'));
+  const mediaCell = cells.find((c) => c.querySelector('picture, img, .icon'));
   const textCell = cells.find((c) => c !== mediaCell && c.querySelector('h1, h2, h3, h4, h5, h6, p'));
 
   const graphic = document.createElement('div');
   graphic.className = 'stat-highlight-graphic';
   if (mediaCell) {
-    const pic = mediaCell.querySelector('picture') || mediaCell.querySelector('img');
+    const pic = mediaCell.querySelector('.icon') || mediaCell.querySelector('picture') || mediaCell.querySelector('img');
     if (pic) graphic.append(pic);
   }
 

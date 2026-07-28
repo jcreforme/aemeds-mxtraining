@@ -817,6 +817,12 @@ main > .section:has(.columns-content.stat-highlight) {
   flex-shrink: 0;
 }
 
+.columns-content.stat-highlight .stat-highlight-graphic .icon {
+  display: block;
+  width: 200px;
+  height: 200px;
+}
+
 .columns-content.stat-highlight .stat-highlight-graphic img {
   display: block;
   width: 200px;
@@ -860,6 +866,11 @@ main > .section:has(.columns-content.stat-highlight) {
     align-items: center;
     gap: 56px;
     text-align: left;
+  }
+
+  .columns-content.stat-highlight .stat-highlight-graphic .icon {
+    width: 260px;
+    height: 260px;
   }
 
   .columns-content.stat-highlight .stat-highlight-graphic img {
