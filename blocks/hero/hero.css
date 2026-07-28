@@ -437,3 +437,149 @@
     transition: none;
   }
 }
+
+/* ── Prepare variant (interactive tabbed card) ─────────────────────────────
+   White card with a magenta header, three interactive icon tabs, and step
+   panels. Built from a flat table by decoratePrepare() in hero.js. Mirrors
+   the columns-content (prepare-steps) card so it can live inside a hero. */
+
+.hero.prepare {
+  max-width: 525px;
+  margin: 0 auto;
+  color: #333;
+}
+
+.hero.prepare .hero-prepare-card {
+  border-radius: 12px;
+  background-color: #fff;
+  box-shadow: 0 2px 12px 0 rgb(46 50 51 / 15%);
+  overflow: hidden;
+}
+
+.hero.prepare .hero-prepare-header {
+  background-color: #bf2c58;
+  padding: 16px;
+  text-align: center;
+}
+
+.hero.prepare .hero-prepare-header h3 {
+  margin: 0;
+  color: #fff;
+  font-size: 22px;
+  line-height: 27px;
+  font-weight: 700;
+}
+
+/* tabs row */
+.hero.prepare .hero-prepare-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  padding: 24px 24px 20px;
+  border-bottom: 1px solid #e2e7ea;
+}
+
+.hero.prepare .hero-prepare-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 88px;
+  border: 0;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+}
+
+.hero.prepare .hero-prepare-tab:focus-visible {
+  outline: 2px solid #046183;
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+.hero.prepare .hero-prepare-tab-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 51px;
+  height: 51px;
+}
+
+.hero.prepare .hero-prepare-tab-icon .icon,
+.hero.prepare .hero-prepare-tab-icon img {
+  width: 51px;
+  height: 51px;
+}
+
+.hero.prepare .hero-prepare-tab-label {
+  width: 88px;
+  border: 1px solid #7ebcc6;
+  border-radius: 6px;
+  padding: 4px 0;
+  background-color: rgb(4 97 131 / 3%);
+  color: #046183;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  text-align: center;
+}
+
+/* selected tab: dark-teal fill, white text */
+.hero.prepare .hero-prepare-tab.is-active .hero-prepare-tab-label {
+  background-color: #046183;
+  color: #fff;
+}
+
+/* step panel */
+.hero.prepare .hero-prepare-panel {
+  padding: 24px;
+}
+
+.hero.prepare .hero-prepare-panel[hidden] {
+  display: none;
+}
+
+.hero.prepare .hero-prepare-panel h5 {
+  margin: 0 0 6px;
+  color: #c02c57;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 700;
+}
+
+.hero.prepare .hero-prepare-panel h5:not(:first-child) {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #e2e7ea;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.hero.prepare .hero-prepare-panel p {
+  margin: 0 0 8px;
+  color: #333;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.hero.prepare .hero-prepare-panel ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.hero.prepare .hero-prepare-panel li {
+  margin-bottom: 8px;
+  color: #333;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.hero.prepare .hero-prepare-panel li::marker {
+  color: #c02c57;
+}
+
+.hero.prepare .hero-prepare-panel a:any-link {
+  color: #046183;
+  font-weight: 700;
+  text-decoration: underline;
+}
