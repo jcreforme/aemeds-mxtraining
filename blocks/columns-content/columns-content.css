@@ -688,8 +688,8 @@ main > .section.copay-dark .default-content-wrapper:last-of-type p {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 62px;
-  height: 62px;
+  width: 51px;
+  height: 51px;
   border: 2px solid #046183;
   border-radius: 50%;
 }
