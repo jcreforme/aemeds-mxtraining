@@ -690,13 +690,12 @@ main > .section.copay-dark .default-content-wrapper:last-of-type p {
   justify-content: center;
   width: 51px;
   height: 51px;
-  border: 2px solid #046183;
-  border-radius: 50%;
 }
 
+.columns-content.prepare-steps .prepare-steps-tab-icon .icon,
 .columns-content.prepare-steps .prepare-steps-tab-icon img {
-  width: 32px;
-  height: 32px;
+  width: 51px;
+  height: 51px;
 }
 
 .columns-content.prepare-steps .prepare-steps-tab-label {
