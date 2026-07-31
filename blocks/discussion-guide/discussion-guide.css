@@ -456,6 +456,11 @@ main > .section.discussion-guide-intro a:any-link {
   color: #e8615a;
 }
 
+.discussion-guide .dg-tips a:any-link {
+  color: #046183;
+  text-decoration: underline;
+}
+
 @media (width >= 900px) {
   .discussion-guide .dg-option {
     padding: 16px 24px;
