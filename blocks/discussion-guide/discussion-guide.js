@@ -1,12 +1,16 @@
 import { decorateIcons } from '../../scripts/aem.js';
 
-const INPUT_TYPES = ['multiselect', 'singleselect', 'text', 'textarea', 'email', 'tel'];
+const INPUT_TYPES = ['multiselect', 'singleselect', 'text', 'textarea', 'email', 'tel', 'name'];
 
-/**
- * Slugifies a string for use as an id/name.
- * @param {string} text
- * @returns {string}
- */
+/** Creates an element with optional class and text. */
+function el(tag, className, text) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text !== undefined) node.textContent = text;
+  return node;
+}
+
+/** Slugifies a string for use as an id/name. */
 function slugify(text) {
   return (text || '')
     .toLowerCase()
@@ -15,46 +19,57 @@ function slugify(text) {
     .slice(0, 40);
 }
 
-/**
- * Reads the keyword (first cell) of a block row.
- * @param {Element} row
- * @returns {string}
- */
+/** Reads the keyword (first cell) of a block row. */
 function rowKeyword(row) {
   return (row.children[0]?.textContent || '').trim().toLowerCase();
+}
+
+/**
+ * Substitutes the `{name}` token in a template.
+ * When the name is empty, the token (plus a trailing `'s`, `...` or `…`) is
+ * removed and the first remaining letter is capitalized so the text still reads.
+ */
+function applyName(tmpl, name) {
+  if (!tmpl) return tmpl;
+  if (name) return tmpl.replaceAll('{name}', name);
+  const stripped = tmpl.replace(/\{name\}(?:'s|\.\.\.|…)?\s*/g, '').trim();
+  return stripped.charAt(0).toUpperCase() + stripped.slice(1);
 }
 
 /**
  * Parses the authored table into a structured guide model.
  *
  * Row keywords (first cell):
- *   title    | Guide title (shown in the header bar on every step)
- *   step     | (optional) col2 = step heading; starts a new step
- *   question | col2 = heading, col3 = help text, col4 = input type
- *   option   | col2 = label, col3 = icon name (from /icons)
- *   submit   | col2 = button label, col3 = optional submit endpoint URL
- *
- * If no `step` rows are present, every question becomes its own step.
- * @param {Element} block
+ *   title          | (optional) fallback title for step 1's header
+ *   step           | col2 = step/header title (supports {name}); starts a new step
+ *   question       | col2 = body heading (optional), col3 = help text, col4 = input type
+ *   option         | col2 = label, col3 = icon name/token
+ *   submit         | col2 = finish button label, col3 = optional POST endpoint
+ *   results-heading| col2 = text in the results header bar
+ *   results-title  | col2 = results title template (supports {name})
+ *   results-note   | col2 = italic note under the action buttons
+ *   cta            | col2 = "talk to your doctor" heading
+ *   tips-heading   | col2 = heading above the tips list
+ *   tip            | col2 = one tip bullet (markup preserved)
  */
 function parseGuide(block) {
-  const rows = [...block.children];
   const guide = {
-    title: '', steps: [], submitLabel: 'Submit', action: '',
+    title: '',
+    steps: [],
+    submitLabel: 'Finish',
+    action: '',
+    resultsHeading: 'Results',
+    resultsTitle: "{name}'s personalized migraine discussion guide",
+    resultsNote: 'Note: If you navigate away from this screen before downloading, you will lose your results.',
+    cta: 'Talk to your doctor and see if VYEPTI might be right for you',
+    tipsHeading: '',
+    tips: [],
   };
   let currentStep = null;
   let currentQuestion = null;
-  let explicitSteps = false;
+  let qIndex = 0;
 
-  const ensureStep = () => {
-    if (!currentStep) {
-      currentStep = { heading: '', questions: [] };
-      guide.steps.push(currentStep);
-    }
-    return currentStep;
-  };
-
-  rows.forEach((row) => {
+  [...block.children].forEach((row) => {
     const cells = [...row.children];
     const keyword = rowKeyword(row);
     const c2 = cells[1]?.textContent?.trim() || '';
@@ -63,35 +78,45 @@ function parseGuide(block) {
     const c4 = cells[3]?.textContent?.trim().toLowerCase() || '';
 
     if (keyword === 'title') {
-      guide.title = c2 || cells[1]?.textContent?.trim() || '';
+      guide.title = c2;
     } else if (keyword === 'submit') {
-      guide.submitLabel = c2 || 'Submit';
+      guide.submitLabel = c2 || 'Finish';
       guide.action = c3;
+    } else if (keyword === 'results-heading') {
+      guide.resultsHeading = c2 || guide.resultsHeading;
+    } else if (keyword === 'results-title') {
+      guide.resultsTitle = c2 || guide.resultsTitle;
+    } else if (keyword === 'results-note') {
+      guide.resultsNote = c2;
+    } else if (keyword === 'cta') {
+      guide.cta = c2;
+    } else if (keyword === 'tips-heading') {
+      guide.tipsHeading = c2;
+    } else if (keyword === 'tip') {
+      guide.tips.push(cells[1] ? cells[1].innerHTML : c2);
     } else if (keyword === 'step') {
-      explicitSteps = true;
-      currentStep = { heading: c2, questions: [] };
+      currentStep = { title: c2, questions: [] };
       guide.steps.push(currentStep);
       currentQuestion = null;
     } else if (keyword === 'question') {
+      if (!currentStep) {
+        currentStep = { title: '', questions: [] };
+        guide.steps.push(currentStep);
+      }
       const type = INPUT_TYPES.includes(c4) ? c4 : 'multiselect';
+      qIndex += 1;
       currentQuestion = {
         heading: c2,
         help: c3cell ? c3cell.innerHTML : '',
         helpText: c3,
         type,
+        isName: type === 'name',
         options: [],
-        id: `dg-${slugify(c2)}`,
+        id: `dg-q${qIndex}-${slugify(c2) || slugify(currentStep.title) || qIndex}`,
+        summaryLabel: c2 || currentStep.title,
       };
-      // when authors don't group with `step` rows, each question is its own step
-      if (!explicitSteps) {
-        currentStep = { heading: '', questions: [] };
-        guide.steps.push(currentStep);
-      } else {
-        ensureStep();
-      }
       currentStep.questions.push(currentQuestion);
     } else if (keyword === 'option' && currentQuestion) {
-      // icon may be authored as a token (`:name:` → span.icon.icon-name) or as plain text
       const iconSpan = c3cell?.querySelector('span[class*="icon-"]');
       const iconName = iconSpan
         ? (Array.from(iconSpan.classList).find((c) => c.startsWith('icon-')) || '').slice(5)
@@ -103,17 +128,11 @@ function parseGuide(block) {
   return guide;
 }
 
-/**
- * Builds a selectable answer card (checkbox or radio) with optional icon.
- * @param {object} question
- * @param {object} option
- * @param {number} index
- */
+/** Builds a selectable answer card (checkbox or radio) with optional icon. */
 function buildOptionCard(question, option, index) {
   const multi = question.type === 'multiselect';
   const optId = `${question.id}-${slugify(option.label) || index}`;
-  const label = document.createElement('label');
-  label.className = 'dg-option';
+  const label = el('label', 'dg-option');
   label.htmlFor = optId;
 
   const input = document.createElement('input');
@@ -122,52 +141,31 @@ function buildOptionCard(question, option, index) {
   input.name = question.id;
   input.value = option.label;
 
-  const iconWrap = document.createElement('span');
-  iconWrap.className = 'dg-option-icon';
-  if (option.icon) {
-    const icon = document.createElement('span');
-    icon.className = `icon icon-${option.icon}`;
-    iconWrap.append(icon);
-  }
+  const iconWrap = el('span', 'dg-option-icon');
+  if (option.icon) iconWrap.append(el('span', `icon icon-${option.icon}`));
 
-  const text = document.createElement('span');
-  text.className = 'dg-option-label';
-  text.textContent = option.label;
-
-  const marker = document.createElement('span');
-  marker.className = 'dg-option-marker';
+  const marker = el('span', 'dg-option-marker');
   marker.setAttribute('aria-hidden', 'true');
 
-  label.append(input, iconWrap, text, marker);
+  label.append(input, iconWrap, el('span', 'dg-option-label', option.label), marker);
   return label;
 }
 
-/**
- * Builds the DOM for a single question.
- * @param {object} question
- */
+/** Builds the DOM for a single question. */
 function buildQuestion(question) {
-  const wrap = document.createElement('div');
-  wrap.className = `dg-question dg-question-${question.type}`;
+  const wrap = el('div', `dg-question dg-question-${question.type}`);
 
-  if (question.heading) {
-    const h = document.createElement('h3');
-    h.className = 'dg-question-heading';
-    h.textContent = question.heading;
-    wrap.append(h);
-  }
+  if (question.heading) wrap.append(el('h3', 'dg-question-heading', question.heading));
   if (question.helpText) {
-    const help = document.createElement('div');
-    help.className = 'dg-question-help';
+    const help = el('div', 'dg-question-help');
     help.innerHTML = question.help;
     wrap.append(help);
   }
 
   if (question.type === 'multiselect' || question.type === 'singleselect') {
-    const group = document.createElement('div');
-    group.className = 'dg-options';
+    const group = el('div', 'dg-options');
     group.setAttribute('role', question.type === 'multiselect' ? 'group' : 'radiogroup');
-    if (question.heading) group.setAttribute('aria-label', question.heading);
+    if (question.summaryLabel) group.setAttribute('aria-label', question.summaryLabel);
     question.options.forEach((opt, i) => group.append(buildOptionCard(question, opt, i)));
     wrap.append(group);
   } else {
@@ -177,62 +175,107 @@ function buildQuestion(question) {
       input.rows = 4;
     } else {
       input = document.createElement('input');
-      input.type = question.type;
+      input.type = question.isName ? 'text' : question.type;
     }
     input.id = question.id;
     input.name = question.id;
     input.className = 'dg-input';
     if (question.type === 'email') input.autocomplete = 'email';
     if (question.type === 'tel') input.autocomplete = 'tel';
-    if (question.heading) input.setAttribute('aria-label', question.heading);
+    if (question.summaryLabel) input.setAttribute('aria-label', question.summaryLabel);
     wrap.append(input);
   }
 
   return wrap;
 }
 
-/**
- * Collects the current answers from the form.
- * @param {HTMLFormElement} form
- * @param {object} guide
- * @returns {Array<{question: string, answer: string}>}
- */
-function collectAnswers(form, guide) {
+/** Collects the current answers (excluding the name field). */
+function collectAnswers(form, guide, name) {
   const answers = [];
   guide.steps.forEach((step) => {
     step.questions.forEach((q) => {
+      if (q.isName) return;
+      let val;
       if (q.type === 'multiselect' || q.type === 'singleselect') {
-        const checked = [...form.querySelectorAll(`input[name="${q.id}"]:checked`)]
-          .map((el) => el.value);
-        if (checked.length) answers.push({ question: q.heading, answer: checked.join(', ') });
+        val = [...form.querySelectorAll(`input[name="${q.id}"]:checked`)].map((e) => e.value).join(', ');
       } else {
-        const el = form.querySelector(`[name="${q.id}"]`);
-        const val = el?.value?.trim();
-        if (val) answers.push({ question: q.heading, answer: val });
+        val = form.querySelector(`[name="${q.id}"]`)?.value?.trim() || '';
       }
+      if (val) answers.push({ label: applyName(q.summaryLabel, name), answer: val });
     });
   });
   return answers;
 }
 
-/**
- * Builds the end-of-guide summary view.
- * @param {Array} answers
- */
-function buildSummary(answers) {
-  const summary = document.createElement('div');
-  summary.className = 'dg-summary';
-  const list = document.createElement('dl');
-  list.className = 'dg-summary-list';
-  answers.forEach(({ question, answer }) => {
-    const dt = document.createElement('dt');
-    dt.textContent = question;
-    const dd = document.createElement('dd');
-    dd.textContent = answer;
-    list.append(dt, dd);
+/** Builds the results view from the collected answers. */
+function buildResults(guide, answers, name, onRetake) {
+  const view = el('div', 'dg-results');
+
+  const header = el('div', 'dg-header dg-header-results');
+  header.append(el('h2', 'dg-title', guide.resultsHeading));
+  view.append(header);
+
+  const body = el('div', 'dg-results-body');
+  body.append(el('h3', 'dg-results-title', applyName(guide.resultsTitle, name)));
+
+  const list = el('ol', 'dg-results-list');
+  answers.forEach(({ label, answer }) => {
+    const li = el('li');
+    li.append(el('span', 'dg-results-q', label));
+    const ans = el('p', 'dg-results-a');
+    ans.append(el('strong', undefined, 'Your Answer: '), el('span', 'dg-answer', answer));
+    li.append(ans);
+    list.append(li);
   });
-  summary.append(list);
-  return summary;
+  body.append(list);
+
+  body.append(el('p', 'dg-actions-label', 'Download or email doctor discussion guide.'));
+
+  const actions = el('div', 'dg-actions');
+  const download = el('button', 'button primary dg-download');
+  download.type = 'button';
+  download.append(el('span', undefined, 'Download'), el('span', 'icon icon-download-18'));
+  download.addEventListener('click', () => window.print());
+
+  const emailBody = answers.map((a, i) => `${i + 1}. ${a.label}\n   ${a.answer}`).join('\n\n');
+  const email = document.createElement('a');
+  email.className = 'button primary dg-email';
+  email.href = `mailto:?subject=${encodeURIComponent('My Doctor Discussion Guide')}&body=${encodeURIComponent(emailBody)}`;
+  email.append(el('span', undefined, 'Email'), el('span', 'icon icon-email'));
+
+  actions.append(download, email);
+  body.append(actions);
+
+  if (guide.resultsNote) {
+    const note = el('p', 'dg-note');
+    note.append(el('em', undefined, guide.resultsNote));
+    body.append(note);
+  }
+
+  body.append(el('hr'));
+  const ctaRow = el('div', 'dg-cta');
+  if (guide.cta) ctaRow.append(el('h3', 'dg-cta-heading', guide.cta));
+  const retake = el('button', 'dg-retake');
+  retake.type = 'button';
+  retake.append(el('span', undefined, 'Retake'), el('span', 'icon icon-arrow'));
+  retake.addEventListener('click', onRetake);
+  ctaRow.append(retake);
+  body.append(ctaRow);
+
+  if (guide.tips.length) {
+    body.append(el('hr'));
+    if (guide.tipsHeading) body.append(el('p', 'dg-tips-heading', guide.tipsHeading));
+    const tips = el('ul', 'dg-tips');
+    guide.tips.forEach((tip) => {
+      const li = el('li');
+      li.innerHTML = tip;
+      tips.append(li);
+    });
+    body.append(tips);
+  }
+
+  view.append(body);
+  return view;
 }
 
 /**
@@ -247,132 +290,109 @@ export default function decorate(block) {
   form.className = 'dg-form';
   form.noValidate = true;
 
-  // header bar
-  const header = document.createElement('div');
-  header.className = 'dg-header';
-  const stepNum = document.createElement('span');
-  stepNum.className = 'dg-step-num';
-  const title = document.createElement('h2');
-  title.className = 'dg-title';
-  title.textContent = guide.title;
-  header.append(stepNum, title);
+  const quiz = el('div', 'dg-quiz');
+
+  // header bar: numbered badge + step title
+  const header = el('div', 'dg-header');
+  const badge = el('span', 'dg-step-num');
+  const title = el('h2', 'dg-title');
+  header.append(badge, title);
 
   // progress bar
-  const progress = document.createElement('div');
-  progress.className = 'dg-progress';
+  const progress = el('div', 'dg-progress');
   progress.setAttribute('role', 'progressbar');
   progress.setAttribute('aria-valuemin', '1');
   progress.setAttribute('aria-valuemax', String(guide.steps.length));
   const segments = guide.steps.map(() => {
-    const seg = document.createElement('span');
-    seg.className = 'dg-progress-seg';
+    const seg = el('span', 'dg-progress-seg');
     progress.append(seg);
     return seg;
   });
 
   // steps
-  const stepsWrap = document.createElement('div');
-  stepsWrap.className = 'dg-steps';
-  const stepEls = guide.steps.map((step) => {
-    const stepEl = document.createElement('div');
-    stepEl.className = 'dg-step';
-    if (step.heading) {
-      const h = document.createElement('h3');
-      h.className = 'dg-step-heading';
-      h.textContent = step.heading;
-      stepEl.append(h);
-    }
+  const stepsWrap = el('div', 'dg-steps');
+  const stepEls = guide.steps.map((step, i) => {
+    const stepEl = el('div', 'dg-step');
+    stepEl.append(el('span', 'dg-step-count', `${i + 1} of ${guide.steps.length}`));
     step.questions.forEach((q) => stepEl.append(buildQuestion(q)));
     stepsWrap.append(stepEl);
     return stepEl;
   });
 
   // navigation
-  const nav = document.createElement('div');
-  nav.className = 'dg-nav';
-  const back = document.createElement('button');
+  const nav = el('div', 'dg-nav');
+  const back = el('button', 'dg-back');
   back.type = 'button';
-  back.className = 'button secondary dg-back';
-  back.textContent = 'Back';
-  const next = document.createElement('button');
+  back.append(el('span', 'icon icon-arrow'), el('span', undefined, 'Back'));
+  const next = el('button', 'dg-next');
   next.type = 'button';
-  next.className = 'button primary dg-next';
-  next.textContent = 'Next';
-  const submit = document.createElement('button');
+  next.append(el('span', undefined, 'Next'), el('span', 'icon icon-arrow'));
+  const submit = el('button', 'dg-submit', guide.submitLabel);
   submit.type = 'submit';
-  submit.className = 'button primary dg-submit';
-  submit.textContent = guide.submitLabel;
+  submit.append(el('span', 'icon icon-arrow'));
   nav.append(back, next, submit);
 
-  const message = document.createElement('p');
-  message.className = 'dg-message';
-  message.hidden = true;
+  quiz.append(header, progress, stepsWrap, nav);
+  form.append(quiz);
 
-  form.append(header, progress, stepsWrap, nav, message);
+  const nameField = () => {
+    const nameQ = guide.steps.flatMap((s) => s.questions).find((q) => q.isName);
+    return nameQ ? form.querySelector(`#${CSS.escape(nameQ.id)}`)?.value?.trim() || '' : '';
+  };
 
   let current = 0;
   const render = () => {
-    stepEls.forEach((el, i) => {
-      el.classList.toggle('dg-step-active', i === current);
-    });
+    const name = nameField();
+    stepEls.forEach((elm, i) => elm.classList.toggle('dg-step-active', i === current));
     segments.forEach((seg, i) => seg.classList.toggle('dg-progress-done', i <= current));
-    stepNum.textContent = `${current + 1} of ${guide.steps.length}`;
+    badge.textContent = String(current + 1);
+    title.textContent = applyName(guide.steps[current].title || guide.title, name);
     progress.setAttribute('aria-valuenow', String(current + 1));
     back.hidden = current === 0;
     const isLast = current === guide.steps.length - 1;
     next.hidden = isLast;
     submit.hidden = !isLast;
-    const firstField = stepEls[current].querySelector('input, textarea, select');
-    if (firstField) firstField.focus();
+    stepEls[current].querySelector('input, textarea, select')?.focus();
   };
 
   next.addEventListener('click', () => {
-    if (current < guide.steps.length - 1) {
-      current += 1;
-      render();
-    }
+    if (current < guide.steps.length - 1) { current += 1; render(); }
   });
   back.addEventListener('click', () => {
-    if (current > 0) {
-      current -= 1;
-      render();
-    }
+    if (current > 0) { current -= 1; render(); }
   });
+
+  const retake = () => {
+    form.reset();
+    current = 0;
+    form.querySelector('.dg-results')?.remove();
+    quiz.hidden = false;
+    render();
+    quiz.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const answers = collectAnswers(form, guide);
+    const name = nameField();
+    const answers = collectAnswers(form, guide, name);
 
     if (guide.action) {
       try {
         await fetch(guide.action, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ answers }),
+          body: JSON.stringify({ name, answers }),
         });
       } catch (err) {
-        // graceful: still show the summary even if the endpoint is unreachable
+        // graceful: still show the results even if the endpoint is unreachable
       }
     }
 
-    form.classList.add('dg-complete');
-    const summary = buildSummary(answers);
-    const doneHeading = document.createElement('h2');
-    doneHeading.className = 'dg-title';
-    doneHeading.textContent = 'Your Doctor Discussion Guide';
-
-    const printBtn = document.createElement('button');
-    printBtn.type = 'button';
-    printBtn.className = 'button primary dg-print';
-    printBtn.textContent = 'Print / Save as PDF';
-    printBtn.addEventListener('click', () => window.print());
-
-    header.replaceChildren(doneHeading);
-    stepsWrap.replaceChildren(summary);
-    nav.replaceChildren(printBtn);
-    progress.hidden = true;
-    message.hidden = false;
-    message.textContent = 'Bring this summary to your next appointment to guide the conversation with your doctor.';
+    const results = buildResults(guide, answers, name, retake);
+    quiz.hidden = true;
+    form.append(results);
+    decorateIcons(results);
+    results.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 
   block.replaceChildren(form);
