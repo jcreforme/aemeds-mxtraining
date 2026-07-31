@@ -372,7 +372,7 @@ main > .section.discussion-guide-intro a:any-link {
   gap: 10px;
   padding: 14px 32px;
   border-radius: 999px;
-  background-color: #046183;
+  background-color: #035270;
   color: #fff;
   font-weight: 700;
   font-size: var(--body-font-size-s);
@@ -383,7 +383,7 @@ main > .section.discussion-guide-intro a:any-link {
 
 .discussion-guide .dg-download.button:hover,
 .discussion-guide .dg-email.button:hover {
-  background-color: #035270;
+  background-color: #046183;
 }
 
 .discussion-guide .dg-download .icon,
