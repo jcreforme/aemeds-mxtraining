@@ -284,14 +284,14 @@ main > .section.discussion-guide-intro a:any-link {
 .discussion-guide .dg-next,
 .discussion-guide .dg-submit {
   margin-left: auto;
-  background-color: #7fa9bb;
+  background-color: #046183;
   color: #fff;
   border: 0;
 }
 
 .discussion-guide .dg-next:hover,
 .discussion-guide .dg-submit:hover {
-  background-color: #046183;
+  background-color: #7fa9bb;
 }
 
 /* white arrow on the filled Next/Submit buttons */
