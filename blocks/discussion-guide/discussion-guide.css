@@ -384,6 +384,12 @@ main > .section.discussion-guide-intro a:any-link {
   height: 18px;
 }
 
+/* white icons on the filled Download/Email buttons */
+.discussion-guide .dg-download .icon img,
+.discussion-guide .dg-email .icon img {
+  filter: brightness(0) invert(1);
+}
+
 .discussion-guide .dg-note {
   margin: 16px 0 0;
   font-size: var(--body-font-size-xs);
