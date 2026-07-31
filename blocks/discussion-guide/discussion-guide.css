@@ -1,0 +1,264 @@
+.discussion-guide .dg-form {
+  max-width: 640px;
+  margin: 0 auto;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgb(4 97 131 / 12%);
+  background-color: var(--background-color);
+}
+
+/* header bar */
+.discussion-guide .dg-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 22px 28px;
+  background-color: var(--vyepti-teal, #046183);
+  color: #fff;
+}
+
+.discussion-guide .dg-step-num {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  height: 34px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background-color: rgb(255 255 255 / 20%);
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+}
+
+.discussion-guide .dg-title {
+  margin: 0;
+  font-size: var(--heading-font-size-s);
+  color: #fff;
+}
+
+/* progress bar */
+.discussion-guide .dg-progress {
+  display: flex;
+  gap: 4px;
+  padding: 0 28px;
+  margin-top: 18px;
+}
+
+.discussion-guide .dg-progress-seg {
+  flex: 1 1 0;
+  height: 4px;
+  border-radius: 2px;
+  background-color: #d9e3e8;
+  transition: background-color 0.2s ease;
+}
+
+.discussion-guide .dg-progress-seg.dg-progress-done {
+  background-color: #e8615a;
+}
+
+/* steps */
+.discussion-guide .dg-steps {
+  padding: 26px 28px 8px;
+}
+
+.discussion-guide .dg-step {
+  display: none;
+}
+
+.discussion-guide .dg-step.dg-step-active {
+  display: block;
+}
+
+.discussion-guide .dg-step-heading {
+  margin: 0 0 18px;
+  font-size: var(--heading-font-size-xs);
+  color: var(--vyepti-teal, #046183);
+}
+
+.discussion-guide .dg-question {
+  margin-bottom: 26px;
+}
+
+.discussion-guide .dg-question-heading {
+  margin: 0 0 6px;
+  font-size: var(--body-font-size-m);
+  font-weight: 700;
+  color: var(--vyepti-teal, #046183);
+}
+
+.discussion-guide .dg-question-help {
+  margin-bottom: 14px;
+  font-size: var(--body-font-size-xs);
+  color: var(--dark-color);
+}
+
+.discussion-guide .dg-question-help p {
+  margin: 0 0 6px;
+}
+
+/* free-text inputs */
+.discussion-guide .dg-input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #cfd9de;
+  border-radius: 10px;
+  font-size: var(--body-font-size-s);
+  background-color: var(--background-color);
+}
+
+.discussion-guide .dg-input:focus-visible {
+  outline: none;
+  border-color: var(--vyepti-teal, #046183);
+}
+
+/* answer cards */
+.discussion-guide .dg-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.discussion-guide .dg-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border: 2px solid #d9e3e8;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.discussion-guide .dg-option:hover {
+  border-color: var(--vyepti-teal, #046183);
+}
+
+/* visually hide the native control but keep it accessible */
+.discussion-guide .dg-option input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+}
+
+.discussion-guide .dg-option-icon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  color: var(--vyepti-teal, #046183);
+}
+
+.discussion-guide .dg-option-icon .icon,
+.discussion-guide .dg-option-icon img {
+  width: 26px;
+  height: 26px;
+}
+
+.discussion-guide .dg-option-label {
+  flex: 1 1 auto;
+  font-size: var(--body-font-size-s);
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+/* checkbox / radio marker */
+.discussion-guide .dg-option-marker {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  border: 2px solid #b9c7cf;
+  background-color: var(--background-color);
+}
+
+.discussion-guide .dg-question-multiselect .dg-option-marker {
+  border-radius: 5px;
+}
+
+.discussion-guide .dg-question-singleselect .dg-option-marker {
+  border-radius: 999px;
+}
+
+.discussion-guide .dg-option input:checked ~ .dg-option-marker {
+  border-color: var(--vyepti-teal, #046183);
+  background-color: var(--vyepti-teal, #046183);
+}
+
+.discussion-guide .dg-option input:focus-visible ~ .dg-option-marker {
+  outline: 2px solid var(--vyepti-teal, #046183);
+  outline-offset: 2px;
+}
+
+.discussion-guide .dg-question-multiselect .dg-option input:checked ~ .dg-option-marker {
+  background-image: url("/icons/arrow.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 14px;
+}
+
+.discussion-guide .dg-option:has(input:checked) {
+  border-color: var(--vyepti-teal, #046183);
+  background-color: rgb(4 97 131 / 4%);
+}
+
+/* navigation */
+.discussion-guide .dg-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 28px 28px;
+}
+
+.discussion-guide .dg-nav .dg-next,
+.discussion-guide .dg-nav .dg-submit,
+.discussion-guide .dg-nav .dg-print {
+  margin-left: auto;
+}
+
+.discussion-guide .dg-nav button[hidden] {
+  display: none;
+}
+
+/* summary / completion */
+.discussion-guide .dg-summary-list {
+  margin: 0;
+}
+
+.discussion-guide .dg-summary-list dt {
+  font-weight: 700;
+  color: var(--vyepti-teal, #046183);
+  font-size: var(--body-font-size-s);
+}
+
+.discussion-guide .dg-summary-list dd {
+  margin: 4px 0 18px;
+  font-size: var(--body-font-size-s);
+  color: var(--text-color);
+}
+
+.discussion-guide .dg-message {
+  margin: 0;
+  padding: 16px 28px 28px;
+  font-size: var(--body-font-size-xs);
+  color: var(--dark-color);
+}
+
+@media (width >= 900px) {
+  .discussion-guide .dg-option {
+    padding: 16px 22px;
+  }
+}
+
+@media print {
+  .discussion-guide .dg-nav,
+  .discussion-guide .dg-progress {
+    display: none;
+  }
+}
