@@ -257,7 +257,7 @@ function buildResults(guide, answers, name, onRetake) {
   if (guide.cta) ctaRow.append(el('h3', 'dg-cta-heading', guide.cta));
   const retake = el('button', 'dg-retake');
   retake.type = 'button';
-  retake.append(el('span', undefined, 'Retake'), el('span', 'icon icon-arrow'));
+  retake.append(el('span', undefined, 'Retake'), el('span', 'icon icon-retake'));
   retake.addEventListener('click', onRetake);
   ctaRow.append(retake);
   body.append(ctaRow);
