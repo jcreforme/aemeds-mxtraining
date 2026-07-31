@@ -289,6 +289,11 @@ main > .section.discussion-guide-intro a:any-link {
   border: 0;
 }
 
+.discussion-guide .dg-next:hover,
+.discussion-guide .dg-submit:hover {
+  background-color: #046183;
+}
+
 /* white arrow on the filled Next/Submit buttons */
 .discussion-guide .dg-next .icon img,
 .discussion-guide .dg-submit .icon img {
