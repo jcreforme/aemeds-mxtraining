@@ -75,8 +75,8 @@ main > .section.discussion-guide-intro a:any-link {
 /* progress bar */
 .discussion-guide .dg-progress {
   display: flex;
-  gap: 3px;
-  background-color: #d9e3e8;
+  gap: 2px;
+  background-color: var(--background-color);
 }
 
 .discussion-guide .dg-progress-seg {
