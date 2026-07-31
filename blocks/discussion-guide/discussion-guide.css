@@ -456,6 +456,7 @@ main > .section.discussion-guide-intro a:any-link {
   color: #e8615a;
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 .discussion-guide .dg-tips a:any-link {
   color: #046183;
   text-decoration: underline;
