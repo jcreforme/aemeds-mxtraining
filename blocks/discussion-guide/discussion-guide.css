@@ -1,7 +1,7 @@
 /* intro section (default content above the block) — apply via
    Section Metadata → Style = discussion-guide-intro */
 main > .section.discussion-guide-intro .default-content-wrapper {
-  max-width: 820px;
+  max-width: 788px;
   margin: 0 auto;
   text-align: center;
 }
