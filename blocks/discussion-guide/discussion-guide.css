@@ -273,7 +273,7 @@ main > .section.discussion-guide-intro a:any-link {
   font-size: var(--body-font-size-s);
   font-weight: 700;
   cursor: pointer;
-  border: 2px solid var(--vyepti-teal, #046183);
+  border: 0;
 }
 
 .discussion-guide .dg-back {
