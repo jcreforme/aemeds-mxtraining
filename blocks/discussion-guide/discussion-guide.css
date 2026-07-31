@@ -381,6 +381,11 @@ main > .section.discussion-guide-intro a:any-link {
   cursor: pointer;
 }
 
+.discussion-guide .dg-download.button:hover,
+.discussion-guide .dg-email.button:hover {
+  background-color: #035270;
+}
+
 .discussion-guide .dg-download .icon,
 .discussion-guide .dg-email .icon,
 .discussion-guide .dg-download .icon img,
